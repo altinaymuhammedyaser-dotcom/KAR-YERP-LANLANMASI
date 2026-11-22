@@ -147,6 +147,12 @@ Uygulamanın hangi gereksinimler üzerine geliştirildiği, tüm teknik ve tasar
 
 **[KARİYER REHBERİ PRONTU.md](KAR%C4%B0YER%20REHBER%C4%B0%20PRONTU.md)**
 
+### 📊 Değerlendirme rubriğine karşılık
+
+100 puanlık değerlendirme kriterlerinin hangi dosyalarla karşılandığı ve öz değerlendirme:
+
+**[docs/DEGERLENDIRME.md](docs/DEGERLENDIRME.md)**
+
 ---
 
 > Bu proje eğitim amaçlıdır. Kariyer testi klinik bir psikolojik değerlendirme değil, rehberlik aracıdır.
