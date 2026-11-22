@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hakkımızda — Akıllı Kariyer</title>
+<meta name="description" content="Akıllı Kariyer; kariyer seçimini sezgiden veriye taşıyan, şeffaf ve erişilebilir bir kariyer rehberi platformudur.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/premium.css">
+<link rel="stylesheet" href="/assets/css/career-coach.css">
+<script>
+(function(){var t=localStorage.getItem('akk-theme');if(!t){var m=document.cookie.match(/(?:^|; )akk_theme=([^;]+)/);t=m?m[1]:null;}if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+</script>
+<style>
+.ab-page{background:var(--c-bg)}
+.ab-hero{position:relative;overflow:hidden;isolation:isolate;padding:70px 0 90px;color:#fff;
+  background:radial-gradient(700px 420px at 12% 10%,rgba(22,184,176,.28),transparent 65%),
+             radial-gradient(760px 470px at 92% 90%,rgba(28,70,109,.6),transparent 70%),
+             linear-gradient(120deg,#142B4A,#1C466D 60%,#125E68)}
+.ab-hero:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px);background-size:46px 46px}
+.ab-hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.ab-eyebrow{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:8px 15px;font-size:.72rem;font-weight:800;letter-spacing:.12em;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#7EF0E6}
+.ab-hero h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-.04em;margin:18px 0 18px;color:#fff;font-weight:800}
+.ab-hero h1 em{font-style:normal;background:linear-gradient(100deg,#5FE3D8,#16B8B0,#A7F3EC);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ab-hero p{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.84);max-width:610px;margin:0 0 26px}
+.ab-actions{display:flex;gap:12px;flex-wrap:wrap}
+.ab-actions a{border-radius:13px;padding:13px 20px;font-weight:750;text-decoration:none;font-size:.88rem;transition:.22s}
+.ab-actions .main{background:linear-gradient(135deg,#16B8B0,#0E918B);color:#fff;box-shadow:0 16px 34px -14px rgba(22,184,176,.9)}
+.ab-actions .ghost{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff}
+.ab-actions a:hover{transform:translateY(-3px)}
+.ab-visual{position:relative;min-height:320px}
+.ab-orbit{position:absolute;inset:0;border:1px dashed rgba(255,255,255,.22);border-radius:50%;transform:rotate(-18deg);animation:abSpin 34s linear infinite}
+.ab-orbit.two{inset:42px;border-style:solid;border-color:rgba(22,184,176,.28);animation-duration:24s;animation-direction:reverse}
+@keyframes abSpin{to{transform:rotate(342deg)}}
+.ab-core{position:absolute;inset:18%;border-radius:32px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(22,184,176,.12));border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(12px);box-shadow:0 30px 80px -30px rgba(0,0,0,.6)}
+.ab-core i{width:76px;height:76px;color:#7EF0E6}
+.ab-float{position:absolute;border-radius:16px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(10px);padding:12px 15px;font-size:.76rem;font-weight:700;box-shadow:0 16px 40px -18px rgba(0,0,0,.6);display:flex;align-items:center;gap:8px;animation:abFloat 7s ease-in-out infinite}
+.ab-float i{width:16px;height:16px;color:#7EF0E6}
+.ab-float.a{top:8%;left:-4%}.ab-float.b{right:-2%;top:28%;animation-delay:1.2s}.ab-float.c{bottom:12%;left:2%;animation-delay:2.4s}
+@keyframes abFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.ab-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:-42px;position:relative;z-index:2}
+.ab-stat{background:var(--c-bg-card,#fff);border:1px solid var(--c-border);border-radius:18px;padding:20px;text-align:center;box-shadow:var(--px-shadow)}
+.ab-stat b{display:block;font-size:1.9rem;letter-spacing:-.04em;color:var(--c-primary)}
+.ab-stat span{font-size:.76rem;color:var(--c-muted)}
+.ab-section{padding:64px 0}
+.ab-head{max-width:680px;margin-bottom:30px}
+.ab-head .eyebrow{color:var(--c-accent-dark)}
+.ab-head h2{font-size:1.8rem;letter-spacing:-.035em;margin:10px 0 10px;color:var(--c-primary);line-height:1.2}
+.ab-head p{color:var(--c-muted);font-size:.92rem;line-height:1.7;margin:0}
+.ab-split{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.ab-card{padding:24px;border-radius:20px;background:var(--c-bg-card,#fff);border:1px solid var(--c-border);box-shadow:var(--px-shadow);transition:.25s}
+.ab-card:hover{transform:translateY(-4px);box-shadow:var(--px-shadow-hover)}
+.ab-card h3{margin:14px 0 8px;font-size:1.05rem;color:var(--c-primary)}
+.ab-card p{margin:0;color:var(--c-muted);font-size:.85rem;line-height:1.7}
+.ab-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--c-accent-soft);color:var(--c-accent-dark)}
+.ab-ic i{width:22px;height:22px}
+.ab-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;counter-reset:abstep}
+.ab-step{position:relative;padding:24px 20px;border-radius:20px;background:var(--c-bg-card,#fff);border:1px solid var(--c-border);box-shadow:var(--px-shadow);overflow:hidden}
+.ab-step:before{counter-increment:abstep;content:"0" counter(abstep);position:absolute;right:12px;top:4px;font-size:3.6rem;font-weight:800;color:var(--c-accent-soft);line-height:1;pointer-events:none}
+.ab-step h3{margin:14px 0 7px;font-size:.98rem;color:var(--c-primary)}
+.ab-step p{margin:0;color:var(--c-muted);font-size:.8rem;line-height:1.65;position:relative;z-index:1}
+.ab-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.ab-compare .ab-card{border-top:4px solid var(--c-accent)}
+.ab-compare .ab-card.old{border-top-color:var(--c-danger)}
+.ab-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.ab-list li{display:flex;gap:10px;align-items:flex-start;font-size:.83rem;color:var(--c-text);line-height:1.5}
+.ab-list i{width:17px;height:17px;flex:0 0 17px;color:var(--c-success);margin-top:2px}
+.ab-card.old .ab-list i{color:var(--c-danger)}
+.ab-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.ab-value{padding:20px;border-radius:17px;border:1px solid var(--c-border);background:var(--c-bg-card,#fff)}
+.ab-value .ab-ic{width:38px;height:38px;border-radius:12px}
+.ab-value .ab-ic i{width:19px;height:19px}
+.ab-value h3{margin:12px 0 5px;font-size:.9rem;color:var(--c-primary)}
+.ab-value p{margin:0;font-size:.77rem;color:var(--c-muted);line-height:1.6}
+.ab-cta{position:relative;overflow:hidden;border-radius:26px;padding:46px;color:#fff;text-align:center;background:linear-gradient(120deg,#142B4A,#1C466D 60%,#16B8B0);box-shadow:var(--px-shadow)}
+.ab-cta:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.09);top:-160px;right:-80px}
+.ab-cta h2{font-size:1.8rem;color:#fff;letter-spacing:-.03em;margin:12px 0 8px;position:relative;z-index:1}
+.ab-cta p{color:rgba(255,255,255,.82);margin:0 auto 22px;max-width:560px;line-height:1.7;position:relative;z-index:1}
+.ab-faq-item{border:1px solid var(--c-border);border-radius:14px;margin-bottom:10px;background:var(--c-bg-card,#fff);overflow:hidden}
+.ab-faq-item button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;background:transparent;padding:16px 18px;cursor:pointer;color:var(--c-text);font-size:.88rem;font-weight:700;text-align:left}
+.ab-faq-item button span{color:var(--c-accent-dark);font-size:1.2rem}
+.ab-faq-item p{max-height:0;opacity:0;overflow:hidden;transition:.3s;margin:0;padding:0 18px;color:var(--c-muted);font-size:.83rem;line-height:1.7}
+.ab-faq-item.open p{max-height:220px;opacity:1;padding-bottom:18px}
+[data-theme="dark"] .ab-hero h1,[data-theme="dark"] .ab-head h2,[data-theme="dark"] .ab-card h3,[data-theme="dark"] .ab-step h3,[data-theme="dark"] .ab-value h3,[data-theme="dark"] .ab-stat b{color:#F8FAFC!important}
+@media(max-width:860px){.ab-hero-grid{grid-template-columns:1fr}.ab-visual{min-height:240px}.ab-hero{padding:48px 0 80px}.ab-cta{padding:30px 20px}}
+</style>
+<style>
+.social-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.social-links a{position:relative;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;text-decoration:none;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.14);
+  color:#fff;transition:transform .22s ease,background .22s ease,box-shadow .22s ease,color .22s ease}
+.social-links a svg{width:19px;height:19px;display:block}
+.social-links a:hover,.social-links a:focus-visible{transform:translateY(-3px);background:linear-gradient(135deg,#16B8B0,#0E918B);color:#fff;box-shadow:0 12px 24px -12px rgba(22,184,176,.9);outline:none}
+.social-links a:after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(4px);
+  background:#142B4A;color:#fff;font-size:.68rem;font-weight:700;white-space:nowrap;padding:6px 9px;border-radius:8px;
+  opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+.social-links a:hover:after,.social-links a:focus-visible:after{opacity:1;transform:translateX(-50%) translateY(0)}
+[data-theme="dark"] .social-links a{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#D9E6F5}
+</style>
+</head>
+<body>
+<header class="site-header" id="site-header"><div class="container header-inner">
+  <a class="brand" href="/"><span class="brand-mark"><i data-lucide="compass"></i></span><span class="brand-text"><span class="brand-name">Akıllı Kariyer</span><span class="brand-slogan">Geleceğini Keşfet</span></span></a>
+  <nav class="main-nav"><ul><li><a href="/">Ana Sayfa</a></li><li><a href="/careers">Meslekler</a></li><li><a href="/career-test">Kariyer Testi</a></li><li><a href="/career-guide">Rehber</a></li><li><a class="active" href="/about">Hakkımızda</a></li><li><a href="/contact">İletişim</a></li></ul></nav>
+  <div class="header-actions"><a class="btn btn-outline btn-sm" href="/login">Giriş Yap</a><a class="btn btn-accent btn-sm" href="/register">Kayıt Ol</a>
+    <button type="button" class="btn btn-ghost btn-sm" id="theme-toggle" aria-label="Tema değiştir"><i data-lucide="sun" id="theme-icon-sun"></i><i data-lucide="moon" id="theme-icon-moon" style="display:none"></i></button></div>
+</div></header>
+
+<main id="main-content" class="ab-page">
+  <section class="ab-hero"><div class="container ab-hero-grid">
+    <div><span class="ab-eyebrow"><i data-lucide="sparkles"></i> HAKKIMIZDA</span>
+      <h1>Kariyer seçimini <em>bilimsel bir sürece</em> dönüştürüyoruz</h1>
+      <p>Akıllı Kariyer, “Bu iş bana uygun mu?” sorusuna verilen cevapları sezgiden veriye taşımak için geliştirildi. İlgi alanlarını, yeteneklerini ve çalışma tercihlerini birlikte değerlendirerek sana uygun meslekleri keşfetmeni sağlıyoruz.</p>
+      <div class="ab-actions"><a class="main" href="/register">Ücretsiz başla →</a><a class="ghost" href="/careers">Meslekleri keşfet</a></div>
+    </div>
+    <div class="ab-visual"><div class="ab-orbit"></div><div class="ab-orbit two"></div>
+      <div class="ab-core"><i data-lucide="compass"></i></div>
+      <div class="ab-float a"><i data-lucide="brain"></i> 4 boyutlu analiz</div>
+      <div class="ab-float b"><i data-lucide="sparkles"></i> %94 uyum</div>
+      <div class="ab-float c"><i data-lucide="shield-check"></i> Şeffaf yöntem</div>
+    </div>
+  </div></section>
+
+  <div class="container"><div class="ab-stats">
+    <div class="ab-stat"><b>54</b><span>Tanıtılan meslek</span></div>
+    <div class="ab-stat"><b>10</b><span>Meslek kategorisi</span></div>
+    <div class="ab-stat"><b>12</b><span>Kariyer testi sorusu</span></div>
+    <div class="ab-stat"><b>4</b><span>Değerlendirme boyutu</span></div>
+  </div></div>
+
+  <section class="ab-section"><div class="container">
+    <div class="ab-head"><span class="eyebrow">AMACIMIZ</span><h2>Kariyer kararı bir tahmin olmak zorunda değil</h2>
+      <p>Öğrencilerin kariyer kararları çoğu zaman çevre baskısı, popüler meslekler ve yanlış bilgilerle şekillenir. Oysa doğru bir karar; ilgi alanlarının, yeteneklerin ve çalışma alışkanlıklarının birlikte değerlendirilmesiyle mümkün.</p></div>
+    <div class="ab-split">
+      <div class="ab-card"><span class="ab-ic"><i data-lucide="target"></i></span><h3>Veriye dayalı rehberlik</h3><p>Her meslek; görevler, beceriler, eğitim bilgisi, çalışma alanları ve kariyer gelişim yollarıyla birlikte veritabanında tanımlı. Cevapların bu kriterlerle karşılaştırılır.</p></div>
+      <div class="ab-card"><span class="ab-ic"><i data-lucide="chart-no-axes-column"></i></span><h3>Kişiselleştirilmiş uyum puanı</h3><p>Dört ayrı boyutta uyum değeri hesaplanır: ilgi alanı, yetenek, çalışma tercihi ve beceri. Sonuçlar sana özel sıralanmış meslek önerilerine dönüşür.</p></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0"><div class="container">
+    <div class="ab-head"><span class="eyebrow">NASIL ÇALIŞIR?</span><h2>Dört adımda kendi yolunu bul</h2><p>Platformun nasıl çalıştığını şeffafça anlatıyoruz.</p></div>
+    <div class="ab-steps">
+      <div class="ab-step"><span class="ab-ic"><i data-lucide="database"></i></span><h3>Veri tabanı</h3><p>54 meslek, 10 kategori altında; görev, beceri, eğitim ve kariyer yollarıyla tanımlanmış durumda.</p></div>
+      <div class="ab-step"><span class="ab-ic"><i data-lucide="clipboard-check"></i></span><h3>Test</h3><p>12 soruluk test; çoklu seçim, 1–5 ölçek, kart seçimi ve senaryo tabanlı soruları bir araya getirir.</p></div>
+      <div class="ab-step"><span class="ab-ic"><i data-lucide="sparkles"></i></span><h3>Eşleştirme</h3><p>Her meslek için dört uyum değeri hesaplanır; ağırlıklar yönetim panelinden değiştirilebilir.</p></div>
+      <div class="ab-step"><span class="ab-ic"><i data-lucide="file-bar-chart"></i></span><h3>Sonuçlar</h3><p>Sıralı öneriler, grafikler, güçlü yönler ve geliştirme alanlarıyla kişisel bir rapor alırsın.</p></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0"><div class="container">
+    <div class="ab-head"><span class="eyebrow">NET SINIRLAR</span><h2>Ne yaptığımızı kadar ne yapmadığımızı da söylüyoruz</h2></div>
+    <div class="ab-compare">
+      <div class="ab-card"><h3>Bizim yaklaşımımız</h3><ul class="ab-list">
+        <li><i data-lucide="check"></i> Rehberlik amaçlı, şeffaf bir keşif süreci</li>
+        <li><i data-lucide="check"></i> İlgi, yetenek ve tercihlerin birlikte değerlendirilmesi</li>
+        <li><i data-lucide="check"></i> Sonuçların hesabında saklanması ve tekrar görüntülenebilmesi</li>
+        <li><i data-lucide="check"></i> Meslek verilerinin herkese açık kataloğu</li>
+      </ul></div>
+      <div class="ab-card old"><h3>Yaygın yanılgılar</h3><ul class="ab-list">
+        <li><i data-lucide="x"></i> Psikolojik test veya klinik kişilik analizi değildir</li>
+        <li><i data-lucide="x"></i> Kesin bir meslek belirlemez</li>
+        <li><i data-lucide="x"></i> Meslek seçme zorunluluğu oluşturmaz</li>
+        <li><i data-lucide="x"></i> Tek başına bir karar aracı değildir</li>
+      </ul></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0"><div class="container">
+    <div class="ab-head"><span class="eyebrow">DEĞERLERİMİZ</span><h2>Bizi yönlendiren dört ilke</h2></div>
+    <div class="ab-values">
+      <div class="ab-value"><span class="ab-ic"><i data-lucide="eye"></i></span><h3>Şeffaflık</h3><p>Nasıl çalıştığımızı, hangi veriyi kullandığımızı açıkça anlatıyoruz.</p></div>
+      <div class="ab-value"><span class="ab-ic"><i data-lucide="bar-chart-3"></i></span><h3>Veri odaklılık</h3><p>Sezgiler yerine meslek verileri ve ölçülebilir kriterler kullanıyoruz.</p></div>
+      <div class="ab-value"><span class="ab-ic"><i data-lucide="unlock"></i></span><h3>Erişilebilirlik</h3><p>Temel özellikler ücretsiz; kariyer keşfi herkese açık.</p></div>
+      <div class="ab-value"><span class="ab-ic"><i data-lucide="refresh-cw"></i></span><h3>Sürekli gelişim</h3><p>İçerikler ve öneriler yeni meslek verileriyle güncellenir.</p></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0"><div class="container">
+    <div class="ab-head"><span class="eyebrow">GİZLİLİK & GÜVENLİK</span><h2>Verilerin değerli, biz de ona özenliyiz</h2></div>
+    <div class="ab-split">
+      <div class="ab-card"><span class="ab-ic"><i data-lucide="lock-keyhole"></i></span><h3>Güvenli kimlik doğrulama</h3><p>Şifreler tek yönlü hash algoritmasıyla saklanır; düz metin olarak tutulmaz.</p></div>
+      <div class="ab-card"><span class="ab-ic"><i data-lucide="shield-check"></i></span><h3>Korumalı işlemler</h3><p>Veritabanı sorguları hazırlanmış ifadelerle çalışır, formlar CSRF token ile doğrulanır.</p></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0"><div class="container">
+    <div class="ab-head"><span class="eyebrow">SSS</span><h2>Merak edilenler</h2></div>
+    <div class="ab-faq">
+      <div class="ab-faq-item"><button type="button">Kariyer testi ücretsiz mi? <span>+</span></button><p>Evet. Ücretsiz hesap oluşturarak testi çözebilir, sonuçlarını ve meslek önerilerini görüntüleyebilirsin.</p></div>
+      <div class="ab-faq-item"><button type="button">Test ne kadar sürüyor? <span>+</span></button><p>12 soruluk test ortalama 5 dakika sürer. Sorulara samimi cevap vermek önerilerin isabetini artırır.</p></div>
+      <div class="ab-faq-item"><button type="button">Sonuçlarımı sonradan görebilir miyim? <span>+</span></button><p>Evet. Üye hesabınla giriş yaparak test sonuçlarını, önerilerini ve favorilerini tekrar görüntüleyebilirsin.</p></div>
+      <div class="ab-faq-item"><button type="button">Bu test bir kişilik analizi mi? <span>+</span></button><p>Hayır. Kariyer keşfini kolaylaştıran bir rehberdir; klinik veya psikolojik bir değerlendirme değildir.</p></div>
+    </div>
+  </div></section>
+
+  <section class="ab-section" style="padding-top:0;padding-bottom:70px"><div class="container">
+    <div class="ab-cta"><span class="ab-eyebrow">ŞİMDİ BAŞLA</span><h2>Kendi kariyer profilini oluştur</h2>
+      <p>Ücretsiz hesap aç, kariyer testini tamamla ve sana uygun meslekleri keşfet. Tüm sonuçların hesabında saklansın.</p>
+      <div class="ab-actions" style="justify-content:center"><a class="main" href="/register">Ücretsiz kayıt ol →</a><a class="ghost" href="/career-test">Teste başla</a></div>
+    </div>
+  </div></section>
+</main>
+
+<footer class="site-footer"><div class="container"><div class="footer-grid">
+  <div><div class="footer-brand"><span class="brand-mark"><i data-lucide="compass"></i></span><span class="brand-text"><span class="brand-name">AKILLI KARİYER</span><span class="brand-slogan">Geleceğini Keşfet</span></span></div>
+    <p>İlgi alanlarını ve yeteneklerini analiz ederek kişiselleştirilmiş meslek önerileri sunan kariyer rehberi.</p></div>
+  <div><div class="social-links"><a href="/" title="Ana sayfaya git" aria-label="Ana sayfa" data-tip="Ana Sayfa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-7h6v7"/></svg></a><a href="/careers" title="Meslek kataloğunu aç" aria-label="Meslekler" data-tip="Meslekler"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M2 12h20"/></svg></a><a href="/career-guide" title="Kariyer rehberini oku" aria-label="Kariyer Rehberi" data-tip="Rehber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a><a href="mailto:info@akillikariyer.com" title="E-posta gönder" aria-label="E-posta gönder" data-tip="İletişim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></a></div><h5>Platform</h5><ul><li><a href="/careers">Meslekler</a></li><li><a href="/career-test">Kariyer Testi</a></li><li><a href="/career-guide">Rehber</a></li></ul></div>
+  <div><h5>Kurumsal</h5><ul><li><a href="/about">Hakkımızda</a></li><li><a href="/contact">İletişim</a></li><li><a href="/kvkk">KVKK</a></li><li><a href="/privacy">Gizlilik</a></li></ul></div>
+  <div><h5>İletişim</h5><ul><li>info@akillikariyer.com</li><li>7/24 çevrimiçi rehber</li></ul></div>
+</div><div class="footer-bottom"><span>&copy; 2026 Akıllı Kariyer</span><span><a href="/kvkk">KVKK</a> · <a href="/privacy">Gizlilik</a> · <a href="/terms">Şartlar</a></span></div></div></footer>
+
+<script src="/assets/js/netlify-app.js"></script>
+<script>
+window.AK = window.AK || {};
+window.AK.base = '/';
+window.AK.coachData = '/assets/data/careers.json';
+window.AK.careerTpl = 'meslek/{slug}';
+window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.html',interview:'dashboard/interview-sim.html',cv:'dashboard/cv-builder.html'};
+</script>
+<script src="/assets/js/career-coach.js"></script>
+<script>
+document.querySelectorAll('.ab-faq-item button').forEach(function(b){b.addEventListener('click',function(){var it=b.parentElement,open=it.classList.toggle('open');document.querySelectorAll('.ab-faq-item').forEach(function(x){if(x!==it)x.classList.remove('open');});});});
+var tt=document.getElementById('theme-toggle');if(tt)tt.addEventListener('click',function(){var d=document.documentElement.getAttribute('data-theme')==='dark';if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('akk-theme','light');document.cookie='akk_theme=light; path=/; max-age=31536000';}else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('akk-theme','dark');document.cookie='akk_theme=dark; path=/; max-age=31536000';}});
+if(window.lucide)window.lucide.createIcons();
+</script>
+</body>
+</html>

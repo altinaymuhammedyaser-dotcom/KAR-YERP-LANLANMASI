@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KVKK Aydınlatma Metni — Akıllı Kariyer</title>
+    <meta name="description" content="6698 sayılı KVKK kapsamında kişisel verilerinizin işlenmesi hakkında bilgilendirme metni.">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css?v=1795085799">
+    
+        <link rel="stylesheet" href="/assets/css/career-coach.css">
+  <link rel="stylesheet" href="/assets/css/premium.css">
+<style>
+.social-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.social-links a{position:relative;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;text-decoration:none;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.14);
+  color:#fff;transition:transform .22s ease,background .22s ease,box-shadow .22s ease,color .22s ease}
+.social-links a svg{width:19px;height:19px;display:block}
+.social-links a:hover,.social-links a:focus-visible{transform:translateY(-3px);background:linear-gradient(135deg,#16B8B0,#0E918B);color:#fff;box-shadow:0 12px 24px -12px rgba(22,184,176,.9);outline:none}
+.social-links a:after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(4px);
+  background:#142B4A;color:#fff;font-size:.68rem;font-weight:700;white-space:nowrap;padding:6px 9px;border-radius:8px;
+  opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+.social-links a:hover:after,.social-links a:focus-visible:after{opacity:1;transform:translateX(-50%) translateY(0)}
+[data-theme="dark"] .social-links a{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#D9E6F5}
+</style>
+</head>
+<body class="">
+
+<header class="site-header" id="site-header">
+    <div class="container header-inner">
+        <a class='brand' href='/'>
+            <span class="brand-mark"><i data-lucide="compass"></i></span>
+            <span class="brand-text">
+                <span class="brand-name">Akıllı Kariyer</span>
+                <span class="brand-slogan">Geleceğini Keşfet</span>
+            </span>
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a class href='/'>Ana Sayfa</a></li>
+                <li><a class href='/careers'>Meslekler</a></li>
+                <li><a class href='/career-test'>Kariyer Testi</a></li>
+                <li><a class href='/career-guide'>Rehber</a></li>
+                <li><a href='/about'>Hakkımızda</a></li>
+                <li><a href='/contact'>İletişim</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menü">
+                <i data-lucide="menu"></i>
+            </button>
+
+                            <a class='btn btn-outline btn-sm' href='/login'>Giriş Yap</a>
+                <a class='btn btn-accent btn-sm' href='/register'>Kayıt Ol</a>
+            
+            <button type="button" class="btn btn-ghost btn-sm" id="theme-toggle" aria-label="Tema değiştir" title="Karanlık/Açık Mod">
+                <i data-lucide="sun" id="theme-icon-sun" style="width:18px;height:18px"></i>
+                <i data-lucide="moon" id="theme-icon-moon" style="width:18px;height:18px;display:none"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-panel">
+        <div class="mobile-nav-head">
+            <span class="brand-name">Akıllı Kariyer</span>
+            <button type="button" class="mn-close" id="mn-close" aria-label="Kapat">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href='/'><i data-lucide="home" style="width:18px;height:18px"></i> Ana Sayfa</a>
+            <a href='/careers'><i data-lucide="briefcase" style="width:18px;height:18px"></i> Meslekler</a>
+            <a href='/career-test'><i data-lucide="clipboard-check" style="width:18px;height:18px"></i> Kariyer Testi</a>
+            <a href='/career-guide'><i data-lucide="book-open" style="width:18px;height:18px"></i> Rehber</a>
+            <a href='/about'><i data-lucide="info" style="width:18px;height:18px"></i> Hakkımızda</a>
+            <a href='/contact'><i data-lucide="mail" style="width:18px;height:18px"></i> İletişim</a>
+                            <div class="ud-sep"></div>
+                <a href='/login'><i data-lucide="log-in" style="width:16px;height:16px"></i> Giriş Yap</a>
+                <a href='/register'><i data-lucide="user-plus" style="width:16px;height:16px"></i> Kayıt Ol</a>
+                    </nav>
+    </div>
+</div>
+
+<main id="main-content">
+<main id="main-content">
+  <section class="section-sm" style="background:var(--c-white);border-bottom:1px solid var(--c-border)">
+    <div class="container container-narrow">
+      <span class="eyebrow"><i data-lucide="shield-check" class="" style="width:15px;height:15px;stroke-width:2" aria-hidden="true"></i> Yasal</span>
+      <h1 style="margin-bottom:6px">KVKK Aydınlatma Metni</h1>
+      <p style="margin:0">6698 sayılı Kişisel Verilerin Korunması Kanonu kapsamında hazırlanmıştır.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container container-narrow">
+      <article class="article">
+        <p>
+          Akıllı Kariyer platformu olarak, 6698 sayılı Kişisel Verilerin Korunması Kanonu ("KVKK") kapsamında veri sorumlusu sıfatıyla aşağıdaki bilgilendirmeyi yapmaktayız.
+        </p>
+
+        <h2>1. Veri Sorumlusu</h2>
+        <p>
+          Veri sorumlusu, Akıllı Kariyer platformunun işletmecisidir.
+          İletişim bilgileri: , ,
+          .
+        </p>
+
+        <h2>2. İşlenen Kişisel Veriler</h2>
+        <p>Platform üzerinde aşağıdaki kişisel veriler işlenmektedir:</p>
+        <ul>
+          <li><strong>Hesap bilgileri:</strong> Ad, soyad, e-posta adresi, şifre (şifrelenmiş biçimde), eğitim seviyesi.</li>
+          <li><strong>Profil bilgileri:</strong> Telefon numarası, şehir, okul adı, bölüm, sınıf seviyesi, kullanıcı tanıtımı ve tercih edilen çalışma biçimi.</li>
+          <li><strong>Test verileri:</strong> Kariyer testi sırasında verilen yanıtlar, hesaplanan boyut puanları, oluşturulan meslek önerileri.</li>
+          <li><strong>Etkileşim verileri:</strong> Favoriye eklenen meslekler, incelenen meslekler, sistem içi aktivite geçmişi.</li>
+          <li><strong>Teknik veriler:</strong> IP adresi, oturum kayıtları, giriş deneme kayıtları ve güvenlik denetim kayıtları.</li>
+        </ul>
+
+        <h2>3. Kişisel Verilerin İşlenme Amaçları</h2>
+        <ul>
+          <li>Hesap oluşturma, oturum açma ve kullanıcı yönetimi işlemlerinin yürütülmesi,</li>
+          <li>Kariyer testinin uygulanması, kişiselleştirilmiş meslek önerilerinin üretilmesi ve saklanması,</li>
+          <li>Favoriye eklenen mesleklerin takibi ve panelde gösterimi,</li>
+          <li>Platformun güvenliğinin sağlanması, toplu saldırıların engellenmesi ve kötüye kullanımın tespiti,</li>
+          <li>Hizmet kalitesinin ölçülmesi ve iyileştirilmesi amacıyla istatistiksel analizlerin yapılması,</li>
+          <li>İletişim formu aracılığıyla ulaşan taleplerin yanıtlanması,</li>
+        </ul>
+
+        <h2>4. Hukuki Sebep</h2>
+        <p>
+          Kişisel verileriniz; KVKK 5. maddesinde yer alan "bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması", "hükümlülüğün yerine getirilmesi", "meşru menfaat" ve "açık rıza" hukuki sebeplere dayanarak işlenmektedir.
+        </p>
+
+        <h2>5. Aktarım</h2>
+        <p>
+          Kişisel verileriniz; yasal zorunluluk hâlleri dışında üçüncü kişilerle paylaşılmaz, satılmaz veya reklam amacıyla kullanılmaz. Verileriniz, platformun barındığı sunucu ve veritabanı altyapısında saklanır. Yasal zorunluluk hâlleri dışında üçüncü kişilerle paylaşılmaz.
+        </p>
+
+        <h2>6. Saklama Süresi</h2>
+        <p>
+          Hesabınız aktif olduğu sürece verileriniz saklanır. Hesabınızı silmeniz hâlinde; test sonuçları, favoriler ve aktivite kayıtları dahil olmak üzere hesabınıza ait tüm veriler kalıcı olarak silinir. Güvenlik kayıtları (giriş denemeleri, denetim kayıtları) yasal saklama süreleri boyunca tutulur.
+        </p>
+
+        <h2>7. Güvenlik</h2>
+        <p>
+          Şifreniz <strong>bcrypt</strong> algoritması ile tek yönlü biçimde şifrelenerek saklanır; hiçbir yerde düz metin olarak tutulmaz. Tüm veritabanı sorguları hazırlanmış ifadeler (prepared statements) ile çalıştırılır. Form gönderimleri CSRF token koruması ile doğrulanır. HTTPS kullanımı önerilir.
+        </p>
+
+        <h2>8. Çerezler</h2>
+        <p>
+          Platform; oturum yönetimi için zorunlu bir çerez, "Oturum açık kalsın" seçeneği tercih edildiğinde ise kalıcı bir hatırla çerezi kullanır. Reklam veya takip çerezi kullanılmaz.
+        </p>
+
+        <h2>9. Haklarınız</h2>
+        <p>
+          KVKK 11. maddesine göre; verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini veya silinmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz. Bu haklarınızı kullanmak için info@akillikariyer.com adresine yazabilirsiniz.
+        </p>
+
+        <h2>10. Açık Rıza ve Geri Alma</h2>
+        <p>
+          Kanuni yükümlülük veya sözleşmenin ifası dışındaki durumlarda açık rıza dayalı işleme yapılır. Rızanızı dilediğiniz zaman geri çekebilirsiniz; geri çekme işlemi, rıza verildiği tarihten itibaren geçerlidir.
+        </p>
+
+        <h2>11. Başvuru ve İletişim</h2>
+        <p>
+          KVKK 13. maddesine göre; verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme ve işlemeye itiraz etme haklarına sahipsiniz. Bu haklarınızı kullanmak için <strong>info@akillikariyer.com</strong> adresine yazabilirsiniz.
+        </p>
+      </article>
+    </div>
+  </section>
+</main>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <a class='footer-brand' href='/'>
+                <span class="brand-mark"><i data-lucide="compass"></i></span>
+                <span class="brand-text">
+                    <span class="brand-name">Akıllı Kariyer</span>
+                    <span class="brand-slogan">Geleceğini Keşfet</span>
+                </span>
+            </a>
+            <p style="margin-top:12px">
+                Akıllı Kariyer, öğrencilerin ve işe girenlerin ilgi alanlarını, yeteneklerini ve çalışma tercihlerini analiz ederek kişiselleştirilmiş meslek önerileri sunan bir rehber platformudur.
+            </p>
+            <div class="social-links"><a href="/" title="Ana sayfaya git" aria-label="Ana sayfa" data-tip="Ana Sayfa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-7h6v7"/></svg></a><a href="/careers" title="Meslek kataloğunu aç" aria-label="Meslekler" data-tip="Meslekler"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M2 12h20"/></svg></a><a href="/career-guide" title="Kariyer rehberini oku" aria-label="Kariyer Rehberi" data-tip="Rehber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a><a href="mailto:info@akillikariyer.com" title="E-posta gönder" aria-label="E-posta gönder" data-tip="İletişim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></a></div>
+        </div>
+        <div class="footer-col">
+            <h5>Platform</h5>
+            <ul>
+                <li><a href='/career-test'>Kariyer Testi</a></li>
+                <li><a href='/careers'>Meslek Kataloğu</a></li>
+                <li><a href='/career-guide'>Kariyer Rehberi</a></li>
+                <li><a href='/about'>Hakkımızda</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Destek</h5>
+            <ul>
+                <li><a href='/contact'>İletişim</a></li>
+                <li><a href='/kvkk'>KVKK Aydınlatma Metni</a></li>
+                <li><a href='/privacy'>Gizlilik Politikası</a></li>
+                <li><a href='/terms'>Kullanım Koşulları</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Hızlı Erişim</h5>
+            <ul>
+                <li><a href='/register'>Ücretsiz Kayıt Ol</a></li>
+                <li><a href='/login'>Giriş Yap</a></li>
+                <li><a href="/dashboard/settings.html">Ayarlar</a></li>
+                            </ul>
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <span>&copy; 2026 Akıllı Kariyer. Tüm hakları saklıdır.</span>
+        <span>
+            <a href='/kvkk' style='color:#5FE3D8'>KVKK</a> •
+            <a href='/privacy' style='color:#5FE3D8'>Gizlilik</a> •
+            <a href='/terms' style='color:#5FE3D8'>Şartlar</a>
+        </span>
+    </div>
+</footer>
+
+<button type="button" class="scroll-top" id="scroll-top" aria-label="Yukarı Çık">
+    <i data-lucide="arrow-up"></i>
+</button>
+
+<script>
+    // Lucide icons
+    if (window.lucide) window.lucide.createIcons();
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIconSun = document.getElementById('theme-icon-sun');
+    const themeIconMoon = document.getElementById('theme-icon-moon');
+    const htmlEl = document.documentElement;
+
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            htmlEl.setAttribute('data-theme', 'dark');
+            themeIconSun.style.display = 'none';
+            themeIconMoon.style.display = 'block';
+        } else {
+            htmlEl.removeAttribute('data-theme');
+            themeIconSun.style.display = 'block';
+            themeIconMoon.style.display = 'none';
+        }
+    }
+
+    function syncThemeCookie(theme) {
+      document.cookie = 'akk_theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax';
+    }
+
+    const savedTheme = localStorage.getItem('akk-theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      syncThemeCookie(savedTheme);
+    } else {
+      syncThemeCookie(htmlEl.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+    }
+
+    themeToggle.addEventListener('click', function() {
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        localStorage.setItem('akk-theme', newTheme);
+        syncThemeCookie(newTheme);
+        applyTheme(newTheme);
+    });
+
+    // Mobile nav
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mnClose = document.getElementById('mn-close');
+
+    function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', function() {
+        mobileNav.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+
+    mnClose.addEventListener('click', closeMobileNav);
+    mobileNav.addEventListener('click', function(e) {
+        if (e.target === mobileNav) closeMobileNav();
+    });
+
+    // User dropdown
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+    if (userMenuBtn && userDropdown) {
+        userMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', function() {
+            userDropdown.classList.remove('open');
+        });
+    }
+
+    // Scroll to top
+    const scrollTop = document.getElementById('scroll-top');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            scrollTop.classList.add('show');
+        } else {
+            scrollTop.classList.remove('show');
+        }
+    });
+    scrollTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Hero bar dolgu animasyonu
+    (function () {
+      var bars = document.querySelectorAll('[data-bar]');
+      if (!bars.length) return;
+      var animate = function () {
+        bars.forEach(function (b) { b.style.width = (b.dataset.bar || 60) + '%'; });
+      };
+      setTimeout(animate, 420);
+    })();
+
+    // Chart.js grafikleri (data-chart)
+    (function () {
+      if (!window.Chart) return;
+      document.querySelectorAll('[data-chart]').forEach(function (node) {
+        var config;
+        try { config = JSON.parse(node.dataset.chart); } catch (e) { return; }
+        if (config.type === 'radar') {
+          config.options = config.options || {};
+          config.options.plugins = config.options.plugins || {};
+          config.options.plugins.legend = { display: false };
+          config.options.maintainAspectRatio = false;
+        }
+        new Chart(node, config);
+      });
+    })();
+
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const card = btn.closest('.faq-card');
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.faq-card.open').forEach(c => c.classList.remove('open'));
+      const icon = btn.querySelector('.faq-q-icon');
+      document.querySelectorAll('.faq-q-icon').forEach(i => {
+        i.classList.remove('rotate');
+        i.textContent = '+';
+      });
+      if (!isOpen) {
+        card.classList.add('open');
+        icon.classList.add('rotate');
+        icon.textContent = '−';
+      }
+    }
+
+    // Initialize first FAQ open
+    document.addEventListener('DOMContentLoaded', function() {
+      const firstFaq = document.querySelector('.faq-card');
+      if (firstFaq) {
+        firstFaq.classList.add('open');
+        const icon = firstFaq.querySelector('.faq-q-icon');
+        if (icon) {
+          icon.classList.add('rotate');
+          icon.textContent = '−';
+        }
+      }
+    });
+</script>
+<script>
+window.AK = window.AK || {};
+window.AK.base = '/';
+window.AK.coachData = '/assets/data/careers.json';
+window.AK.careerTpl = 'meslek/{slug}';
+window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.html',interview:'dashboard/interview-sim.html',cv:'dashboard/cv-builder.html',results:'dashboard/results.html',profile:'dashboard/profile.html'};
+</script>
+<script src="/assets/js/netlify-app.js"></script>
+<script src="/assets/js/career-coach.js"></script>
+</body>
+</html>

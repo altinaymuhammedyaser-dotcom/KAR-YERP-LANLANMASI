@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kariyer Testi — Akıllı Kariyer</title>
+<meta name="description" content="Üyelere özel 12 soruluk kariyer testi; senaryo, tercih ve ölçek sorularıyla 4 boyutta analiz.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/premium.css">
+<link rel="stylesheet" href="/assets/css/career-coach.css">
+<script>
+(function(){var t=localStorage.getItem('akk-theme');if(!t){var m=document.cookie.match(/(?:^|; )akk_theme=([^;]+)/);t=m?m[1]:null;}if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+</script>
+<style>
+.ct-page{min-height:60vh;padding:34px 0 80px;background:radial-gradient(900px 420px at 10% 0%,rgba(22,184,176,.10),transparent 60%),var(--c-bg)}
+.ct-shell{max-width:1180px;margin:0 auto;padding:0 20px}
+.ct-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.ct-head h1{margin:10px 0 6px;font-size:1.9rem;letter-spacing:-.035em;color:var(--c-primary);font-weight:800}
+.ct-head p{margin:0;color:var(--c-muted);font-size:.9rem;line-height:1.6;max-width:680px}
+.ct-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ct-layout{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+.ct-quiz{padding:28px}
+.ct-step{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
+.ct-type{display:inline-flex;align-items:center;gap:7px;border-radius:99px;padding:7px 13px;font-size:.68rem;font-weight:800;letter-spacing:.08em;background:var(--c-accent-soft);color:var(--c-accent-dark)}
+.ct-type i{width:14px;height:14px}
+.ct-num{font-size:.8rem;color:var(--c-muted);font-weight:800}
+.ct-scenario{background:var(--c-bg);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:13px;padding:13px 15px;margin:12px 0 10px;color:var(--c-text);font-size:.85rem;line-height:1.6}
+.ct-question{font-size:1.2rem;line-height:1.45;font-weight:750;color:var(--c-text);margin:6px 0 20px;min-height:52px;animation:ctIn .32s ease both}
+@keyframes ctIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.ct-options{display:grid;gap:9px}
+.ct-opt{position:relative;border:1.5px solid var(--c-border);border-radius:15px;background:var(--c-bg);padding:14px 15px;cursor:pointer;text-align:left;transition:.2s cubic-bezier(.2,.8,.2,1);color:var(--c-text);display:flex;gap:12px;align-items:flex-start;font-family:inherit;font-size:.86rem;line-height:1.5}
+.ct-opt:hover{border-color:var(--c-accent);transform:translateY(-2px);box-shadow:var(--px-shadow)}
+.ct-opt.sel{border-color:var(--c-accent);background:linear-gradient(145deg,var(--c-accent-soft),transparent);box-shadow:0 12px 26px -16px var(--c-accent)}
+.ct-letter{flex:0 0 29px;height:29px;border-radius:9px;background:var(--c-border);color:var(--c-text);display:grid;place-items:center;font-size:.75rem;font-weight:800;transition:.2s}
+.ct-opt.sel .ct-letter{background:var(--c-accent);color:#fff}
+.ct-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:620px}
+.ct-scale .ct-opt{justify-content:center;text-align:center;flex-direction:column;gap:3px;padding:14px 6px}
+.ct-scale .ct-opt b{font-size:1.05rem}
+.ct-scale .ct-opt small{font-size:.68rem;color:var(--c-muted)}
+.ct-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:17px;border-top:1px solid var(--c-border)}
+.ct-nav span{font-size:.74rem;color:var(--c-muted)}
+.ct-side{display:flex;flex-direction:column;gap:16px}
+.ct-info{padding:20px}
+.ct-info h3{margin:0 0 12px;font-size:.95rem;color:var(--c-primary)}
+.ct-info ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.ct-info li{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--c-text)}
+.ct-info li i{width:16px;height:16px;color:var(--c-accent-dark)}
+.ct-info .ct-dimrow{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:11px;background:var(--c-bg);font-size:.76rem;color:var(--c-text)}
+.ct-info .ct-dimrow b{color:var(--c-accent-dark)}
+.ct-gate{position:fixed;inset:0;z-index:3000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(11,15,26,.72);backdrop-filter:blur(6px)}
+.ct-gate-box{max-width:440px;width:100%;text-align:center;border-radius:24px;padding:34px;background:var(--c-bg-card,#fff);border:1px solid var(--c-border);box-shadow:0 30px 90px -30px rgba(0,0,0,.7);animation:ctIn .35s ease both}
+.ct-gate-ic{width:70px;height:70px;border-radius:22px;margin:0 auto 16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--c-accent),var(--c-primary));color:#fff}
+.ct-gate-ic i{width:34px;height:34px}
+.ct-gate-box h2{margin:0 0 8px;color:var(--c-primary);font-size:1.35rem}
+.ct-gate-box p{margin:0 0 20px;color:var(--c-muted);font-size:.86rem;line-height:1.6}
+.ct-result-top{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:8px 0 26px}
+.ct-result-top .px-donut{margin:0;flex:0 0 140px}
+.ct-result-top h2{margin:0 0 6px;color:var(--c-primary);font-size:1.4rem}
+.ct-result-top p{margin:0;color:var(--c-muted);font-size:.86rem}
+.ct-score-pill{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:8px 13px;background:var(--c-accent-soft);color:var(--c-accent-dark);font-size:.76rem;font-weight:800}
+@media(max-width:900px){.ct-layout{grid-template-columns:1fr}.ct-side{order:-1}.ct-head h1{font-size:1.5rem}.ct-quiz{padding:20px}.ct-question{font-size:1.08rem}.ct-scale{grid-template-columns:repeat(5,1fr);gap:5px}.ct-scale .ct-opt{padding:12px 2px}}
+[data-theme="dark"] .ct-head h1,[data-theme="dark"] .ct-info h3,[data-theme="dark"] .ct-gate-box h2,[data-theme="dark"] .ct-result-top h2{color:#F8FAFC!important}
+</style>
+</head>
+<body>
+<header class="site-header" id="site-header"><div class="container header-inner">
+  <a class="brand" href="/"><span class="brand-mark"><i data-lucide="compass"></i></span><span class="brand-text"><span class="brand-name">Akıllı Kariyer</span><span class="brand-slogan">Geleceğini Keşfet</span></span></a>
+  <nav class="main-nav"><ul><li><a href="/">Ana Sayfa</a></li><li><a href="/careers">Meslekler</a></li><li><a href="/career-test">Kariyer Testi</a></li><li><a href="/career-guide">Rehber</a></li><li><a href="/about">Hakkımızda</a></li><li><a href="/contact">İletişim</a></li></ul></nav>
+  <div class="header-actions"><a class="btn btn-outline btn-sm" href="/login">Giriş Yap</a><a class="btn btn-accent btn-sm" href="/register">Kayıt Ol</a>
+    <button type="button" class="btn btn-ghost btn-sm" id="theme-toggle" aria-label="Tema değiştir"><i data-lucide="sun" id="theme-icon-sun"></i><i data-lucide="moon" id="theme-icon-moon" style="display:none"></i></button></div>
+</div></header>
+
+<main id="main-content" class="ct-page"><div class="ct-shell">
+  <div class="ct-head"><div><span class="dash-eyebrow">🧭 ÜYELERE ÖZEL · 12 SORU · 4 BOYUT</span><h1>Kariyer Testine Başla</h1>
+    <p>Sorular; günlük iş durumları, tercihler ve problem çözme senaryolarından oluşur. “Doğru cevap” yok — seni yansıtan cevabı seç.</p></div>
+    <div class="ct-tags"><span class="px-badge accent">~6 dakika</span><span class="px-badge success">Ücretsiz</span><span class="px-badge">4 soru tipi</span></div></div>
+
+  <div class="ct-layout">
+    <div><div class="panel-card ct-quiz" id="quizCard">
+      <div class="ct-step"><span class="ct-type" id="qType"></span><span class="ct-num" id="qCount">1 / 12</span></div>
+      <div class="px-task-bar big" style="margin-bottom:8px"><i id="qProgress" style="width:0"></i></div>
+      <div id="questionBox"></div>
+      <div class="ct-nav"><span>Seçimini yaparak devam et</span><button type="button" class="btn btn-accent" id="nextBtn" disabled>Devam et →</button></div>
+    </div>
+    <div class="panel-card" id="resultCard" style="display:none;margin-top:18px"></div></div>
+
+    <aside class="ct-side">
+      <div class="panel-card ct-info"><h3>Sorular nasıl seçildi?</h3><ul>
+        <li><i data-lucide="check-circle-2"></i> 4 boyut: teknoloji, analitik, iletişim, yaratıcılık</li>
+        <li><i data-lucide="messages-square"></i> Gerçek iş senaryoları ve tercih soruları</li>
+        <li><i data-lucide="list-checks"></i> Ölçek, senaryo, çoklu seçim ve sıralama tipleri</li>
+        <li><i data-lucide="bar-chart-3"></i> Her boyut ayrı puanlanır, mesleklerle eşleştirilir</li>
+      </ul></div>
+      <div class="panel-card ct-info"><h3>Değerlendirilen boyutlar</h3>
+        <div class="ct-dimrow"><span>💻 Teknoloji İlgisi</span><b>3 soru</b></div>
+        <div class="ct-dimrow"><span>🧮 Analitik Düşünme</span><b>3 soru</b></div>
+        <div class="ct-dimrow"><span>🤝 İletişim</span><b>3 soru</b></div>
+        <div class="ct-dimrow"><span>🎨 Yaratıcılık</span><b>3 soru</b></div>
+      </div>
+      <div class="panel-card ct-info"><h3>İpucu</h3><p class="muted" style="margin:0;font-size:.8rem;line-height:1.6">İlk aklına gelen cevabı ver. Uzun uzun düşünmek yerine içgüdülerine güven.</p></div>
+    </aside>
+  </div>
+</div></main>
+
+<footer class="site-footer"><div class="container"><div class="footer-grid">
+  <div><div class="footer-brand"><span class="brand-mark"><i data-lucide="compass"></i></span><span class="brand-text"><span class="brand-name">AKILLI KARİYER</span><span class="brand-slogan">Geleceğini Keşfet</span></span></div>
+    <p>İlgi alanlarını ve yeteneklerini analiz ederek kişiselleştirilmiş meslek önerileri sunan kariyer rehberi.</p></div>
+  <div><h5>Platform</h5><ul><li><a href="/careers">Meslekler</a></li><li><a href="/career-test">Kariyer Testi</a></li><li><a href="/career-guide">Rehber</a></li></ul></div>
+  <div><h5>Kurumsal</h5><ul><li><a href="/about">Hakkımızda</a></li><li><a href="/contact">İletişim</a></li><li><a href="/kvkk">KVKK</a></li><li><a href="/privacy">Gizlilik</a></li></ul></div>
+  <div><h5>İletişim</h5><ul><li>info@akillikariyer.com</li><li>7/24 çevrimiçi rehber</li></ul></div>
+</div><div class="footer-bottom"><span>&copy; 2026 Akıllı Kariyer</span><span><a href="/kvkk">KVKK</a> · <a href="/privacy">Gizlilik</a> · <a href="/terms">Şartlar</a></span></div></div></footer>
+
+<div class="ct-gate" id="ctGate"><div class="ct-gate-box">
+  <div class="ct-gate-ic"><i data-lucide="lock-keyhole"></i></div>
+  <h2>Kariyer testi üyelere özel</h2>
+  <p>Sonuçlarını kaydetmek ve sana özel meslek önerilerini görmek için giriş yapman gerekiyor.</p>
+  <div class="panel-actions"><a class="btn btn-accent" href="/login">Giriş yap</a><a href="/register">Ücretsiz kayıt ol</a><button type="button" id="ctDemo">Demo ile dene</button></div>
+</div></div>
+
+<script src="/assets/data/careers-data.js"></script>
+<script src="/assets/js/netlify-app.js"></script>
+<script>
+window.AK = window.AK || {};
+window.AK.base = '/';
+window.AK.coachData = '/assets/data/careers.json';
+window.AK.careerTpl = 'meslek/{slug}';
+window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.html',interview:'dashboard/interview-sim.html',cv:'dashboard/cv-builder.html'};
+</script>
+<script src="/assets/js/career-coach.js"></script>
+<script>
+(function(){
+  'use strict';
+  /* w: 0-5 ağırlık, her soru 4 boyuta katkı verebilir */
+  var Q=[
+    {type:'scale',dim:'T',text:'Yeni bir yazılım aracını veya teknolojiyi kendi başına öğrenmek sana keyif verir.',label:'1–5 ÖLÇEĞİ'},
+    {type:'scenario',scenario:'Bir ekip, müşteri verisinin neden düştüğünü anlamaya çalışıyor. Herkes farklı tahmin yürütüyor.',text:'İlk olarak ne yaparsın?',opts:[
+      {t:'Veriyi çekip trendleri ve olası nedenleri analiz ederim.',w:{A:5,T:2}},
+      {t:'Müşteriyle konuşup gerçek nedeni anlamaya çalışırım.',w:{S:5,A:2}},
+      {t:'Farklı bir sunum/yöntem deneyip sonucu görürüm.',w:{Y:5,A:2}},
+      {t:'Oturuma katılıp fikirleri birleştiren bir not tutarım.',w:{S:3,A:3}}],label:'SENARYO'},
+    {type:'scale',dim:'S',text:'Bir topluluk önünde fikrini anlatmak, sorulara cevap vermek benim için kolaydır.',label:'1–5 ÖLÇEĞİ'},
+    {type:'choice',text:'Bir hafta sonu projesi için hangisini seçerdin?',opts:[
+      {t:'Küçük bir web uygulaması kodlamak',w:{T:5,A:2}},
+      {t:'Bir araştırma raporu hazırlamak',w:{A:5,B:0}},
+      {t:'Bir ekip etkinliği tasarlamak',w:{S:4,Y:3}},
+      {t:'Bir afiş ya da kısa video üretmek',w:{Y:5,T:1}}],label:'TERCİH'},
+    {type:'scale',dim:'A',text:'Karmaşık bir problemi küçük parçalara ayırıp sistematik çözmeyi severim.',label:'1–5 ÖLÇEĞİ'},
+    {type:'multi',text:'Seni en çok enerjilendiren çalışma biçimleri hangileri? (en fazla 2)',opts:[
+      {t:'Sessiz bir ortamda derinlemesine kod yazmak',w:{T:5}},
+      {t:'Veri tabloları ve grafiklerle çalışmak',w:{A:5}},
+      {t:'İnsanlarla görüşüp çözüm üretmek',w:{S:5}},
+      {t:'Yeni fikirler ve görseller üretmek',w:{Y:5}}],label:'ÇOKLU SEÇİM',max:2},
+    {type:'scenario',scenario:'Bir ürün lansmanı öncesi takvim sıkışıyor ve ekip stresli.',text:'Ekibe nasıl katkı sağlarsın?',opts:[
+      {t:'Görevleri önceliklendiren bir plan çıkarırım.',w:{A:5,S:2}},
+      {t:'Herkesi dinleyip moral ve iletişimi güçlendiririm.',w:{S:5,Y:1}},
+      {t:'Süreci otomatikleştiren bir araç yazarım.',w:{T:5,A:2}},
+      {t:'Lansman görselini ve hikâyesini yeniden tasarlarım.',w:{Y:5,S:2}}],label:'SENARYO'},
+    {type:'scale',dim:'Y',text:'Sıradan bir işi bile daha yaratıcı bir yöntemle yapmaya çalışırım.',label:'1–5 ÖLÇEĞİ'},
+    {type:'choice',text:'Bir meslek seçerken senin için en önemli olan ne olurdu?',opts:[
+      {t:'Sürekli yeni teknolojiler öğrenmek',w:{T:5}},
+      {t:'Karmaşık sorunları çözmek',w:{A:5}},
+      {t:'İnsanların hayatına dokunmak',w:{S:5}},
+      {t:'Özgürce üretmek ve tasarlamak',w:{Y:5}}],label:'TERCİH'},
+    {type:'multi',text:'Hangi becerilerde güçlü olduğunu düşünüyorsun? (en fazla 2)',opts:[
+      {t:'Mantıksal akıl yürütme ve analiz',w:{A:5}},
+      {t:'Teknik merak ve uygulama',w:{T:5}},
+      {t:'Empati ve ikna',w:{S:5}},
+      {t:'Hayal gücü ve estetik bakış',w:{Y:5}}],label:'ÇOKLU SEÇİM',max:2},
+    {type:'scenario',scenario:'Bir kullanıcı, ürününüzün “karışık” olduğunu söylüyor. Sebep net değil.',text:'Yaklaşımın ne olur?',opts:[
+      {t:'Kullanıcı davranış verilerini inceleyip noktayı bulurum.',w:{A:5,T:3}},
+      {t:'Kullanıcıyla konuşup deneyimini dinlerim.',w:{S:5,A:2}},
+      {t:'Arayüzü sadeleştiren yeni bir tasarım öneririm.',w:{Y:5,T:2}},
+      {t:'Hızlı bir prototip yazıp test ederim.',w:{T:5,Y:2}}],label:'SENARYO'},
+    {type:'scale',dim:'T',text:'Bir sistemin nasıl çalıştığını anlamak için kaynakları karıştırmaktan hoşlanırım.',label:'1–5 ÖLÇEĞİ'}
+  ];
+  var DIMS={T:'Teknoloji İlgisi',A:'Analitik Düşünme',S:'İletişim Becerisi',Y:'Yaratıcılık'};
+  var CODE={'cpu':'Teknoloji','bar-chart-3':'Teknoloji','puzzle':'Mühendislik','messages-square':'İletişim','palette':'Sanat ve Tasarım','users':'Eğitim','briefcase':'İşletme','search':'Bilim'};
+  var i=0,answers=new Array(Q.length).fill(null);
+  var box=document.getElementById('questionBox'),next=document.getElementById('nextBtn');
+  function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function chosen(){var a=answers[i];return a===null?false:(Array.isArray(a)?a.length>0:true);}
+  function draw(){
+    var q=Q[i];
+    document.getElementById('qType').innerHTML='<i data-lucide="'+(q.type==='scale'?'sliders-horizontal':q.type==='multi'?'list-checks':q.type==='scenario'?'messages-square':'list')+'"></i> '+q.label;
+    document.getElementById('qCount').textContent=(i+1)+' / '+Q.length;
+    document.getElementById('qProgress').style.width=Math.round((i+1)/Q.length*100)+'%';
+    var html='';
+    if(q.scenario) html+='<div class="ct-scenario">'+esc(q.scenario)+'</div>';
+    html+='<div class="ct-question">'+esc(q.text)+'</div>';
+    if(q.type==='scale'){
+      html+='<div class="ct-scale">'+[1,2,3,4,5].map(function(v){return '<button type="button" class="ct-opt'+(answers[i]===v?' sel':'')+'" data-v="'+v+'"><b>'+v+'</b><small>'+['Hiç','Az','Orta','Çok','Tam'][v-1]+'</small></button>';}).join('')+'</div>';
+    } else {
+      html+='<div class="ct-options">'+q.opts.map(function(o,k){
+        var sel=Array.isArray(answers[i])?answers[i].indexOf(k)!==-1:answers[i]===k;
+        return '<button type="button" class="ct-opt'+(sel?' sel':'')+'" data-i="'+k+'"><span class="ct-letter">'+String.fromCharCode(65+k)+'</span><span>'+esc(o.t)+'</span></button>';
+      }).join('')+'</div>';
+    }
+    box.innerHTML=html;
+    box.querySelectorAll('[data-v]').forEach(function(b){b.addEventListener('click',function(){answers[i]=+b.getAttribute('data-v');draw();});});
+    box.querySelectorAll('[data-i]').forEach(function(b){b.addEventListener('click',function(){
+      var k=+b.getAttribute('data-i');
+      if(q.type==='multi'){
+        var arr=Array.isArray(answers[i])?answers[i].slice():[];
+        var at=arr.indexOf(k);
+        if(at>=0)arr.splice(at,1);else if(arr.length<(q.max||2))arr.push(k);
+        answers[i]=arr;
+      } else { answers[i]=k; }
+      draw();
+    });});
+    next.disabled=!chosen();
+    next.textContent=i===Q.length-1?'Sonuçları gör →':'Devam et →';
+    if(window.lucide)window.lucide.createIcons();
+  }
+  next.addEventListener('click',function(){if(!chosen())return;if(i<Q.length-1){i++;draw();window.scrollTo({top:0,behavior:'smooth'});}else finish();});
+  document.addEventListener('keydown',function(e){
+    if(document.getElementById('ctGate').style.display==='flex')return;
+    var q=Q[i];
+    if(q.type==='scale'&&/^[1-5]$/.test(e.key)){answers[i]=+e.key;draw();}
+    if((q.type==='choice'||q.type==='scenario')&&/^[1-4]$/.test(e.key)){answers[i]=+e.key-1;draw();}
+    if(e.key==='Enter'&&chosen())next.click();
+  });
+  function finish(){
+    var score={T:0,A:0,S:0,Y:0},max={T:0,A:0,S:0,Y:0};
+    Q.forEach(function(q,qi){
+      if(q.type==='scale'){score[q.dim]+=answers[qi]||0;max[q.dim]+=5;return;}
+      var av=answers[qi];
+      var sel=Array.isArray(av)?av:[av];
+      sel.forEach(function(k){if(k===undefined||!q.opts[k])return;Object.keys(q.opts[k].w).forEach(function(d){score[d]+=q.opts[k].w[d];});});
+      Object.keys(DIMS).forEach(function(d){
+        var vals=q.opts.map(function(o){return o.w[d]||0;}).sort(function(a,b){return b-a;});
+        max[d]+=q.type==='multi'?vals[0]+vals[1]:vals[0];
+      });
+    });
+    var pct={};Object.keys(DIMS).forEach(function(d){pct[d]=Math.min(100,Math.round(score[d]/(max[d]||1)*100));});
+    var top=Object.keys(DIMS).sort(function(a,b){return pct[b]-pct[a];}).slice(0,2);
+    var norm=function(s){return String(s||'').toLocaleLowerCase('tr-TR').replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');};
+    var rec=[];
+    top.forEach(function(k){
+      var cands=Object.keys(CODE).filter(function(ic){return CODE[ic]&&norm(CODE[ic])===norm(DIMS[k]);});
+      var target=top.map(function(x){return DIMS[x];})[0];
+      var map={'Teknoloji İlgisi':'Teknoloji','Analitik Düşünme':'Bilim','İletişim Becerisi':'İletişim','Yaratıcılık':'Sanat ve Tasarım'};
+      target=map[k]||target;
+      (window.CAREER_DATA||[]).forEach(function(c){if(norm(c.category)===norm(target)&&!rec.some(function(x){return x.slug===c.slug;}))rec.push(c);});
+    });
+    (window.CAREER_DATA||[]).forEach(function(c){if(rec.length<6&&!rec.some(function(x){return x.slug===c.slug;}))rec.push(c);});
+    var avg=Math.round(Object.keys(DIMS).reduce(function(a,d){return a+pct[d];},0)/4);
+    var result={date:new Date().toISOString(),scores:pct,top:top.map(function(k){return DIMS[k];}),average:avg,careers:rec.slice(0,6).map(function(c){return c.slug;})};
+    localStorage.setItem('akk_test_result',JSON.stringify(result));
+    document.getElementById('quizCard').style.display='none';
+    var rc=document.getElementById('resultCard');rc.style.display='block';
+    rc.innerHTML='<div class="ct-result-top"><div class="px-donut" style="--pct:'+avg+'"><div><b>'+avg+'</b><span>/100</span></div></div>'+
+      '<div><span class="px-badge success">SONUÇ KAYDEDİLDİ</span><h2>Kariyer profilin hazır! 🎯</h2><p>Güçlü yönlerin: <b>'+top.map(function(k){return DIMS[k];}).join(' ve ')+'</b></p>'+
+      '<span class="ct-score-pill">📊 4 boyut analiz edildi</span></div></div>'+
+      '<div class="px-radar">'+Object.keys(DIMS).map(function(d){return '<div class="px-radar-row"><span>'+DIMS[d]+'</span><div class="px-radar-track"><i style="width:'+pct[d]+'%"></i></div><b>%'+pct[d]+'</b></div>';}).join('')+'</div>'+
+      '<h2 style="margin:28px 0 4px;color:var(--c-primary)">Sana uygun meslekler</h2><p class="muted">Güçlü boyutlarına göre uyum puanıyla sıralandı.</p>'+
+      '<div class="panel-grid" style="margin-top:14px">'+rec.slice(0,6).map(function(c,k){
+        return '<a class="px-career" href="/meslek/'+encodeURIComponent(c.slug)+'"><div class="px-career-main">'+
+          (c.photo?'<img src="'+esc(c.photo)+'" alt="" loading="lazy">':'<div class="px-career-photo"><i data-lucide="briefcase"></i></div>')+
+          '<div class="px-career-info"><b>'+esc(c.name)+'</b><small>'+esc(c.category)+'</small><span>'+esc((c.summary||'').slice(0,56))+'…</span></div></div>'+
+          '<div class="px-career-foot"><span>'+esc(c.salary||'')+'</span><b class="px-score">%'+(96-k*4)+'</b></div></a>';}).join('')+'</div>'+
+      '<div class="panel-actions" style="margin-top:24px"><a class="btn btn-accent" href="/dashboard/results.html">Sonuçlarımı panelde gör</a><button type="button" id="copyBtn">Sonucu kopyala</button><button type="button" id="againBtn">Tekrar çöz</button></div>';
+    document.getElementById('againBtn').addEventListener('click',function(){i=0;answers=new Array(Q.length).fill(null);rc.style.display='none';document.getElementById('quizCard').style.display='block';draw();window.scrollTo({top:0,behavior:'smooth'});});
+    document.getElementById('copyBtn').addEventListener('click',function(){
+      var txt='Akıllı Kariyer Testi sonucum\n'+Object.keys(DIMS).map(function(d){return DIMS[d]+': %'+pct[d];}).join('\n')+'\nGüçlü yönler: '+top.map(function(k){return DIMS[k];}).join(', ');
+      if(navigator.clipboard)navigator.clipboard.writeText(txt);
+      this.textContent='Kopyalandı ✓';
+    });
+    if(window.lucide)window.lucide.createIcons();
+  }
+  draw();
+  document.getElementById('ctDemo').addEventListener('click',function(){
+    localStorage.setItem('akk_session',JSON.stringify({email:'demo@akillikariyer.com',name:'Demo Kullanıcı',demo:true,registeredAt:new Date().toISOString()}));
+    location.reload();
+  });
+  var tt=document.getElementById('theme-toggle');
+  if(tt)tt.addEventListener('click',function(){var d=document.documentElement.getAttribute('data-theme')==='dark';if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('akk-theme','light');document.cookie='akk_theme=light; path=/; max-age=31536000';}else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('akk-theme','dark');document.cookie='akk_theme=dark; path=/; max-age=31536000';}});
+  if(window.lucide)window.lucide.createIcons();
+})();
+</script>
+</body>
+</html>

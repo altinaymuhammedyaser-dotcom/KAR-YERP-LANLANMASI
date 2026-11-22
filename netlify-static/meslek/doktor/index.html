@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doktor — Meslek Rehberi</title>
+    <meta name="description" content="Hastalari muayene eden ve tedavi eden hekim.">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css?v=1795085799">
+    
+        <link rel="stylesheet" href="/assets/css/career-coach.css">
+  <link rel="stylesheet" href="/assets/css/premium.css">
+</head>
+<body class="">
+
+<header class="site-header" id="site-header">
+    <div class="container header-inner">
+        <a class='brand' href='/'>
+            <span class="brand-mark"><i data-lucide="compass"></i></span>
+            <span class="brand-text">
+                <span class="brand-name">Akıllı Kariyer</span>
+                <span class="brand-slogan">Geleceğini Keşfet</span>
+            </span>
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a class href='/'>Ana Sayfa</a></li>
+                <li><a class='active' href='/careers'>Meslekler</a></li>
+                <li><a class href='/career-test'>Kariyer Testi</a></li>
+                <li><a class href='/career-guide'>Rehber</a></li>
+                <li><a href='/about'>Hakkımızda</a></li>
+                <li><a href='/contact'>İletişim</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menü">
+                <i data-lucide="menu"></i>
+            </button>
+
+                            <a class='btn btn-outline btn-sm' href='/login'>Giriş Yap</a>
+                <a class='btn btn-accent btn-sm' href='/register'>Kayıt Ol</a>
+            
+            <button type="button" class="btn btn-ghost btn-sm" id="theme-toggle" aria-label="Tema değiştir" title="Karanlık/Açık Mod">
+                <i data-lucide="sun" id="theme-icon-sun" style="width:18px;height:18px"></i>
+                <i data-lucide="moon" id="theme-icon-moon" style="width:18px;height:18px;display:none"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-panel">
+        <div class="mobile-nav-head">
+            <span class="brand-name">Akıllı Kariyer</span>
+            <button type="button" class="mn-close" id="mn-close" aria-label="Kapat">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href='/'><i data-lucide="home" style="width:18px;height:18px"></i> Ana Sayfa</a>
+            <a href='/careers'><i data-lucide="briefcase" style="width:18px;height:18px"></i> Meslekler</a>
+            <a href='/career-test'><i data-lucide="clipboard-check" style="width:18px;height:18px"></i> Kariyer Testi</a>
+            <a href='/career-guide'><i data-lucide="book-open" style="width:18px;height:18px"></i> Rehber</a>
+            <a href='/about'><i data-lucide="info" style="width:18px;height:18px"></i> Hakkımızda</a>
+            <a href='/contact'><i data-lucide="mail" style="width:18px;height:18px"></i> İletişim</a>
+                            <div class="ud-sep"></div>
+                <a href='/login'><i data-lucide="log-in" style="width:16px;height:16px"></i> Giriş Yap</a>
+                <a href='/register'><i data-lucide="user-plus" style="width:16px;height:16px"></i> Kayıt Ol</a>
+                    </nav>
+    </div>
+</div>
+
+<main id="main-content">
+<main id="main-content">
+
+<section style="background:var(--grad-hero);color:#fff;position:relative;overflow:hidden;padding:44px 0 52px">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(22,184,176,.28),transparent 48%)"></div>
+  <div class="container" style="position:relative;z-index:2">
+    <nav aria-label="Breadcrumb" style="font-size:.84rem;color:rgba(255,255,255,.65);margin-bottom:22px">
+      <a href='/' style='color:rgba(255,255,255,.8)'>Ana Sayfa</a>
+      <span class="dot-sep" style="color:rgba(255,255,255,.4)">/</span>
+      <a href='/careers' style='color:rgba(255,255,255,.8)'>Meslekler</a>
+      <span class="dot-sep" style="color:rgba(255,255,255,.4)">/</span>
+      <a href='/careers?category=saglik' style='color:rgba(255,255,255,.8)'>Saglik</a>
+      <span class="dot-sep" style="color:rgba(255,255,255,.4)">/</span>
+      <span style="color:#fff;font-weight:600">Doktor</span>
+    </nav>
+
+    <div class="grid g-2" style="gap:40px;align-items:center">
+      <div>
+        <span class="eyebrow light"><i data-lucide="stethoscope" class="" style="width:15px;height:15px;stroke-width:2" aria-hidden="true"></i> Saglik</span>
+        <h1 style="color:#fff;margin-bottom:14px">Doktor</h1>
+        <p style="color:rgba(255,255,255,.82);font-size:1.03rem;max-width:640px">Hastalari muayene eden ve tedavi eden hekim.</p>
+
+        <div class="flex wrap gap-12" style="margin-top:24px">
+          <span class="badge" style="background:rgba(255,255,255,.14);color:#fff">
+            <i data-lucide="graduation-cap" class="" style="width:14px;height:14px;stroke-width:2" aria-hidden="true"></i> Üniversite          </span>
+          <span class="badge" style="background:rgba(255,255,255,.14);color:#fff">
+            <i data-lucide="eye" class="" style="width:14px;height:14px;stroke-width:2" aria-hidden="true"></i> 4 görüntülenme
+          </span>
+          <span class="badge" style="background:rgba(255,255,255,.14);color:#fff">
+            <i data-lucide="briefcase" class="" style="width:14px;height:14px;stroke-width:2" aria-hidden="true"></i> Saglik          </span>
+        </div>
+
+        <div class="flex wrap gap-12" style="margin-top:26px">
+                      <a class='btn btn-accent' href='/login'>
+              <i data-lucide="heart" class="" style="width:18px;height:18px;stroke-width:2" aria-hidden="true"></i> Favorilere Ekle
+            </a>
+            <a class='btn btn-light' href='/career-test'>
+              <i data-lucide="sparkles" class="" style="width:18px;height:18px;stroke-width:2" aria-hidden="true"></i> Kariyer Testi
+            </a>
+                  </div>
+      </div>
+
+      <div>
+        <div class="career-hero-media">
+          <img class="career-photo" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/2023_Stetoskop.jpg/500px-2023_Stetoskop.jpg" alt="Doktor" loading="eager" fetchpriority="high" decoding="async">        </div>
+
+              </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:minmax(0,1fr) 340px;gap:34px;align-items:start">
+
+      <div class="grid" style="gap:22px">
+
+        <article class="card">
+          <div class="card-body">
+            <h2 style="font-size:1.35rem">Genel Tanıtım</h2>
+            <p style="font-size:1rem;line-height:1.85;color:var(--c-text-soft)">Doktor, hastaları muayene eder, tanı koyar ve tedavi planı uygular. Koruyucu hekimlikten acil müdahaleye kadar insan sağlığının her alanında çalışır.</p>
+          </div>
+        </article>
+
+        
+                        
+        
+        
+        
+                <article class="card">
+          <div class="card-body">
+            <h2 style="font-size:1.35rem"><i data-lucide="git-compare" class="" style="width:21px;height:21px;stroke-width:2" aria-hidden="true"></i> Benzer Kariyer Seçenekleri</h2>
+            <p style="font-size:.93rem">Aynı kategoride yer alan veya ortak ilgi alanlarını paylaşan meslekler.</p>
+            <div class="grid g-3" style="gap:14px;margin-top:16px">
+                              <a class='related-card' href='/meslek/hemsire'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Hospital_Patient_Monitor_(17239884329).jpg/500px-Hospital_Patient_Monitor_(17239884329).jpg"
+                         alt="Hemsire mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Hemsire</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Hemsire</strong>
+                    <span class="rc-cat">Saglik</span>
+                  </span>
+                </a>
+                              <a class='related-card' href='/meslek/eczaci'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/A_long_wall_in_a_room_with_decorated_pharmacy_jars_on_shelve_Wellcome_V0029792.jpg/500px-A_long_wall_in_a_room_with_decorated_pharmacy_jars_on_shelve_Wellcome_V0029792.jpg"
+                         alt="Eczaci mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Eczaci</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Eczaci</strong>
+                    <span class="rc-cat">Saglik</span>
+                  </span>
+                </a>
+                              <a class='related-card' href='/meslek/fizyoterapeuta'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/YHI_Spa_treatment_room_at_Paradisus_by_Meli%C3%A1_Bali.jpg/500px-YHI_Spa_treatment_room_at_Paradisus_by_Meli%C3%A1_Bali.jpg"
+                         alt="Fizyoterapeuta mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Fizyoterapeuta</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Fizyoterapeuta</strong>
+                    <span class="rc-cat">Saglik</span>
+                  </span>
+                </a>
+                              <a class='related-card' href='/meslek/diyetisyen'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Environmental_impact_score_and_nutrition_impact_score_per_100_g_of_multi-ingredient_food_products.jpg/500px-Environmental_impact_score_and_nutrition_impact_score_per_100_g_of_multi-ingredient_food_products.jpg"
+                         alt="Diyetisyen mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Diyetisyen</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Diyetisyen</strong>
+                    <span class="rc-cat">Saglik</span>
+                  </span>
+                </a>
+                              <a class='related-card' href='/meslek/yazilim-muhendisi'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/RustCodeOnScreen.jpg/500px-RustCodeOnScreen.jpg"
+                         alt="Yazilim Muhendisi mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Yazilim%20Muhendisi</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Yazilim Muhendisi</strong>
+                    <span class="rc-cat">Teknoloji</span>
+                  </span>
+                </a>
+                              <a class='related-card' href='/meslek/veri-bilimci'>
+                  <span class="rc-photo">
+                    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/BusinessOfTop10BollywoodMovies.JPG/500px-BusinessOfTop10BollywoodMovies.JPG"
+                         alt="Veri Bilimci mesleği" loading="lazy" width="400" height="150"
+                         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 150%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23EAF4FA%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%231C466D%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>Veri%20Bilimci</text></svg>'">
+                  </span>
+                  <span class="rc-body">
+                    <strong>Veri Bilimci</strong>
+                    <span class="rc-cat">Teknoloji</span>
+                  </span>
+                </a>
+                          </div>
+          </div>
+        </article>
+        
+      </div>
+
+      <aside class="grid" style="gap:18px;position:sticky;top:calc(var(--header-h) + 18px)">
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom:14px"><i data-lucide="info" class="" style="width:18px;height:18px;stroke-width:2" aria-hidden="true"></i> Hızlı Bilgi</h4>
+            <div class="grid" style="gap:13px">
+              <div>
+                <span class="text-xs text-muted-c fw-700">Eğitim Seviyesi</span>
+                <div style="font-weight:700;color:var(--c-primary)">Üniversite</div>
+              </div>
+              <div class="divider" style="margin:2px 0"></div>
+              <div>
+                <span class="text-xs text-muted-c fw-700">Tahmini Maaş Aralığı</span>
+                <div style="font-weight:700;color:var(--c-primary)">55.000 - 180.000 TL</div>
+              </div>
+              <div class="divider" style="margin:2px 0"></div>
+              <div>
+                <span class="text-xs text-muted-c fw-700">Kategori</span>
+                <div>
+                  <a class='badge' href='/careers?category=saglik'>
+                    Saglik                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+                <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom:14px"><i data-lucide="compass" class="" style="width:18px;height:18px;stroke-width:2" aria-hidden="true"></i> İlgili İlgi Alanları</h4>
+            <div class="grid" style="gap:10px">
+                              <div>
+                  <div class="flex between" style="font-size:.85rem;margin-bottom:4px">
+                    <span style="color:var(--c-text);font-weight:600"><!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>500 - Beklenmeyen Hata</title>
+<link rel="stylesheet" href="/index.html";
+<style>
+ body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F6F8FC;color:#172B42;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;padding:24px}
+ .card{background:#fff;border:1px solid #E6ECF5;border-radius:20px;padding:48px;max-width:520px;text-align:center;box-shadow:0 20px 50px rgba(20,43,74,.08)}
+ .code{font-size:64px;font-weight:800;color:#142B4A;line-height:1}
+ h1{font-size:22px;margin:12px 0 8px}
+ p{color:#748399;line-height:1.7;margin:0 0 24px}
+ a.btn{display:inline-block;background:#142B4A;color:#fff;text-decoration:none;padding:12px 26px;border-radius:12px;font-weight:600}
+</style>
+<link rel="stylesheet" href="/assets/css/career-coach.css">
+  <link rel="stylesheet" href="/assets/css/premium.css">
+</head>
+<body><div class="card">
+ <div class="code">500</div>
+ <h1>Beklenmeyen Hata</h1>
+ <p>İşleminiz sırasında bir sorun oluştu. Lütfen sayfayı yenileyip tekrar deneyin.</p>
+ <a class='btn' href='/'>Ana sayfaya dön</a>
+</div><script>
+window.AK = window.AK || {};
+window.AK.base = '/';
+window.AK.coachData = '/assets/data/careers.json';
+window.AK.careerTpl = 'meslek/{slug}';
+window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.html',interview:'dashboard/interview-sim.html',cv:'dashboard/cv-builder.html',results:'dashboard/results.html',profile:'dashboard/profile.html'};
+</script>
+<script src="/assets/js/netlify-app.js"></script>
+<script src="/assets/js/career-coach.js"></script>
+</body></html>

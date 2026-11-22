@@ -1,0 +1,27 @@
+# Ortam / yerel ayarlar
+.env
+.env.*
+config/local.php
+
+# Depolama (yüklenen dosyalar, önbellek, loglar)
+storage/cache/*
+storage/logs/*
+storage/uploads/*
+!storage/.htaccess
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+!storage/uploads/.gitkeep
+
+# Derleme çıktıları
+*.zip
+netlify-ai.zip
+node_modules/
+vendor/
+
+# Editör / işletim sistemi
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
