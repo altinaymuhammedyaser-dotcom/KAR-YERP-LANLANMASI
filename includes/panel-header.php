@@ -41,6 +41,11 @@ $userNav = [
     ['activities',       'activities.php',       'activity',         'Aktivitelerim'],
     ['personality-test', 'personality-test.php', 'brain',            'Kişilik Testi'],
     ['interview',        'interview-sim.php',    'mic',              'Mülakat Simülatörü'],
+    ['exams',            'exams.php',            'clipboard-list',   'Sınavlar'],
+    ['certificates',     'certificates.php',     'award',            'Sertifikalar'],
+    ['notifications',    'notifications.php',    'bell',             'Bildirimler'],
+    ['skills',           'skills.php',           'layers',           'Becerilerim'],
+    ['leaderboard',      'leaderboard.php',      'trophy',           'Liderlik'],
     ['profile',          'profile.php',          'user-cog',         'Profilim'],
     ['settings',         'settings.php',         'settings',         'Ayarlar'],
 ];
@@ -53,6 +58,9 @@ $adminNav = [
     ['questions',   'questions.php',   'clipboard-list',  'Test Soruları'],
     ['blog',        'blog.php',        'newspaper',       'Blog Yazıları'],
     ['messages',    'messages.php',    'mail',            'İletişim Mesajları'],
+    ['exams',       'exams.php',       'clipboard-list',  'Sınavlar'],
+    ['exam-q',      'exam-questions.php', 'clipboard-check', 'Sınav Soruları'],
+    ['certificates','certificates.php', 'award',          'Sertifikalar'],
     ['settings',    'settings.php',    'settings',        'Sistem Ayarları'],
 ];
 ?><!DOCTYPE html>
