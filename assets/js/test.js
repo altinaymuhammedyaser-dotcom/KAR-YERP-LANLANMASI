@@ -17,6 +17,9 @@
   let sessionId = parseInt(root.dataset.session || '0', 10);
   let total = parseInt(root.dataset.total || '0', 10);
   const answered = new Set();
+  const restartMode = root.dataset.restartMode || '';
+  const hasCompleted = root.dataset.hasCompleted === '1';
+  const completedSessionId = parseInt(root.dataset.completedSessionId || '0', 10);
 
   /* ---------------------------------------------------------------
      Yardimcilar
@@ -303,7 +306,12 @@
       const data = await res.json();
 
       if (data.success && data.redirect) {
-        window.location.href = data.redirect;
+        // Eger farkli sorular modu ile ikinci bir test bittiyse, karsilastirma sayfasina git
+        if (restartMode === 'different' && data.comparisonUrl) {
+          window.location.href = data.comparisonUrl;
+        } else {
+          window.location.href = data.redirect;
+        }
       } else {
         window.AK.toast(data.message || 'Test tamamlanamadı.', 'error');
         if (btn) { btn.classList.remove('is-loading'); btn.disabled = false; }

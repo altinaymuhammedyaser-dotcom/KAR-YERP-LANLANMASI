@@ -46,6 +46,7 @@ $userNav = [
     ['notifications',    'notifications.php',    'bell',             'Bildirimler'],
     ['skills',           'skills.php',           'layers',           'Becerilerim'],
     ['leaderboard',      'leaderboard.php',      'trophy',           'Liderlik'],
+    ['test-compare',     'test-compare.php',     'compare',          'Sınav Karşılaştırması'],
     ['profile',          'profile.php',          'user-cog',         'Profilim'],
     ['settings',         'settings.php',         'settings',         'Ayarlar'],
 ];

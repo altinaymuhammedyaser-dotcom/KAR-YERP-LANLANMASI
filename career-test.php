@@ -18,11 +18,56 @@ if (!$user) {
 
 // YariM kalan oturum varsa onu kullan, yoksa yenisini baslat
 $session = Test::activeSession((int) $user->id);
+
+// Kullanici bu testi once bitirmis mi kontrol et (son 30 gun icinde)
+$completedSession = \App\Core\Database::fetch("
+    SELECT * FROM test_sessions 
+    WHERE user_id = ? AND status = 'completed' 
+    ORDER BY completed_at DESC 
+    LIMIT 1
+", [(int) $user->id]);
+
+$restartMode = null; // null | 'same' | 'different'
+$hasCompleted = $completedSession ? true : false;
+
+if ($hasCompleted && !$session) {
+    // Kullanici once bitirmis ama simdiki an aktif oturum yok -> sor
+    $_SESSION['test_restart_prompt'] = true;
+    $_SESSION['completed_session_id'] = (int) $completedSession['id'];
+}
+
 if (!$session) {
+    // Restart prompt'u gostermek icin sayfaya bilgi ekle
+    $restartPrompt = $hasCompleted;
+    
     try {
         $session = TestService::start((int) $user->id);
     } catch (\Throwable $e) {
         abort_page(500, 'Test Başlatılamadı', $e->getMessage(), url('dashboard/index.php'));
+    }
+    
+    // Eger restart modu secildiyse (POST ile gelinse), bunu işle
+    if (isset($_POST['restart_mode'])) {
+        $mode = $_POST['restart_mode'];
+        if ($mode === 'same') {
+            // Ayni testi ac -> eski session'i geri yukle
+            $session = \App\Core\Database::fetch("SELECT * FROM test_sessions WHERE id = ? AND user_id = ?", [(int) $_SESSION['completed_session_id'], (int) $user->id]);
+            $restartMode = 'same';
+            $restartPrompt = false;
+        } elseif ($mode === 'different') {
+            // Ayni konu, farklı sorular -> yeni session baslat ama isaretle
+            $restartMode = 'different';
+            $_SESSION['test_different_questions'] = true;
+            $restartPrompt = false;
+        }
+    }
+    
+    if (!$session) {
+        try {
+            $session = TestService::start((int) $user->id);
+        } catch (\Throwable $e) {
+            abort_page(500, 'Test Başlatılamadı', $e->getMessage(), url('dashboard/index.php'));
+        }
     }
 }
 
@@ -109,6 +154,9 @@ require_once __DIR__ . '/includes/header.php';
       data-session="<?= (int) $session['id'] ?>"
       data-total="<?= count($questions) ?>"
       data-current="<?= (int) $currentIndex ?>"
+      data-restart-mode="<?= e($restartMode ?? '') ?>"
+      data-has-completed="<?= $hasCompleted ? '1' : '0' ?>"
+      data-completed-session-id="<?= (int) ($completedSession['id'] ?? 0) ?>"
       data-questions='<?= e(json_encode($clientQuestions, JSON_UNESCAPED_UNICODE)) ?>'
       data-answers='<?= e(json_encode($clientAnswers, JSON_UNESCAPED_UNICODE)) ?>'
     >
@@ -182,5 +230,19 @@ require_once __DIR__ . '/includes/header.php';
     </div>
   </div>
 </main>
+
+<?php if ($restartPrompt ?? false): ?>
+<div id="restartPromptModal" style="position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)">
+  <div style="background:var(--c-bg-card,#fff);border:1px solid var(--c-border);border-radius:20px;padding:30px;max-width:480px;width:90%;box-shadow:0 30px 90px -30px rgba(0,0,0,.7)">
+    <h2 style="margin:0 0 10px;color:var(--c-primary)">Tekrar Test Yapmak İstiyor musunuz?</h2>
+    <p class="pc-sub" style="margin:0 0 20px">Bu testi önce tamamlamışsınız. Hangi seçeneği seçmek istersiniz?</p>
+    <form method="POST" style="display:flex;gap:12px;flex-direction:column">
+      <button type="submit" name="restart_mode" value="same" class="btn btn-accent btn-lg btn-block"><?= icon('play', '', 18) ?> Aynı Testi Tekrar Çöz</button>
+      <button type="submit" name="restart_mode" value="different" class="btn btn-outline btn-lg btn-block"><?= icon('refresh-cw', '', 18) ?> Aynı Konu, Farklı Sorular</button>
+    </form>
+    <p style="margin-top:16px;text-align:center"><a href="<?= url('dashboard/index.php') ?>" style="color:var(--c-muted);font-size:.85rem">İptal et, panele dön</a></p>
+  </div>
+</div>
+<?php endif; ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

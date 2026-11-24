@@ -128,10 +128,29 @@ try {
 
             $completed = TestService::complete($session, $userId);
 
+            // Farkli sorular modunda ikinci bir test bittiyse karsilastirma sayfasi dondur
+            $comparisonUrl = null;
+            $completedCount = (int) Database::fetchColumn(
+                "SELECT COUNT(*) FROM test_sessions WHERE user_id = ? AND status = 'completed'",
+                [$userId]
+            );
+            if ($completedCount >= 2) {
+                $lastTwo = Database::fetchAll("
+                    SELECT id FROM test_sessions 
+                    WHERE user_id = ? AND status = 'completed' 
+                    ORDER BY completed_at DESC 
+                    LIMIT 2
+                ", [$userId]);
+                if (count($lastTwo) === 2) {
+                    $comparisonUrl = url('test-compare.php?s1=' . (int) $lastTwo[0]['id'] . '&s2=' . (int) $lastTwo[1]['id']);
+                }
+            }
+
             json_response([
                 'success'   => true,
                 'result_id' => $completed['result_id'],
                 'redirect'  => url('test-result.php?session=' . $sessionId),
+                'comparisonUrl' => $comparisonUrl,
                 'message'   => 'Testiniz tamamlandı. Sonuçlarınız hazır!',
             ]);
 
