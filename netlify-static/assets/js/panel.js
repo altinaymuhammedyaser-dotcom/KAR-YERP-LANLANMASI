@@ -13,7 +13,9 @@
     'career-roadmap.html':'roadmap','skill-gap.html':'skill-gap',
     'cv-builder.html':'cv-builder','interview-sim.html':'interview-sim',
     'personality-test.html':'personality-test','profile.html':'profile',
-    'settings.html':'settings'
+    'settings.html':'settings','exams.html':'exams','certificates.html':'certificates',
+    'notifications.html':'notifications','skills.html':'skills','leaderboard.html':'leaderboard',
+    'test-compare.html':'test-compare'
   };
 
   var TITLES = {
@@ -30,7 +32,13 @@
     'interview-sim':['Mülakat Simülatörü','Pratik yap, geri bildirim al, geliş.'],
     'personality-test':['Kişilik Testi','Big Five ile güçlü yönlerini keşfet.'],
     profile:['Profilim','Kariyer kimliğini oluştur.'],
-    settings:['Ayarlar','Hesap, görünüm, bildirim ve gizlilik tercihleri.']
+    settings:['Ayarlar','Hesap, görünüm, bildirim ve gizlilik tercihleri.'],
+    exams:['Sınavlar','Kısa sınavları çöz, sertifika kazan.'],
+    certificates:['Sertifikalarım','Kazandığın sertifikalar.'],
+    notifications:['Bildirimler','Sınav ve sistem bildirimleri.'],
+    skills:['Becerilerim','Beceri düzeylerini takip et.'],
+    leaderboard:['Liderlik Tablosu','En yüksek test skorları.'],
+    'test-compare':['Test Karşılaştırma','Son iki denemeni karşılaştır.']
   };
 
   var NAV = [
@@ -499,13 +507,127 @@
     step();
   }
 
+  /* ---------------- Sınav / Sertifika / Bildirim / Beceri / Liderlik ---------------- */
+  var SLS={
+    get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},
+    set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  };
+  function notify(title,msg,type,url){
+    var a=SLS.get('akk_notifications_v1',[]);
+    a.unshift({title:title,message:msg,type:type||'info',url:url||'',date:new Date().toLocaleString('tr-TR'),is_read:false});
+    SLS.set('akk_notifications_v1',a.slice(0,30));
+  }
+  var EXAMS=[
+    {id:1,title:'Temel Beceriler Sınavı',cat:'Teknoloji',min:5,pass:70,q:[
+      {q:'Hangisi veritabanı yönetim sistemidir?',o:['MySQL','Photoshop','Word','Excel'],c:0},
+      {q:'HTML bir programlama dili midir?',o:['Evet','Hayır'],c:1},
+      {q:'CSS neyi tanımlar?',o:['Sunucu','Stil ve görünüm','Veritabanı','İşletim sistemi'],c:1}
+    ]},
+    {id:2,title:'İşletme ve Yönetim',cat:'İşletme',min:5,pass:70,q:[
+      {q:'SWOT analizinde "S" neyi ifade eder?',o:['Strengths','Sales','Strategy','Support'],c:0},
+      {q:'Pazar payı hangi alanın konusudur?',o:['Pazarlama','Üretim','Muhasebe','İK'],c:0},
+      {q:'Proje planında ilk adım nedir?',o:['Hedefleri belirlemek','Hemen koda başlamak','Rapor yazmak','Toplantı iptal etmek'],c:0}
+    ]},
+    {id:3,title:'Sağlık Meslekleri',cat:'Sağlık',min:5,pass:70,q:[
+      {q:'Diyetisyen hangi alanda çalışır?',o:['Beslenme','Makine','Hukuk','Tasarım'],c:0},
+      {q:'Fizyoterapist hangi konuda yardımcı olur?',o:['Hareket ve rehabilitasyon','Maliyet','Yazılım','Pazarlama'],c:0},
+      {q:'Eczacı hangi ürünleri verir?',o:['İlaç','Gıda','Giyim','Araç'],c:0}
+    ]}
+  ];
+  function renderExams(){
+    var results=SLS.get('akk_exam_results_v1',[]);
+    return '<div class="px-two-col"><div class="panel-card">'+cardHead('Mevcut Sınavlar','Sınavı tamamla, sertifika kazan.')+
+      EXAMS.map(function(e){
+        var best=results.filter(function(r){return r.exam===e.id;}).sort(function(a,b){return b.score-a.score;})[0];
+        return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px">'+
+          '<div style="display:flex;justify-content:space-between;gap:10px"><b style="color:var(--c-primary)">'+e.title+'</b>'+badge(e.cat)+'</div>'+
+          '<div class="muted" style="font-size:.78rem;margin:6px 0 10px">'+e.q.length+' soru · '+e.min+' dakika · geçme %'+e.pass+'</div>'+
+          '<div class="panel-actions"><button class="primary" data-start-exam="'+e.id+'">'+(best?'Tekrar dene':'Sınava başla')+'</button>'+
+          (best?'<span class="px-badge '+(best.passed?'success':'danger')+'">En iyi %'+best.score+'</span>':'')+'</div></div>';
+      }).join('')+'</div>'+
+      '<div class="panel-card">'+cardHead('Sınav Rehberi','Nasıl çalışır?')+
+        '<div class="px-timeline"><div class="px-timeline-item"><span class="px-timeline-ic success">'+icon('clipboard-check')+'</span><div><b>Sınavı seç</b><small>3 soruluk kısa sınavlar</small></div></div>'+
+        '<div class="px-timeline-item"><span class="px-timeline-ic">'+icon('clock')+'</span><div><b>Süre içinde tamamla</b><small>Süre dolduğunda otomatik biter</small></div></div>'+
+        '<div class="px-timeline-item"><span class="px-timeline-ic warning">'+icon('award')+'</span><div><b>Sertifika kazan</b><small>%70 ve üzeri geçer</small></div></div></div></div></div>';
+  }
+  function startExam(id){
+    var e=EXAMS.filter(function(x){return x.id===id;})[0];if(!e)return;
+    var out=document.getElementById('panelContent'),qi=0,score=0,left=e.min*60;
+    var timer=setInterval(function(){left--;var t=document.getElementById('examTime');if(t)t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');if(left<=0){clearInterval(timer);finishExam();}},1000);
+    function draw(){
+      if(qi>=e.q.length){clearInterval(timer);finishExam();return;}
+      var q=e.q[qi];
+      out.innerHTML='<div class="panel-card"><div class="pc-head"><div><h2>'+e.title+'</h2><p class="pc-sub">Soru '+(qi+1)+' / '+e.q.length+'</p></div><span class="px-badge accent" id="examTime">'+e.min+':00</span></div>'+
+        '<div class="ct-question" style="font-size:1.1rem;font-weight:700;margin-bottom:16px">'+h(q.q)+'</div>'+
+        '<div class="ct-options">'+q.o.map(function(o,k){return '<button type="button" class="ct-opt" data-o="'+k+'"><span class="ct-letter">'+String.fromCharCode(65+k)+'</span><span>'+h(o)+'</span></button>';}).join('')+'</div></div>';
+      out.querySelectorAll('[data-o]').forEach(function(b){b.addEventListener('click',function(){if(+b.getAttribute('data-o')===q.c)score++;qi++;draw();});});
+    }
+    function finishExam(){
+      clearInterval(timer);
+      var pct=Math.round(score/e.q.length*100),passed=pct>=e.pass;
+      var results=SLS.get('akk_exam_results_v1',[]);results.unshift({exam:e.id,score:pct,passed:passed,date:new Date().toLocaleString('tr-TR')});SLS.set('akk_exam_results_v1',results.slice(0,20));
+      if(passed){
+        var certs=SLS.get('akk_certificates_v1',[]);
+        certs.unshift({code:'AK-'+Math.random().toString(36).slice(2,10).toUpperCase(),exam:e.title,date:new Date().toLocaleString('tr-TR')});
+        SLS.set('akk_certificates_v1',certs.slice(0,20));
+        notify('Sertifika kazandın!',e.title+' sınavını %'+pct+' ile geçtin.','success','/dashboard/certificates.html');
+      } else { notify('Sınav tamamlandı',e.title+' sınavında %'+pct+' aldın. Tekrar deneyebilirsin.','warning','/dashboard/exams.html'); }
+      out.innerHTML='<div class="panel-card px-score-card" style="text-align:center"><div class="px-donut" style="--pct:'+pct+'"><div><b>'+pct+'</b><span>/100</span></div></div><h2>'+(passed?'Tebrikler, sertifika kazandın!':'Geçemedin, tekrar dene')+'</h2><p class="muted">'+e.title+' · '+score+' / '+e.q.length+' doğru</p><div class="panel-actions" style="justify-content:center"><button class="primary" data-back>Sınavlara dön</button><a href="/dashboard/certificates.html" data-nav="certificates">Sertifikalarım</a></div></div>';
+      out.querySelector('[data-back]').addEventListener('click',function(){render();});
+    }
+    draw();
+  }
+  function renderCertificates(){
+    var certs=SLS.get('akk_certificates_v1',[]);
+    if(!certs.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('award','',40)+'</div><h3>Henüz sertifikan yok</h3><p>Sınavlardan %70 ve üzeri alarak sertifika kazanabilirsin.</p><a href="/dashboard/exams.html" data-nav="exams" class="btn btn-accent">Sınavlara git</a></div></div>';
+    return '<div class="panel-card">'+cardHead('Sertifikalarım','Kazandığın sınav sertifikaları.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px">'+
+      certs.map(function(c){return '<div style="border:2px solid var(--c-accent);border-radius:16px;padding:18px;background:linear-gradient(145deg,var(--c-bg-card,#fff),var(--c-accent-soft))">'+
+        '<div style="display:flex;justify-content:space-between"><b style="color:var(--c-primary)">'+h(c.exam)+'</b><span class="px-badge success">Geçti</span></div>'+
+        '<div style="font-size:1.1rem;font-weight:800;color:var(--c-accent-dark);margin:10px 0">'+h(c.code)+'</div>'+
+        '<div class="muted" style="font-size:.75rem">'+h(c.date)+'</div>'+
+        '<div class="panel-actions"><button data-cert="'+h(c.code)+'">Görüntüle / indir</button></div></div>';}).join('')+'</div></div>';
+  }
+  function renderNotifications(){
+    var notes=SLS.get('akk_notifications_v1',[]);
+    if(!notes.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('bell','',40)+'</div><h3>Henüz bildirim yok</h3><p>Sınav sonuçları ve sertifikalar burada görünecek.</p></div></div>';
+    return '<div class="panel-card">'+cardHead('Bildirimler','Sınav ve sistem bildirimleri.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Bildirim</th><th>İçerik</th><th>Tarih</th><th>Durum</th><th></th></tr></thead><tbody>'+
+      notes.map(function(n,i){return '<tr><td><strong>'+h(n.title)+'</strong></td><td>'+h(n.message)+'</td><td class="td-nowrap"><span class="badge badge-muted">'+h(n.date)+'</span></td><td>'+(n.is_read?'<span class="badge badge-success">Okundu</span>':'<span class="badge badge-accent">Yeni</span>')+'</td><td>'+(n.is_read?'': '<button class="btn btn-outline btn-sm" data-note="'+i+'">Okundu</button>')+'</td></tr>';}).join('')+
+      '</tbody></table></div></div>';
+  }
+  function renderSkills(){
+    var attempts=window.TestRetry?TestRetry.attempts('career').length:0;
+    var skills=[['Problem çözme',78],['Analitik düşünme',84],['İletişim',71],['Yaratıcılık',66],['Teknik beceri',58],['Zaman yönetimi',64]];
+    return '<div class="panel-card">'+cardHead('Beceri Takibi','Güçlü yönlerin ve geliştirme alanların.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px">'+
+      skills.map(function(s){return '<div class="panel-card"><div style="display:flex;justify-content:space-between"><b style="color:var(--c-primary)">'+s[0]+'</b><span class="px-badge">'+s[1]+'</span></div><div class="px-task-bar" style="margin-top:8px"><i style="width:'+s[1]+'%"></i></div></div>';}).join('')+'</div>'+
+      '<div class="muted" style="font-size:.78rem;margin-top:14px">Tamamlanan kariyer testi denemesi: <strong>'+attempts+'</strong></div></div>';
+  }
+  function renderLeaderboard(){
+    var best=0;
+    if(window.TestRetry){['career','personality','interview'].forEach(function(k){TestRetry.attempts(k).forEach(function(a){best=Math.max(best,a.score||a.average||0);});});}
+    var users=[['Elif Kaya',93],['Mert Yılmaz',88],['Sen',best],['Zeynep A.',76],['Can D.',71]];
+    users.sort(function(a,b){return b[1]-a[1];});
+    return '<div class="panel-card">'+cardHead('Liderlik Tablosu','En yüksek test skorları.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Sıra</th><th>Kullanıcı</th><th>En İyi Skor</th></tr></thead><tbody>'+
+      users.map(function(u,i){return '<tr><td><strong style="color:var(--c-primary)">'+(i+1)+'</strong></td><td>'+(u[0]==='Sen'?'<b style="color:var(--c-accent-dark)">Sen</b>':h(u[0]))+'</td><td><span class="badge badge-success">%'+u[1]+'</span></td></tr>';}).join('')+'</tbody></table></div></div>';
+  }
+  function renderTestCompare(){
+    var rows=['career','personality','interview'].map(function(k){
+      var n=window.TestRetry?TestRetry.attempts(k).length:0;
+      var label={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat Simülatörü'}[k];
+      return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><b style="color:var(--c-primary)">'+label+'</b><div class="muted" style="font-size:.76rem">'+n+' deneme kayıtlı</div></div>'+
+        (n>=2?'<button class="btn btn-accent btn-sm" data-cmp="'+k+'">Karşılaştır</button>':'<span class="px-badge">En az 2 deneme gerekli</span>')+'</div>';
+    }).join('');
+    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Son iki denemeni soru soru karşılaştır.')+rows+'</div>';
+  }
+
   /* ---------------- Ortak render ---------------- */
   function render(){
     var out=document.getElementById('panelContent');if(!out)return;
     var map={index:renderIndex,tests:renderTests,results:renderResults,recommendations:renderRecommendations,
       explore:renderExplore,favorites:renderFavorites,activities:renderActivities,roadmap:renderRoadmap,
       'skill-gap':renderSkillGap,'cv-builder':renderCv,'personality-test':initPersonality,
-      'interview-sim':initInterview,profile:renderProfile,settings:renderSettings};
+      'interview-sim':initInterview,profile:renderProfile,settings:renderSettings,
+      exams:renderExams,certificates:renderCertificates,notifications:renderNotifications,
+      skills:renderSkills,leaderboard:renderLeaderboard,'test-compare':renderTestCompare};
     var rendered=(map[page]||renderIndex)();
     if(rendered!==undefined) out.innerHTML=rendered;
     var t=TITLES[page]||TITLES.index;
@@ -574,6 +696,14 @@
       s.name=d.get('name')||s.name;S.set(s);
       document.querySelectorAll('[data-user-name]').forEach(function(n){n.textContent=s.name;});
       document.getElementById('profileMsg').textContent='✓ Değişiklikler kaydedildi.';});
+    document.querySelectorAll('[data-start-exam]').forEach(function(b){b.addEventListener('click',function(){startExam(+b.getAttribute('data-start-exam'));});});
+    document.querySelectorAll('[data-note]').forEach(function(b){b.addEventListener('click',function(){var a=SLS.get('akk_notifications_v1',[]),i=+b.getAttribute('data-note');if(a[i]){a[i].is_read=true;SLS.set('akk_notifications_v1',a);render();}});});
+    document.querySelectorAll('[data-cmp]').forEach(function(b){b.addEventListener('click',function(){if(window.TestRetry){var k=b.getAttribute('data-cmp');var t={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat'}[k];TestRetry.compare(k,t+' — Deneme Karşılaştırması');}});});
+    document.querySelectorAll('[data-cert]').forEach(function(b){b.addEventListener('click',function(){
+      var code=b.getAttribute('data-cert'),c=SLS.get('akk_certificates_v1',[]).filter(function(x){return x.code===code;})[0];if(!c)return;
+      var u=window.URL||window.webkitURL,blob=new Blob(['<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sertifika</title></head><body><h1>Akıllı Kariyer — Başarı Sertifikası</h1><h2>'+c.exam+'</h2><p>Sertifika kodu: '+c.code+'</p><p>Tarih: '+c.date+'</p></body></html>'],{type:'text/html'});
+      var a=document.createElement('a');a.href=u.createObjectURL(blob);a.download='sertifika-'+code+'.html';a.click();u.revokeObjectURL(a.href);
+    });});
   }
 
   function fileFor(key){for(var f in PAGE_BY_PATH)if(PAGE_BY_PATH[f]===key)return f;return 'index.html';}
