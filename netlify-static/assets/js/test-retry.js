@@ -130,11 +130,43 @@
     return true;
   }
 
+  /** Vazgeç seçildiğinde son denemenin sorularını ve cevaplarını gösterir. */
+  function showLastAttempt(key, target, title, onRetry) {
+    if (!target) return false;
+    var list = attempts(key);
+    if (!list.length) return false;
+    var a = list[list.length - 1];
+    var hasCorrect = (a.answers || []).some(function (q) { return q.correct === true || q.correct === false; });
+    var rows = (a.answers || []).map(function (q, idx) {
+      var mark = '';
+      if (q.correct === true) mark = '<span style="color:var(--c-success);font-weight:800;font-size:.72rem">✓ Doğru</span>';
+      else if (q.correct === false) mark = '<span style="color:var(--c-danger);font-weight:800;font-size:.72rem">✗ Yanlış</span>';
+      return '<div style="border:1px solid var(--c-border);border-left:4px solid var(--c-accent);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--c-bg)">' +
+        '<div style="font-weight:700;color:var(--c-text);margin-bottom:7px">' + (idx + 1) + '. ' + esc(q.q) + '</div>' +
+        '<div style="font-size:.85rem;color:var(--c-accent-dark);font-weight:700">' + esc(answerLabel(q.a)) + '</div>' + mark + '</div>';
+    }).join('');
+    target.innerHTML = '<div class="panel-card">' +
+      '<div class="px-card-head"><div><h2>' + esc(title || 'Önceki Denemen') + '</h2><p class="muted">' +
+      esc(a.date || '') + ' · ' + (a.answers || []).length + ' soru' +
+      (hasCorrect ? ' · doğru/yanlış sonuçlarıyla' : ' · tercih bazlı test') + '</p></div>' +
+      (typeof a.score === 'number' ? '<span class="px-badge accent">%' + a.score + '</span>' : '') + '</div>' +
+      rows +
+      '<div class="panel-actions" style="margin-top:18px">' +
+      (typeof onRetry === 'function' ? '<button type="button" class="btn btn-accent" data-retry>Tekrar çöz</button>' : '') +
+      '<button type="button" class="btn btn-outline" data-close-custom>Kapat</button></div></div>';
+    var close = target.querySelector('[data-close-custom]');
+    if (close) close.addEventListener('click', function () { target.innerHTML = '<div class="panel-card"><p class="muted">Panel içeriği yükleniyor…</p></div>'; });
+    var rb = target.querySelector('[data-retry]');
+    if (rb && typeof onRetry === 'function') rb.addEventListener('click', onRetry);
+    return true;
+  }
+
   window.TestRetry = {
     attempts: attempts,
     add: add,
     prompt: prompt,
     compare: compare,
+    showLastAttempt: showLastAttempt,
     answerLabel: answerLabel
   };
 })();

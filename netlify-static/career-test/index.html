@@ -333,7 +333,14 @@ window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.htm
   function startTest(){
     if(!window.TestRetry){draw();return;}
     TestRetry.prompt('career','Kariyer Testi').then(function(r){
-      if(r.mode==='cancel')return;
+      if(r.mode==='cancel'){
+        var rc=document.getElementById('resultCard');
+        rc.style.display='block';
+        document.getElementById('quizCard').style.display='none';
+        TestRetry.showLastAttempt('career',rc,'Kariyer Testi — Önceki Cevapların',startTest);
+        window.scrollTo({top:0,behavior:'smooth'});
+        return;
+      }
       retryMode=r.different?'different':'same';
       activeQ=r.different?Q_ALT:Q;
       i=0;answers=new Array(activeQ.length).fill(null);

@@ -431,7 +431,11 @@
   function initPersonality(){
     if(!window.TestRetry){runPersonality(false);return;}
     TestRetry.prompt('personality','Kişilik Testi').then(function(r){
-      if(r.mode==='cancel')return;
+      if(r.mode==='cancel'){
+        var out=document.getElementById('panelContent');
+        TestRetry.showLastAttempt('personality',out,'Kişilik Testi — Önceki Cevapların',initPersonality);
+        return;
+      }
       runPersonality(r.different);
     });
   }
@@ -475,7 +479,11 @@
   function initInterview(){
     if(!window.TestRetry){runInterview(false);return;}
     TestRetry.prompt('interview','Mülakat Simülatörü').then(function(r){
-      if(r.mode==='cancel')return;
+      if(r.mode==='cancel'){
+        var out=document.getElementById('panelContent');
+        TestRetry.showLastAttempt('interview',out,'Mülakat — Önceki Cevapların',initInterview);
+        return;
+      }
       runInterview(r.different);
     });
   }
