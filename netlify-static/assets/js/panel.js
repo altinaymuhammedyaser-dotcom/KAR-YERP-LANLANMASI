@@ -419,11 +419,20 @@
   /* ---------------- Kişilik testi ---------------- */
   var P_TRAITS=[['O','Açıklık',['Sanat ve Tasarım','Bilim','İletişim']],['C','Sorumluluk',['İşletme','Hukuk','Sağlık']],['E','Dışadönüklük',['Eğitim','Spor','İletişim']],['A','Uyumluluk',['Sağlık','Eğitim','Hukuk']],['N','Duygusal Denge',['Teknoloji','Mühendislik','Bilim']]];
   var P_Q=[['O','Yeni fikirleri keşfetmeyi severim.'],['C','Plan yapar, sözlerimi tutarım.'],['E','Kalabalıkta konuşmaktan keyif alırım.'],['A','Başkasının duygularını anlarım.'],['N','Sorunlarda sakin kalabilirim.'],['O','Sanata ve tasarıma ilgi duyarım.'],['C','Düzenli ve disiplinliyim.'],['E','Ekipte sık sık ben konuşurum.'],['A','Önce karşımdakini dinlerim.'],['N','Eleştiriden moralim bozulmaz.'],['O','Yeni yöntemler denerim.'],['C','Uzun vadeli hedeflerim için çalışırım.'],['E','Yeni insanlarla tanışmak enerji verir.'],['A','Yardıma ihtiyacı olana destek olurum.'],['N','Yoğun tempoda odaklanırım.'],['O','Detaylardaki güzellikleri fark ederim.'],['C','Hatalarımdan ders çıkarırım.'],['E','Sosyal etkinliklerde aktifim.'],['A','İş birliği bana keyif verir.'],['N','Stresli günlerde duygularımı yönetirim.']];
+  var P_Q_ALT=[['O','Sıra dışı fikirler üretmek bana keyif verir.'],['C','Verdiğim sözleri mutlaka yerine getiririm.'],['E','Yeni insanlarla sohbet etmek beni mutlu eder.'],['A','Başkalarının üzüntüsünü anlamak kolaydır.'],['N','Ani değişikliklerde sakin kalırım.'],['O','Görsel ve estetik detaylara dikkat ederim.'],['C','İşlerimi planlayıp takvimle yönetirim.'],['E','Grup içinde fikrimi rahatça savunurum.'],['A','Anlaşmazlıkta ortak nokta ararım.'],['N','Olumsuz geri bildirimden yılmam.'],['O','Alışılmışın dışında yollar denerim.'],['C','Uzun süreli hedefler için istikrarlı çalışırım.'],['E','Tanımadığım insanlarla iletişim kurmaktan hoşlanırım.'],['A','Birine yardım etmek bana iyi gelir.'],['N','Baskı altında bile odaklanabilirim.'],['O','Küçük ayrıntılarda anlam ararım.'],['C','Yaptığım işi gözden geçirip iyileştiririm.'],['E','Sosyal ortamlarda enerji bulurum.'],['A','Ekip çalışması bana daha verimli gelir.'],['N','Stresli anlarda duygularımı kontrol ederim.']];
   function initPersonality(){
-    var out=document.getElementById('panelContent'),ans=new Array(P_Q.length).fill(null);
+    if(!window.TestRetry){runPersonality(false);return;}
+    TestRetry.prompt('personality','Kişilik Testi').then(function(r){
+      if(r.mode==='cancel')return;
+      runPersonality(r.different);
+    });
+  }
+  function runPersonality(different){
+    var PQ=different?P_Q_ALT:P_Q;
+    var out=document.getElementById('panelContent'),ans=new Array(PQ.length).fill(null);
     out.innerHTML='<div class="px-feature-banner"><div>'+badge('BİG FIVE','accent')+'<h2>Kişilik profilini keşfet</h2><p>20 soru, 5 boyut. Sonuçlara göre sana uygun meslekleri birlikte keşfedelim.</p></div>'+icon('brain','width:74px;height:74px;opacity:.35')+'</div>'+
       '<div class="panel-card" style="margin-top:18px">'+cardHead('20 soruluk envanter','1 = hiç katılmıyorum · 5 = tamamen katılıyorum','<span id="pCount" class="px-progress-label">0 / 20</span>')+
-      '<div class="px-question-grid">'+P_Q.map(function(q,i){return '<div class="px-question"><b>'+(i+1)+'. '+q[1]+'</b><div class="px-scale" data-i="'+i+'">'+[1,2,3,4,5].map(function(v){return '<button type="button" data-v="'+v+'">'+v+'</button>';}).join('')+'</div></div>';}).join('')+'</div>'+
+      '<div class="px-question-grid">'+PQ.map(function(q,i){return '<div class="px-question"><b>'+(i+1)+'. '+q[1]+'</b><div class="px-scale" data-i="'+i+'">'+[1,2,3,4,5].map(function(v){return '<button type="button" data-v="'+v+'">'+v+'</button>';}).join('')+'</div></div>';}).join('')+'</div>'+
       '<div class="panel-actions"><button class="primary" id="pSubmit" disabled>Sonuçları gör</button></div></div>';
     var sb=document.getElementById('pSubmit');
     out.querySelectorAll('.px-scale').forEach(function(sc){
@@ -432,34 +441,57 @@
         var d=ans.filter(function(x){return x!==null;}).length;document.getElementById('pCount').textContent=d+' / 20';sb.disabled=d!==20;});
     });
     sb.addEventListener('click',function(){
-      var pct={};P_TRAITS.forEach(function(t){var v=[];P_Q.forEach(function(q,i){if(q[0]===t[0])v.push(ans[i]);});pct[t[0]]=Math.round(v.reduce(function(a,b){return a+b;},0)/(v.length*5)*100);});
+      var pct={};P_TRAITS.forEach(function(t){var v=[];PQ.forEach(function(q,i){if(q[0]===t[0])v.push(ans[i]);});pct[t[0]]=Math.round(v.reduce(function(a,b){return a+b;},0)/(v.length*5)*100);});
       var top=P_TRAITS.slice().sort(function(a,b){return pct[b[0]]-pct[a[0]];}).slice(0,2),rec=[];
       top.forEach(function(t){careers.forEach(function(c){if(t[2].some(function(x){return norm(x)===norm(c.category);}))rec.push(c);});});
       careers.forEach(function(c){if(rec.length<6&&!rec.some(function(x){return x.slug===c.slug;}))rec.push(c);});
+      if(window.TestRetry){
+        TestRetry.add('personality',{date:new Date().toLocaleString('tr-TR'),mode:different?'different':'same',
+          answers:PQ.map(function(q,i){return {q:q[1],a:String(ans[i]||'-')};}),score:Math.round(Object.keys(pct).reduce(function(a,k){return a+pct[k];},0)/5)});
+      }
       out.innerHTML='<div class="panel-card">'+cardHead('Kişilik profilin 🧠','Güçlü boyutların: '+top.map(function(t){return t[1];}).join(' ve '))+
         '<div class="px-radar">'+P_TRAITS.map(function(t){return '<div class="px-radar-row"><span>'+t[1]+'</span><div class="px-radar-track"><i style="width:'+pct[t[0]]+'%"></i></div><b>%'+pct[t[0]]+'</b></div>';}).join('')+'</div>'+
         '<h2 style="margin-top:24px">Sana uygun meslekler</h2><div class="panel-grid" style="margin-top:12px">'+rec.slice(0,6).map(function(c){return careerCard(c);}).join('')+'</div>'+
-        '<div class="panel-actions" style="margin-top:18px"><button id="pAgain">Testi tekrar çöz</button><a class="primary" href="/career-test">Kariyer testine başla</a></div></div>';
-      document.getElementById('pAgain').addEventListener('click',initPersonality);refreshIcons();
+        '<div class="panel-actions" style="margin-top:18px"><button id="pAgain">Testi tekrar çöz</button><a class="primary" href="/career-test">Kariyer testine başla</a>'+
+        (window.TestRetry&&TestRetry.attempts('personality').length>=2?'<button id="pCompare">2 denemeyi karşılaştır</button>':'')+'</div></div>';
+      document.getElementById('pAgain').addEventListener('click',initPersonality);
+      var pc=document.getElementById('pCompare');if(pc)pc.addEventListener('click',function(){TestRetry.compare('personality','Kişilik Testi — Deneme Karşılaştırması');});
+      refreshIcons();
+      if(different&&window.TestRetry&&TestRetry.attempts('personality').length>=2){setTimeout(function(){TestRetry.compare('personality','Kişilik Testi — Deneme Karşılaştırması');},500);}
     });
   }
 
   /* ---------------- Mülakat ---------------- */
   var I_Q=[['Mülakatı nasıl hazırlandığınızı anlatın.','Şirketi araştırdım, güçlü yönlerimi örneklerle destekledim.',85],['Bir takım çatışmasını nasıl çözdünüz?','Önce tarafları dinledim, ortak çözüm buldum.',90],['En çok zorlandığınız proje neydi?','Zaman baskısını planlama ile yönettim.',70],['Müşteri memnuniyetini nasıl artırırsınız?','İhtiyaçları anlayıp uygun çözüm sundum.',80],['Hata yaptığınızda ne yaparsınız?','Nedenini bulup düzeltir, tekrarını önlerim.',85],['Projeyi nasıl yönetirsiniz?','Hedefleri belirler, plan ve takip yaparım.',90],['Takım arkadaşının performansı düşerse?','Nedenini konuşup birlikte çözüm ararım.',80],['İş etik kuralları ne ifade ediyor?','Dürüstlük, saygı ve güvenilirlik.',95]];
+  var I_Q_ALT=[['Kariyer hedefini nasıl belirledin?','İlgi alanlarımı ve güçlü yönlerimi değerlendirerek bir hedef belirledim.',85],['Zor bir teslim tarihinde ekibi nasıl yönettin?','Görevleri önceliklendirdim ve düzenli iletişim kurdum.',90],['Bir projede yaptığın en büyük hata neydi?','Hatayı kabul edip nedenini analiz ettim ve süreci düzelttim.',75],['Müşteri itirazına nasıl cevap verirsin?','Önce endişesini dinler, sonra somut çözüm sunarım.',80],['Yeni bir beceriyi nasıl öğreniyorsun?','Kaynak bulup küçük uygulamalarla pekiştiriyorum.',85],['Takım içinde anlaşmazlık yaşarsan ne yaparsın?','Tarafsız kalıp ortak çözüm ararım.',88],['Bir görevi ertelemek zorunda kaldığında?','Öncelikleri yeniden değerlendirip paydaşları bilgilendirdim.',78],['Mesleki gelişim için ne yapıyorsun?','Sertifika ve projelerle becerilerimi güncelliyorum.',92]];
   function initInterview(){
-    var out=document.getElementById('panelContent'),i=0,total=0;
+    if(!window.TestRetry){runInterview(false);return;}
+    TestRetry.prompt('interview','Mülakat Simülatörü').then(function(r){
+      if(r.mode==='cancel')return;
+      runInterview(r.different);
+    });
+  }
+  function runInterview(different){
+    var IQ=different?I_Q_ALT:I_Q;
+    var out=document.getElementById('panelContent'),i=0,total=0,answers=[];
     function step(){
-      if(i>=I_Q.length){var avg=Math.round(total/I_Q.length);
-        out.innerHTML='<div class="panel-card px-score-card" style="text-align:center"><div class="px-donut" style="--pct:'+avg+'"><div><b>'+avg+'</b><span>/100</span></div></div><h2>Mülakat tamamlandı!</h2><p class="muted">Cevaplarının ortalaması. STAR yöntemiyle cevaplarını yapılandırarak gelişebilirsin.</p><div class="panel-actions" style="justify-content:center"><button class="primary" id="iAgain">Tekrar dene</button><a href="/dashboard/tests.html" data-nav="tests">Diğer testler</a></div></div>';
-        document.getElementById('iAgain').addEventListener('click',function(){i=0;total=0;step();});return;}
-      var q=I_Q[i];
-      out.innerHTML='<div class="panel-card"><div class="px-stepper-head"><span class="dash-eyebrow">SORU '+(i+1)+' / '+I_Q.length+'</span><div class="px-task-bar big"><i style="width:'+Math.round(i/I_Q.length*100)+'%"></i></div></div>'+
+      if(i>=IQ.length){var avg=Math.round(total/IQ.length);
+        if(window.TestRetry) TestRetry.add('interview',{date:new Date().toLocaleString('tr-TR'),mode:different?'different':'same',answers:answers.slice(),score:avg});
+        out.innerHTML='<div class="panel-card px-score-card" style="text-align:center"><div class="px-donut" style="--pct:'+avg+'"><div><b>'+avg+'</b><span>/100</span></div></div><h2>Mülakat tamamlandı!</h2><p class="muted">Cevaplarının ortalaması. STAR yöntemiyle cevaplarını yapılandırarak gelişebilirsin.</p><div class="panel-actions" style="justify-content:center"><button class="primary" id="iAgain">Tekrar dene</button><a href="/dashboard/tests.html" data-nav="tests">Diğer testler</a>'+
+          (window.TestRetry&&TestRetry.attempts('interview').length>=2?'<button id="iCompare">2 denemeyi karşılaştır</button>':'')+'</div></div>';
+        document.getElementById('iAgain').addEventListener('click',initInterview);
+        var ic=document.getElementById('iCompare');if(ic)ic.addEventListener('click',function(){TestRetry.compare('interview','Mülakat — Doğru/Yanlış Karşılaştırma');});
+        if(different&&window.TestRetry&&TestRetry.attempts('interview').length>=2){setTimeout(function(){TestRetry.compare('interview','Mülakat — Doğru/Yanlış Karşılaştırma');},500);}
+        return;}
+      var q=IQ[i];
+      out.innerHTML='<div class="panel-card"><div class="px-stepper-head"><span class="dash-eyebrow">SORU '+(i+1)+' / '+IQ.length+'</span><div class="px-task-bar big"><i style="width:'+Math.round(i/IQ.length*100)+'%"></i></div></div>'+
         '<h2 style="margin:16px 0 6px">'+q[0]+'</h2><p class="muted">Cevabını yaz, puan ve örnek cevabı gör.</p>'+
         '<textarea id="iAnswer" rows="5" class="px-textarea" placeholder="Cevabını buraya yaz…"></textarea>'+
         '<div class="panel-actions"><button class="primary" id="iNext">Cevabı puanla</button><button id="iSkip">Örnek cevabı göster</button></div><div id="iFeedback"></div></div>'+
         '<div class="panel-card" style="margin-top:18px">'+cardHead('STAR yöntemi','İyi bir cevap nasıl kurulur?')+'<div class="px-star-grid"><div><b>S · Durum</b><small>Ne olduğunu anlat</small></div><div><b>T · Görev</b><small>Sorumluluğunu söyle</small></div><div><b>A · Eylem</b><small>Ne yaptığını açıkla</small></div><div><b>R · Sonuç</b><small>Ne elde ettiğini paylaş</small></div></div></div>';
       document.getElementById('iNext').addEventListener('click',function(){
         var txt=document.getElementById('iAnswer').value.trim(),len=Math.min(100,Math.max(30,Math.round(txt.length/3))),sc=txt.length?Math.round((len+q[2])/2):25;total+=sc;
+        answers.push({q:q[0],a:txt||'(boş)',correct:sc>=70});
         document.getElementById('iFeedback').innerHTML='<div class="px-feedback"><b>Puanın: %'+sc+'</b><p>Örnek cevap: '+q[1]+'</p></div><div class="panel-actions" style="margin-top:12px"><button class="primary" id="iContinue">Sonraki soru →</button></div>';
         document.getElementById('iContinue').addEventListener('click',function(){i++;step();});});
       document.getElementById('iSkip').addEventListener('click',function(){document.getElementById('iAnswer').value=q[1];});

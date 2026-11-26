@@ -128,6 +128,7 @@ window.AK.coachData = '/assets/data/careers.json';
 window.AK.careerTpl = 'meslek/{slug}';
 window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.html',interview:'dashboard/interview-sim.html',cv:'dashboard/cv-builder.html'};
 </script>
+<script src="/assets/js/test-retry.js"></script>
 <script src="/assets/js/career-coach.js"></script>
 <script>
 (function(){
@@ -175,17 +176,60 @@ window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.htm
       {t:'Hızlı bir prototip yazıp test ederim.',w:{T:5,Y:2}}],label:'SENARYO'},
     {type:'scale',dim:'T',text:'Bir sistemin nasıl çalıştığını anlamak için kaynakları karıştırmaktan hoşlanırım.',label:'1–5 ÖLÇEĞİ'}
   ];
+  /* Aynı konu - farklı sorular (2. deneme seti) */
+  var Q_ALT=[
+    {type:'scale',dim:'T',text:'Yeni bir uygulamayı kurcalayıp nasıl çalıştığını çözmek beni heyecanlandırır.',label:'1–5 ÖLÇEĞİ'},
+    {type:'scenario',scenario:'Bir rapor yanlış sonuç gösteriyor; ekip acele ediyor ve herkes farklı tahmin yürütüyor.',text:'Sorunu çözmeye nereden başlarsın?',opts:[
+      {t:'Kaynak veriyi ve hesaplama adımlarını kontrol ederim.',w:{A:5,T:2}},
+      {t:'Raporu kullanan ekiple konuşup beklentiyi netleştiririm.',w:{S:5,A:2}},
+      {t:'Farklı bir görselleştirme deneyip karşılaştırırım.',w:{Y:5,A:2}},
+      {t:'Kısa bir çözüm notu yazıp ekibi bilgilendiririm.',w:{S:3,A:3}}],label:'SENARYO'},
+    {type:'scale',dim:'S',text:'Bir fikri kalabalık bir grupta anlatıp soruları yanıtlamak bana doğal gelir.',label:'1–5 ÖLÇEĞİ'},
+    {type:'choice',text:'Boş bir cumartesi için hangi projeyi seçerdin?',opts:[
+      {t:'Kendi küçük aracımı kodlamak',w:{T:5,A:2}},
+      {t:'Bir konuda veri toplayıp analiz etmek',w:{A:5}},
+      {t:'Arkadaşlarımla bir etkinlik planlamak',w:{S:4,Y:3}},
+      {t:'Kısa bir film/afiş üretmek',w:{Y:5,T:1}}],label:'TERCİH'},
+    {type:'scale',dim:'A',text:'Bir sorunu parçalara ayırıp adım adım ilerlemekten hoşlanırım.',label:'1–5 ÖLÇEĞİ'},
+    {type:'multi',text:'Hangi çalışma biçimleri sana enerji verir? (en fazla 2)',opts:[
+      {t:'Kod yazıp sistem kurmak',w:{T:5}},
+      {t:'Tablo, grafik ve sayılarla uğraşmak',w:{A:5}},
+      {t:'İnsanlarla görüşüp fikir almak',w:{S:5}},
+      {t:'Yeni tasarımlar denemek',w:{Y:5}}],label:'ÇOKLU SEÇİM',max:2},
+    {type:'scenario',scenario:'Yeni bir ürün için lansman tarihi öne çekildi, ekip yoruluyor.',text:'İlk katkın ne olur?',opts:[
+      {t:'Görevleri öncelik sırasına koyarım.',w:{A:5,S:2}},
+      {t:'Herkesi dinleyip morali düzeltirim.',w:{S:5,Y:1}},
+      {t:'Tekrarlayan işleri otomatikleştiririm.',w:{T:5,A:2}},
+      {t:'Lansman hikâyesini yeniden tasarlarım.',w:{Y:5,S:2}}],label:'SENARYO'},
+    {type:'scale',dim:'Y',text:'Aynı işi farklı ve daha özgün bir yolla yapmayı denerim.',label:'1–5 ÖLÇEĞİ'},
+    {type:'choice',text:'Meslek seçerken en çok neye önem verirsin?',opts:[
+      {t:'Teknolojiyi yakından takip etmek',w:{T:5}},
+      {t:'Analiz edip karar vermek',w:{A:5}},
+      {t:'İnsanlara fayda sağlamak',w:{S:5}},
+      {t:'Özgürce üretmek',w:{Y:5}}],label:'TERCİH'},
+    {type:'multi',text:'Hangilerinde güçlüsün? (en fazla 2)',opts:[
+      {t:'Mantık ve analiz',w:{A:5}},
+      {t:'Teknik uygulama',w:{T:5}},
+      {t:'Empati ve ikna',w:{S:5}},
+      {t:'Hayal gücü ve estetik',w:{Y:5}}],label:'ÇOKLU SEÇİM',max:2},
+    {type:'scenario',scenario:'Bir kullanıcı ürünü “kullanması zor” buluyor; nedeni belirsiz.',text:'Yaklaşımın?',opts:[
+      {t:'Kullanım verilerini inceleyip takılma noktasını bulurum.',w:{A:5,T:3}},
+      {t:'Kullanıcıyla konuşup deneyimini dinlerim.',w:{S:5,A:2}},
+      {t:'Arayüzü sadeleştiren tasarım öneririm.',w:{Y:5,T:2}},
+      {t:'Hızlı prototip hazırlayıp test ederim.',w:{T:5,Y:2}}],label:'SENARYO'},
+    {type:'scale',dim:'T',text:'Bir sistemin işleyişini anlamak için araştırma yapmaktan keyif alırım.',label:'1–5 ÖLÇEĞİ'}
+  ];
   var DIMS={T:'Teknoloji İlgisi',A:'Analitik Düşünme',S:'İletişim Becerisi',Y:'Yaratıcılık'};
   var CODE={'cpu':'Teknoloji','bar-chart-3':'Teknoloji','puzzle':'Mühendislik','messages-square':'İletişim','palette':'Sanat ve Tasarım','users':'Eğitim','briefcase':'İşletme','search':'Bilim'};
-  var i=0,answers=new Array(Q.length).fill(null);
+  var activeQ=Q, retryMode='same', i=0, answers=new Array(activeQ.length).fill(null);
   var box=document.getElementById('questionBox'),next=document.getElementById('nextBtn');
   function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function chosen(){var a=answers[i];return a===null?false:(Array.isArray(a)?a.length>0:true);}
   function draw(){
-    var q=Q[i];
+    var q=activeQ[i];
     document.getElementById('qType').innerHTML='<i data-lucide="'+(q.type==='scale'?'sliders-horizontal':q.type==='multi'?'list-checks':q.type==='scenario'?'messages-square':'list')+'"></i> '+q.label;
-    document.getElementById('qCount').textContent=(i+1)+' / '+Q.length;
-    document.getElementById('qProgress').style.width=Math.round((i+1)/Q.length*100)+'%';
+    document.getElementById('qCount').textContent=(i+1)+' / '+activeQ.length;
+    document.getElementById('qProgress').style.width=Math.round((i+1)/activeQ.length*100)+'%';
     var html='';
     if(q.scenario) html+='<div class="ct-scenario">'+esc(q.scenario)+'</div>';
     html+='<div class="ct-question">'+esc(q.text)+'</div>';
@@ -210,20 +254,20 @@ window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.htm
       draw();
     });});
     next.disabled=!chosen();
-    next.textContent=i===Q.length-1?'Sonuçları gör →':'Devam et →';
+    next.textContent=i===activeQ.length-1?'Sonuçları gör →':'Devam et →';
     if(window.lucide)window.lucide.createIcons();
   }
-  next.addEventListener('click',function(){if(!chosen())return;if(i<Q.length-1){i++;draw();window.scrollTo({top:0,behavior:'smooth'});}else finish();});
+  next.addEventListener('click',function(){if(!chosen())return;if(i<activeQ.length-1){i++;draw();window.scrollTo({top:0,behavior:'smooth'});}else finish();});
   document.addEventListener('keydown',function(e){
     if(document.getElementById('ctGate').style.display==='flex')return;
-    var q=Q[i];
+    var q=activeQ[i];
     if(q.type==='scale'&&/^[1-5]$/.test(e.key)){answers[i]=+e.key;draw();}
     if((q.type==='choice'||q.type==='scenario')&&/^[1-4]$/.test(e.key)){answers[i]=+e.key-1;draw();}
     if(e.key==='Enter'&&chosen())next.click();
   });
   function finish(){
     var score={T:0,A:0,S:0,Y:0},max={T:0,A:0,S:0,Y:0};
-    Q.forEach(function(q,qi){
+    activeQ.forEach(function(q,qi){
       if(q.type==='scale'){score[q.dim]+=answers[qi]||0;max[q.dim]+=5;return;}
       var av=answers[qi];
       var sel=Array.isArray(av)?av:[av];
@@ -248,6 +292,17 @@ window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.htm
     var avg=Math.round(Object.keys(DIMS).reduce(function(a,d){return a+pct[d];},0)/4);
     var result={date:new Date().toISOString(),scores:pct,top:top.map(function(k){return DIMS[k];}),average:avg,careers:rec.slice(0,6).map(function(c){return c.slug;})};
     localStorage.setItem('akk_test_result',JSON.stringify(result));
+    var qa = activeQ.map(function(q,qi){
+      var av=answers[qi], label;
+      if(q.type==='scale'){ label=String(av||'-'); }
+      else {
+        var sel=Array.isArray(av)?av:[av];
+        label=sel.filter(function(k){return k!==undefined&&q.opts[k];}).map(function(k){return q.opts[k].t;}).join(' + ')||'-';
+      }
+      return {q:(q.scenario?q.scenario+' ':'')+q.text,a:label};
+    });
+    var attempt={date:new Date().toLocaleString('tr-TR'),mode:retryMode,answers:qa,score:avg,average:avg};
+    if(window.TestRetry) TestRetry.add('career',attempt);
     document.getElementById('quizCard').style.display='none';
     var rc=document.getElementById('resultCard');rc.style.display='block';
     rc.innerHTML='<div class="ct-result-top"><div class="px-donut" style="--pct:'+avg+'"><div><b>'+avg+'</b><span>/100</span></div></div>'+
@@ -260,16 +315,34 @@ window.AK.urls = {test:'career-test',personality:'dashboard/personality-test.htm
           (c.photo?'<img src="'+esc(c.photo)+'" alt="" loading="lazy">':'<div class="px-career-photo"><i data-lucide="briefcase"></i></div>')+
           '<div class="px-career-info"><b>'+esc(c.name)+'</b><small>'+esc(c.category)+'</small><span>'+esc((c.summary||'').slice(0,56))+'…</span></div></div>'+
           '<div class="px-career-foot"><span>'+esc(c.salary||'')+'</span><b class="px-score">%'+(96-k*4)+'</b></div></a>';}).join('')+'</div>'+
-      '<div class="panel-actions" style="margin-top:24px"><a class="btn btn-accent" href="/dashboard/results.html">Sonuçlarımı panelde gör</a><button type="button" id="copyBtn">Sonucu kopyala</button><button type="button" id="againBtn">Tekrar çöz</button></div>';
-    document.getElementById('againBtn').addEventListener('click',function(){i=0;answers=new Array(Q.length).fill(null);rc.style.display='none';document.getElementById('quizCard').style.display='block';draw();window.scrollTo({top:0,behavior:'smooth'});});
+      '<div class="panel-actions" style="margin-top:24px"><a class="btn btn-accent" href="/dashboard/results.html">Sonuçlarımı panelde gör</a><button type="button" id="copyBtn">Sonucu kopyala</button><button type="button" id="againBtn">Tekrar çöz</button>'+
+      (window.TestRetry&&TestRetry.attempts('career').length>=2?'<button type="button" id="compareBtn">2 denemeyi karşılaştır</button>':'')+'</div>';
+    document.getElementById('againBtn').addEventListener('click',startTest);
+    var cb=document.getElementById('compareBtn');
+    if(cb)cb.addEventListener('click',function(){TestRetry.compare('career','Kariyer Testi — Deneme Karşılaştırması');});
     document.getElementById('copyBtn').addEventListener('click',function(){
       var txt='Akıllı Kariyer Testi sonucum\n'+Object.keys(DIMS).map(function(d){return DIMS[d]+': %'+pct[d];}).join('\n')+'\nGüçlü yönler: '+top.map(function(k){return DIMS[k];}).join(', ');
       if(navigator.clipboard)navigator.clipboard.writeText(txt);
       this.textContent='Kopyalandı ✓';
     });
     if(window.lucide)window.lucide.createIcons();
+    if(retryMode==='different'&&window.TestRetry&&TestRetry.attempts('career').length>=2){
+      setTimeout(function(){TestRetry.compare('career','Kariyer Testi — Deneme Karşılaştırması');},500);
+    }
   }
-  draw();
+  function startTest(){
+    if(!window.TestRetry){draw();return;}
+    TestRetry.prompt('career','Kariyer Testi').then(function(r){
+      if(r.mode==='cancel')return;
+      retryMode=r.different?'different':'same';
+      activeQ=r.different?Q_ALT:Q;
+      i=0;answers=new Array(activeQ.length).fill(null);
+      document.getElementById('resultCard').style.display='none';
+      document.getElementById('quizCard').style.display='block';
+      draw();window.scrollTo({top:0,behavior:'smooth'});
+    });
+  }
+  startTest();
   document.getElementById('ctDemo').addEventListener('click',function(){
     localStorage.setItem('akk_session',JSON.stringify({email:'demo@akillikariyer.com',name:'Demo Kullanıcı',demo:true,registeredAt:new Date().toISOString()}));
     location.reload();
