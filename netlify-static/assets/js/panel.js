@@ -643,15 +643,37 @@
     if(s.demo)return null;
     return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:48px 20px"><div class="es-ico">'+icon('lock-keyhole','',40)+'</div><h3>Bu sayfa sadece demo hesabına açıktır</h3><p class="muted">Üye verileri ve test karşılaştırmalarını yalnızca demo hesabı görüntüleyebilir.</p><a href="/dashboard/index.html" class="btn btn-accent">Panele dön</a></div></div>';
   }
+  var TEST_LABELS={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat Simülatörü'};
+  function openMemberTestModal(key){
+    var old=document.getElementById('acMemberModal');if(old)old.remove();
+    var members=(window.MemberData?MemberData.get():[]).filter(function(m){return m.tests&&m.tests[key]&&m.tests[key].length;});
+    var label=TEST_LABELS[key]||key;
+    var body=members.length?members.map(function(m){
+      return m.tests[key].map(function(a){
+        var rows=(a.answers||[]).map(function(q,i){
+          var mark=q.correct===true?'<span class="badge badge-success">Doğru</span>':q.correct===false?'<span class="badge badge-danger">Yanlış</span>':'<span class="badge badge-muted">Cevap</span>';
+          return '<div style="padding:8px 0;border-bottom:1px solid var(--c-border)"><div style="font-size:.78rem;color:var(--c-text);font-weight:650">'+(i+1)+'. '+h(q.q)+'</div><div style="display:flex;gap:8px;align-items:center;margin-top:4px"><span style="font-size:.78rem;color:var(--c-accent-dark)">'+h(q.a)+'</span>'+mark+'</div></div>';
+        }).join('');
+        return '<div class="panel-card" style="margin-bottom:12px"><div class="px-card-head"><div><h3 style="margin:0;color:var(--c-primary)">'+h(m.name||m.email)+'</h3><p class="muted">'+h(m.email||'')+' · '+h(a.date||'')+'</p></div>'+(typeof a.score==='number'?'<span class="px-badge accent">%'+a.score+'</span>':'')+'</div>'+rows+'</div>';
+      }).join('');
+    }).join(''):'<div class="empty-state" style="text-align:center;padding:30px"><h3>Bu testi henüz üye tamamlamadı</h3></div>';
+    var wrap=document.createElement('div');wrap.id='acMemberModal';
+    wrap.style.cssText='position:fixed;inset:0;z-index:6000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(8,15,28,.74);backdrop-filter:blur(4px)';
+    var box=document.createElement('div');
+    box.style.cssText='background:var(--c-bg-card,#fff);border:1px solid var(--c-border);border-radius:20px;padding:24px;max-width:760px;width:100%;max-height:86vh;overflow:auto;box-shadow:0 30px 90px -30px rgba(0,0,0,.7)';
+    box.innerHTML='<h2 style="margin:0 0 6px;color:var(--c-primary)">'+h(label)+'</h2><p class="muted" style="margin:0 0 16px">Bu testi tamamlayan üyeler ve işaretledikleri cevaplar.</p>'+body+'<div class="panel-actions" style="margin-top:16px"><button class="btn btn-accent" data-close>Kapat</button></div>';
+    wrap.appendChild(box);document.body.appendChild(wrap);
+    box.querySelector('[data-close]').addEventListener('click',function(){wrap.remove();});
+  }
   function renderTestCompare(){
     var denial=demoOnly();if(denial)return denial;
-    var rows=['career','personality','interview'].map(function(k){
-      var n=window.TestRetry?TestRetry.attempts(k).length:0;
-      var label={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat Simülatörü'}[k];
-      return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><b style="color:var(--c-primary)">'+label+'</b><div class="muted" style="font-size:.76rem">'+n+' deneme kayıtlı</div></div>'+
-        (n>=2?'<button class="btn btn-accent btn-sm" data-cmp="'+k+'">Karşılaştır</button>':'<span class="px-badge">En az 2 deneme gerekli</span>')+'</div>';
+    var members=(window.MemberData?MemberData.get():[]);
+    var rows=Object.keys(TEST_LABELS).map(function(k){
+      var users=members.filter(function(m){return m.tests&&m.tests[k]&&m.tests[k].length;});
+      return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><b style="color:var(--c-primary)">'+TEST_LABELS[k]+'</b><div class="muted" style="font-size:.76rem">'+users.length+' üye tamamladı</div></div>'+
+        '<button class="btn btn-accent btn-sm" data-test-members="'+k+'">Cevapları gör</button></div>';
     }).join('');
-    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Son iki denemeni soru soru karşılaştır.')+rows+'</div>';
+    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Hangi üye hangi testi yaptı ve hangi cevapları işaretledi?')+rows+'</div>';
   }
 
   /* ---------------- Üye verileri (demo panel) ---------------- */
@@ -779,6 +801,7 @@
     document.querySelectorAll('[data-start-exam]').forEach(function(b){b.addEventListener('click',function(){startExam(+b.getAttribute('data-start-exam'));});});
     document.querySelectorAll('[data-note]').forEach(function(b){b.addEventListener('click',function(){var a=SLS.get('akk_notifications_v1',[]),i=+b.getAttribute('data-note');if(a[i]){a[i].is_read=true;SLS.set('akk_notifications_v1',a);render();}});});
     document.querySelectorAll('[data-cmp]').forEach(function(b){b.addEventListener('click',function(){if(window.TestRetry){var k=b.getAttribute('data-cmp');var t={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat'}[k];TestRetry.compare(k,t+' — Deneme Karşılaştırması');}});});
+    document.querySelectorAll('[data-test-members]').forEach(function(b){b.addEventListener('click',function(){openMemberTestModal(b.getAttribute('data-test-members'));});});
     document.querySelectorAll('[data-cert]').forEach(function(b){b.addEventListener('click',function(){
       var code=b.getAttribute('data-cert'),c=SLS.get('akk_certificates_v1',[]).filter(function(x){return x.code===code;})[0];if(!c)return;
       var u=window.URL||window.webkitURL,blob=new Blob(['<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sertifika</title></head><body><h1>Akıllı Kariyer — Başarı Sertifikası</h1><h2>'+c.exam+'</h2><p>Sertifika kodu: '+c.code+'</p><p>Tarih: '+c.date+'</p></body></html>'],{type:'text/html'});
