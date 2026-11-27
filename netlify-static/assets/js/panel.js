@@ -15,7 +15,7 @@
     'personality-test.html':'personality-test','profile.html':'profile',
     'settings.html':'settings','exams.html':'exams','certificates.html':'certificates',
     'notifications.html':'notifications','skills.html':'skills','leaderboard.html':'leaderboard',
-    'test-compare.html':'test-compare'
+    'test-compare.html':'test-compare','member-data.html':'member-data'
   };
 
   var TITLES = {
@@ -38,7 +38,8 @@
     notifications:['Bildirimler','Sınav ve sistem bildirimleri.'],
     skills:['Becerilerim','Beceri düzeylerini takip et.'],
     leaderboard:['Liderlik Tablosu','En yüksek test skorları.'],
-    'test-compare':['Test Karşılaştırma','Son iki denemeni karşılaştır.']
+    'test-compare':['Test Karşılaştırma','Son iki denemeni karşılaştır.'],
+    'member-data':['Üye Verileri','Üyelerin CV ve test cevapları']
   };
 
   var NAV = [
@@ -55,6 +56,13 @@
     ['cv-builder','CV Oluşturucu','file-text','cv-builder.html'],
     ['interview-sim','Mülakat Simülatörü','mic','interview-sim.html'],
     ['personality-test','Kişilik Testi','brain','personality-test.html'],
+    ['exams','Sınavlar','clipboard-list','exams.html'],
+    ['certificates','Sertifikalarım','award','certificates.html'],
+    ['notifications','Bildirimler','bell','notifications.html'],
+    ['skills','Becerilerim','layers','skills.html'],
+    ['leaderboard','Liderlik','trophy','leaderboard.html'],
+    ['test-compare','Test Karşılaştırma','git-compare','test-compare.html'],
+    ['member-data','Üye Verileri','users','member-data.html'],
     ['sep2','','',''],
     ['profile','Profilim','user-cog','profile.html'],
     ['settings','Ayarlar','settings','settings.html']
@@ -627,6 +635,35 @@
     return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Son iki denemeni soru soru karşılaştır.')+rows+'</div>';
   }
 
+  /* ---------------- Üye verileri (demo panel) ---------------- */
+  function renderMemberData(){
+    var list=(window.MemberData?MemberData.get():[]);
+    if(!list.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><h3>Henüz üye verisi yok</h3></div></div>';
+    var esc2=function(v){return h(v==null?'':v);};
+    var card=function(m){
+      var cv=m.cv||{};
+      var cvRows=[['Ad Soyad',cv.name],['E-posta',cv.email],['Telefon',cv.phone],['Şehir',cv.city],['Eğitim',cv.edu],['Beceriler',cv.skills],['Özet',cv.summary]]
+        .filter(function(r){return r[1];}).map(function(r){return '<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--c-border);font-size:.8rem"><b style="color:var(--c-muted);min-width:88px">'+r[0]+'</b><span style="color:var(--c-text)">'+esc2(r[1])+'</span></div>';}).join('');
+      var tests=m.tests||{};
+      var testHtml=Object.keys(tests).map(function(k){
+        var label={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat Simülatörü'}[k]||k;
+        var arr=tests[k]||[];
+        return '<div style="margin-top:14px"><h4 style="margin:0 0 8px;color:var(--c-accent-dark);font-size:.85rem">'+label+' · '+arr.length+' deneme</h4>'+
+          arr.map(function(a,ai){
+            var rows=(a.answers||[]).map(function(q,qi){
+              var mark=q.correct===true?'<span class="badge badge-success">Doğru</span>':q.correct===false?'<span class="badge badge-danger">Yanlış</span>':'<span class="badge badge-muted">Cevap</span>';
+              return '<div style="padding:8px 0;border-bottom:1px solid var(--c-border)"><div style="font-size:.78rem;color:var(--c-text);font-weight:650">'+(qi+1)+'. '+esc2(q.q)+'</div><div style="display:flex;gap:8px;align-items:center;margin-top:4px"><span style="font-size:.78rem;color:var(--c-accent-dark)">'+esc2(q.a)+'</span>'+mark+'</div></div>';
+            }).join('');
+            return '<details style="border:1px solid var(--c-border);border-radius:12px;padding:10px;margin-bottom:8px"><summary style="cursor:pointer;font-weight:700;color:var(--c-primary);font-size:.8rem">Deneme '+(ai+1)+' · '+esc2(a.date||'')+(typeof a.score==='number'?' · %'+a.score:'')+'</summary><div style="margin-top:8px">'+rows+'</div></details>';
+          }).join('')+'</div>';
+      }).join('');
+      return '<div class="panel-card" style="margin-bottom:16px"><div class="px-card-head"><div><h3 style="margin:0;color:var(--c-primary)">'+esc2(m.name||m.email)+'</h3><p class="muted">'+esc2(m.email||'')+'</p></div>'+(m.demo?'<span class="px-badge accent">Demo</span>':'<span class="px-badge success">Üye</span>')+'</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px"><div><h4 style="margin:0 0 6px;color:var(--c-primary);font-size:.85rem">CV Bilgileri</h4>'+(cvRows||'<span class="muted">CV girilmemiş</span>')+'</div><div>'+(testHtml||'<p class="muted">Test cevabı yok</p>')+'</div></div></div>';
+    };
+    return '<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları (demo görünümü).','<span class="px-badge accent">'+list.length+' üye</span>')+
+      list.map(card).join('')+'</div>';
+  }
+
   /* ---------------- Ortak render ---------------- */
   function render(){
     var out=document.getElementById('panelContent');if(!out)return;
@@ -635,7 +672,7 @@
       'skill-gap':renderSkillGap,'cv-builder':renderCv,'personality-test':initPersonality,
       'interview-sim':initInterview,profile:renderProfile,settings:renderSettings,
       exams:renderExams,certificates:renderCertificates,notifications:renderNotifications,
-      skills:renderSkills,leaderboard:renderLeaderboard,'test-compare':renderTestCompare};
+      skills:renderSkills,leaderboard:renderLeaderboard,'test-compare':renderTestCompare,'member-data':renderMemberData};
     var rendered=(map[page]||renderIndex)();
     if(rendered!==undefined) out.innerHTML=rendered;
     var t=TITLES[page]||TITLES.index;
@@ -698,6 +735,11 @@
       ps[2].textContent=(d.get('skills')||'Beceri eklenmedi.').split(',').map(function(x){return x.trim();}).filter(Boolean).join(' · ');
       var s=S.get()||{};s.name=d.get('name')||s.name;S.set(s);
       document.querySelectorAll('[data-user-name]').forEach(function(n){n.textContent=s.name;});
+      if(window.MemberData){
+        MemberData.saveCV({name:d.get('name')||'',email:d.get('email')||'',phone:d.get('phone')||'',city:d.get('city')||'',
+          edu:d.get('edu')||'',skills:d.get('skills')||'',summary:d.get('summary')||''});
+      }
+      window.AK && window.AK.toast && window.AK.toast('CV kaydedildi ve üye verilerine eklendi.','success');
     });
     var pr=document.getElementById('cvPrint');if(pr)pr.addEventListener('click',function(){window.print();});
     var pf=document.getElementById('profileForm');if(pf)pf.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(pf),s=S.get()||{};

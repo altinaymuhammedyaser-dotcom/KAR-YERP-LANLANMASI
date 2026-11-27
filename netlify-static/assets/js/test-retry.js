@@ -17,6 +17,7 @@
     store[key].push(attempt);
     if (store[key].length > 8) store[key] = store[key].slice(-8);
     saveStore();
+    if (window.MemberData) MemberData.addTest(key, attempt);
   }
 
   function esc(s) {
