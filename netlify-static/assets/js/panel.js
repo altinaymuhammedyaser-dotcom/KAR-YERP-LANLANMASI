@@ -214,18 +214,46 @@
   }
 
   /* ---------------- Öneriler ---------------- */
+  var REC_FALLBACK='/assets/img/careers/grafik-tasarimci.jpg';
+  function recPhoto(c){return c.photo||REC_FALLBACK;}
+  function recCard(c,score){
+    var fav=favs().indexOf(c.slug)!==-1;
+    return '<article class="rc-card"><div class="rc-card-photo"><img src="'+h(recPhoto(c))+'" alt="'+h(c.name)+'" loading="lazy">'+
+      '<span class="rc-card-score">%'+score+' uyum</span><span class="rc-card-cat">'+h(c.category)+'</span></div>'+
+      '<div class="rc-card-body"><b>'+h(c.name)+'</b><p>'+h((c.summary||'').slice(0,88))+((c.summary||'').length>88?'…':'')+'</p></div>'+
+      '<div class="rc-card-foot"><span>'+icon('wallet')+' '+h(c.salary||'—')+'</span><span>'+icon('graduation-cap')+' '+h(c.education||'—')+'</span>'+
+      '<a href="/meslek/'+encodeURIComponent(c.slug)+'">İncele →</a>'+
+      '<button type="button" class="px-fav'+(fav?' on':'')+'" data-fav="'+h(c.slug)+'" aria-label="Favorilere ekle">'+icon('heart')+'</button></div></article>';
+  }
   function renderRecommendations(){
-    return '<div class="px-feature-banner alt"><div>'+badge('AKILLI EŞLEŞTİRME','accent')+'<h2>Profiline en uygun 8 meslek</h2>'+
-      '<p>Uyum puanları; ilgi alanların, yetenek sonuçların ve meslek gereksinimleri birlikte değerlendirilerek hesaplanır.</p></div>'+icon('sparkles','width:74px;height:74px;opacity:.35')+'</div>'+
+    var cats=[];careers.forEach(function(c){if(cats.indexOf(c.category)<0)cats.push(c.category);});
+    return '<div class="px-page-hero"><div>'+badge('AKILLI EŞLEŞTİRME','accent')+'<h2>Profiline uygun meslekler</h2>'+
+      '<p>Uyum puanları; ilgi alanların, yetenek sonuçların ve meslek gereksinimleri birlikte değerlendirilerek hesaplanır.</p></div><span class="px-hero-icon">'+icon('sparkles')+'</span></div>'+
+      '<div class="rc-stats"><div class="rc-stat"><div class="v">8</div><div class="l">Eşleşen meslek</div></div>'+
+      '<div class="rc-stat"><div class="v">10</div><div class="l">Kategori</div></div>'+
+      '<div class="rc-stat"><div class="v">%96</div><div class="l">En yüksek uyum</div></div>'+
+      '<div class="rc-stat"><div class="v">54</div><div class="l">Toplam meslek</div></div></div>'+
       '<div class="px-filter-bar" id="recFilters"><button class="px-chip active" data-cat="all">Tümü</button>'+
-        ['Teknoloji','Sağlık','Eğitim','İşletme','Mühendislik','Sanat ve Tasarım','Spor'].map(function(c,i){return chip(c,i===0,'data-cat="'+c+'"');}).join('')+'</div>'+
-      '<div class="panel-card">'+cardHead('Uyum listesi','Kategoriye göre filtreleyebilirsin.')+'<div class="panel-grid" id="recList"></div></div>';
+        cats.map(function(c){return chip(c,false,'data-cat="'+c+'"');}).join('')+'</div>'+
+      '<div class="panel-card">'+cardHead('Uyum listesi','Kategoriye göre filtreleyebilirsin; her mesleğin görseli ve uyum puanı burada.')+'<div id="recList"></div></div>';
   }
   function renderRecList(cat){
     var list=careers.filter(function(c){return cat==='all'||norm(c.category)===norm(cat);}).slice(0,8);
     if(!list.length) list=careers.slice(0,8);
     var box=document.getElementById('recList'); if(!box)return;
-    box.innerHTML=list.map(function(c,i){return careerCard(c,96-i*4);}).join(''); refreshIcons();
+    var top=list[0],s0=96,fav=favs().indexOf(top.slug)!==-1;
+    var hero='<div class="rc-hero"><div class="rc-hero-photo"><img src="'+h(recPhoto(top))+'" alt="'+h(top.name)+'" loading="eager">'+
+      '<span class="rc-hero-tag">'+h(top.category)+'</span></div><div class="rc-hero-body">'+
+      '<div class="rc-hero-top"><div class="rc-match" style="--p:'+s0+'"><b>%'+s0+'</b></div><div>'+badge('EN İYİ EŞLEŞME','accent')+'<h3>'+h(top.name)+'</h3></div></div>'+
+      '<div class="rc-hero-meta"><span>'+icon('wallet')+' '+h(top.salary||'—')+'</span><span>'+icon('graduation-cap')+' '+h(top.education||'—')+'</span><span>'+icon('briefcase')+' '+h(top.work||top.category||'')+'</span></div>'+
+      '<p class="rc-hero-desc">'+h(top.summary||'')+'</p>'+
+      '<div class="rc-hero-actions"><a class="primary" href="/meslek/'+encodeURIComponent(top.slug)+'">Mesleği incele →</a>'+
+      '<button type="button" class="px-fav'+(fav?' on':'')+'" data-fav="'+h(top.slug)+'" aria-label="Favorilere ekle">'+icon('heart')+'</button>'+
+      '<a href="/dashboard/career-roadmap.html" data-nav="roadmap">Yol haritasını gör</a></div></div></div>';
+    var grid='<div class="rc-grid">'+list.slice(1).map(function(c,i){return recCard(c,96-(i+1)*4);}).join('')+'</div>';
+    box.innerHTML=hero+grid;
+    box.querySelectorAll('[data-fav]').forEach(function(b){b.addEventListener('click',function(){toggleFav(b.getAttribute('data-fav'));});});
+    refreshIcons();
   }
 
   /* ---------------- Keşfet ---------------- */
@@ -856,7 +884,7 @@
     if(page==='recommendations'){renderRecList('all');
       document.querySelectorAll('#recFilters .px-chip').forEach(function(b){b.addEventListener('click',function(){
         document.querySelectorAll('#recFilters .px-chip').forEach(function(x){x.classList.remove('active');});b.classList.add('active');renderRecList(b.getAttribute('data-cat'));});});}
-    document.querySelectorAll('[data-fav]').forEach(function(b){b.addEventListener('click',function(){toggleFav(b.getAttribute('data-fav'));});});
+    document.querySelectorAll('[data-fav]').forEach(function(b){if(b.closest('#recList'))return;b.addEventListener('click',function(){toggleFav(b.getAttribute('data-fav'));});});
     document.querySelectorAll('[data-ask-coach]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();if(window.AI_COACH){window.AI_COACH.open();window.AI_COACH.ask(b.getAttribute('data-ask-coach'));}});});
     document.querySelectorAll('[data-theme-set]').forEach(function(b){b.addEventListener('click',function(){
       var v=b.getAttribute('data-theme-set');
