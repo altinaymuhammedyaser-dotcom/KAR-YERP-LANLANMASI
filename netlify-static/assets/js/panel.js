@@ -635,13 +635,46 @@
       '<div class="muted" style="font-size:.78rem;margin-top:14px">Tamamlanan kariyer testi denemesi: <strong>'+attempts+'</strong></div></div>';
   }
   function renderLeaderboard(){
-    var best=0;
+    var best=0,sess=(window.AKSession&&AKSession.get())||{};
     if(window.TestRetry){['career','personality','interview'].forEach(function(k){TestRetry.attempts(k).forEach(function(a){best=Math.max(best,a.score||a.average||0);});});}
-    var users=[['Elif Kaya',93],['Mert Yılmaz',88],['Sen',best],['Zeynep A.',76],['Can D.',71]];
-    users.sort(function(a,b){return b[1]-a[1];});
-    var hero='<div class="px-page-hero"><div>'+badge('LİDERLİK','accent')+'<h2>En iyi skorlar</h2><p>Diğer üyelerle kariyer testi başarılarını karşılaştır.</p></div><span class="px-hero-icon">'+icon('trophy')+'</span></div>';
-    return hero+'<div class="panel-card">'+cardHead('Liderlik Tablosu','En yüksek test skorları.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Sıra</th><th>Kullanıcı</th><th>En İyi Skor</th></tr></thead><tbody>'+
-      users.map(function(u,i){return '<tr><td><strong style="color:var(--c-primary)">'+(i+1)+'</strong></td><td>'+(u[0]==='Sen'?'<b style="color:var(--c-accent-dark)">Sen</b>':h(u[0]))+'</td><td><span class="badge badge-success">%'+u[1]+'</span></td></tr>';}).join('')+'</tbody></table></div></div>';
+    var users=[
+      {name:'Elif Kaya',email:'elif@ornek.com',score:93,me:false},
+      {name:'Mert Yılmaz',email:'mert@ornek.com',score:88,me:false},
+      {name:sess.name||'Sen',email:sess.email||'',score:best,me:true},
+      {name:'Zeynep Aydın',email:'zeynep@ornek.com',score:76,me:false},
+      {name:'Can Demir',email:'can@ornek.com',score:71,me:false},
+      {name:'Ayşe Demir',email:'ayse.demir@ornek.com',score:68,me:false}
+    ].sort(function(a,b){return b.score-a.score;});
+    var myRank=users.filter(function(u){return u.score>best;}).length+1;
+    var avg=Math.round(users.reduce(function(s,u){return s+u.score;},0)/users.length);
+    var initial=function(u){return (u.me?'Sen':u.name).slice(0,1).toLocaleUpperCase('tr-TR');};
+
+    var podium=users.slice(0,3).map(function(u,i){
+      var place=i===0?'first':i===1?'second':'third';
+      var medal=i===0?'👑':i===1?'🥈':'🥉';
+      return '<div class="lb-pod '+place+'"><span class="crown">'+(i===0?'👑':medal)+'</span>'+
+        '<div class="medal">'+(i+1)+'</div><h3>'+h(u.me?'Sen':u.name)+(u.me?' <span class="you">Sen</span>':'')+'</h3>'+
+        '<div class="mail">'+h(u.email||'Üye hesabı')+'</div><div class="score">%'+u.score+'</div>'+
+        '<div class="bar"><i style="width:'+u.score+'%"></i></div></div>';
+    }).join('');
+
+    var rows=users.slice(3).map(function(u,i){
+      var rank=i+4;
+      return '<div class="lb-row '+(u.me?'me':'')+'"><span class="rank">'+rank+'</span><span class="av">'+h(initial(u))+'</span>'+
+        '<span class="nm">'+h(u.me?'Sen':u.name)+(u.me?'<span class="you">Sen</span>':'')+'<small>'+h(u.email||'Üye hesabı')+'</small></span>'+
+        '<span class="bar"><i style="width:'+u.score+'%"></i></span><span class="sc">%'+u.score+'</span></div>';
+    }).join('');
+
+    var hero='<div class="px-page-hero"><div>'+badge('LİDERLİK TABLOSU','accent')+'<h2>En iyilerle yarış</h2><p>Kariyer testlerinde elde ettiğin skoru diğer üyelerle karşılaştır.</p></div><span class="px-hero-icon">'+icon('trophy')+'</span></div>';
+    var stats='<div class="lb-stats">'+
+      '<div class="lb-stat"><div class="v">'+users.length+'</div><div class="l">Sıralamadaki üye</div></div>'+
+      '<div class="lb-stat"><div class="v">%'+avg+'</div><div class="l">Ortalama skor</div></div>'+
+      '<div class="lb-stat"><div class="v">#'+myRank+'</div><div class="l">Senin sıran</div></div>'+
+      '<div class="lb-stat"><div class="v">%'+best+'</div><div class="l">En iyi skorun</div></div></div>';
+    return hero+stats+
+      '<div class="panel-card">'+cardHead('Podyum','Bu haftanın en başarılı üyeleri.')+'<div class="lb-podium">'+podium+'</div></div>'+
+      '<div class="panel-card" style="margin-top:18px">'+cardHead('Diğer sıralama','Tüm üyelerin skorları.')+'<div class="lb-list">'+rows+'</div>'+
+      '<div class="lb-foot">'+icon('info','width:15px;height:15px')+' Skorlar kariyer, kişilik ve mülakat testlerindeki en yüksek sonuçlardan hesaplanır.</div></div>';
   }
   function demoOnly(){
     var s=(window.AKSession&&AKSession.get())||{};
