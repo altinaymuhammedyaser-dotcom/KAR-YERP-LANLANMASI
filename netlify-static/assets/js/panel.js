@@ -123,7 +123,9 @@
       '<div class="px-two-col">'+
         '<div class="panel-card">'+cardHead('Bugünün odağı','Küçük adımlar, büyük fark.',badge('3 görev','accent'))+
           '<div class="px-task-list">'+
-          task('Kariyer testini tamamla',80,'/career-test')+task('Kişilik envanterini çöz',0,'/dashboard/personality-test.html')+task('3 mesleği favorilere ekle',33,'/careers')+
+          task((window.TestRetry&&TestRetry.attempts('career').length)?'Kariyer testi tamamlandı':'Kariyer testine başla',(window.TestRetry&&TestRetry.attempts('career').length)?100:0,'/career-test')+
+          task((window.TestRetry&&TestRetry.attempts('personality').length)?'Kişilik testi tamamlandı':'Kişilik envanterini çöz',(window.TestRetry&&TestRetry.attempts('personality').length)?100:0,'/dashboard/personality-test.html')+
+          task((window.TestRetry&&TestRetry.attempts('interview').length)?'Mülakat pratiği tamamlandı':'Mülakat pratiğini yap',(window.TestRetry&&TestRetry.attempts('interview').length)?100:0,'/dashboard/interview-sim.html')+
           '</div></div>'+
         '<div class="panel-card px-coach-card">'+cardHead('AI Kariyer Koçu','Aklına takılanı anında sor.',badge('Çevrimiçi','success'))+
           '<p class="muted">Maaşlar, meslek detayları, yol haritası ve mülakat ipuçları — tek tıkla yanında.</p>'+
@@ -147,22 +149,33 @@
   /* ---------------- Testler ---------------- */
   function renderTests(){
     var items=[
-      ['clipboard-check','Kariyer Testi','İlgi, yetenek ve çalışma tercihlerini 4 boyutta analiz eder.','12 soru','~5 dk','/career-test','Tamamlandı',100,'success'],
-      ['brain','Kişilik Testi','Big Five modeliyle kişilik profilini çıkarır, meslek önerir.','20 soru','~6 dk','/dashboard/personality-test.html','Yeni',0,'accent'],
-      ['mic','Mülakat Simülatörü','Sorulara cevap ver, anlık puan ve geri bildirim al.','8 soru','~10 dk','/dashboard/interview-sim.html','Pratik yap',0,'warning']
+      ['career','clipboard-check','Kariyer Testi','İlgi, yetenek ve çalışma tercihlerini 4 boyutta analiz eder.','12 soru','~5 dk','/career-test'],
+      ['personality','brain','Kişilik Testi','Big Five modeliyle kişilik profilini çıkarır, meslek önerir.','20 soru','~6 dk','/dashboard/personality-test.html'],
+      ['interview','mic','Mülakat Simülatörü','Sorulara cevap ver, anlık puan ve geri bildirim al.','8 soru','~10 dk','/dashboard/interview-sim.html']
     ];
+    var attemptsBy=function(k){return (window.TestRetry?TestRetry.attempts(k):[])||[];};
+    var history=[];
+    var cards=items.map(function(x){
+      var arr=attemptsBy(x[0]);
+      var done=arr.length>0;
+      var last=done?arr[arr.length-1]:null;
+      var status=done?'Test tamamlandı':'Teste başla';
+      var tone=done?'success':'warning';
+      if(done){history.push({name:x[2],date:last.date||'',score:(last.score!=null?last.score:(last.average!=null?last.average:0)),count:arr.length});}
+      return '<article class="panel-card px-test-card"><div class="px-test-ic">'+icon(x[1])+'</div>'+
+        '<div class="px-test-meta">'+badge(status,tone)+'</div><h2>'+x[2]+'</h2><p class="muted">'+x[3]+'</p>'+
+        '<div class="px-test-facts"><span>'+icon('list-checks')+' '+x[4]+'</span><span>'+icon('clock')+' '+x[5]+'</span>'+
+        (done?'<span>'+icon('check-circle')+' '+arr.length+' deneme</span>':'')+'</div>'+
+        '<div class="px-task-bar"><i style="width:'+(done?100:0)+'%"></i></div>'+
+        '<div class="panel-actions"><a class="primary" href="'+x[6]+'">'+status+'</a>'+(done?'<a href="/dashboard/results.html" data-nav="results">Sonuçlar</a>':'')+'</div></article>';
+    }).join('');
+    var historyHtml=history.length?history.map(function(r){
+      return '<div class="px-history-row"><span class="px-history-ic">'+icon('check')+'</span><div><b>'+h(r.name)+'</b><small>'+r.count+' deneme · son skor %'+r.score+'</small></div><time>'+h(r.date)+'</time></div>';
+    }).join(''):'<div class="px-history-row"><span class="px-history-ic alt">'+icon('compass')+'</span><div><b>Henüz test tamamlanmadı</b><small>Testleri tamamladıkça geçmişin burada oluşur.</small></div></div>';
     return '<div class="px-feature-banner"><div>'+badge('TEST MERKEZİ','accent')+'<h2>Kendini keşfetmenin en keyifli yolu</h2>'+
       '<p>Her test farklı bir yönünü ortaya çıkarır. Sonuçların profilinde birikir ve meslek önerilerini güçlendirir.</p></div>'+icon('sparkles','width:74px;height:74px;opacity:.35')+'</div>'+
-      '<div class="panel-grid" style="margin-top:20px">'+items.map(function(x){
-        return '<article class="panel-card px-test-card"><div class="px-test-ic">'+icon(x[0])+'</div>'+
-          '<div class="px-test-meta">'+badge(x[6],x[7])+'</div><h2>'+x[1]+'</h2><p class="muted">'+x[2]+'</p>'+
-          '<div class="px-test-facts"><span>'+icon('list-checks')+' '+x[3]+'</span><span>'+icon('clock')+' '+x[4]+'</span></div>'+
-          '<div class="px-task-bar"><i style="width:'+x[8]+'%"></i></div>'+
-          '<div class="panel-actions"><a class="primary" href="'+x[5]+'">'+x[6]+'</a></div></article>';
-      }).join('')+'</div>'+
-      '<div class="panel-card" style="margin-top:18px">'+cardHead('Test geçmişin','Tamamladığın değerlendirmeler.')+
-        '<div class="px-history-row"><span class="px-history-ic">'+icon('check')+'</span><div><b>Kariyer Testi</b><small>12 soru · 4 boyut · genel uyum %94</small></div><time>Bugün</time></div>'+
-        '<div class="px-history-row"><span class="px-history-ic alt">'+icon('compass')+'</span><div><b>İlgi Alanları Envanteri</b><small>15 ilgi alanı · teknoloji ağırlıklı</small></div><time>Geçen hafta</time></div></div>';
+      '<div class="panel-grid" style="margin-top:20px">'+cards+'</div>'+
+      '<div class="panel-card" style="margin-top:18px">'+cardHead('Test geçmişin','Hesabınla tamamladığın değerlendirmeler.')+historyHtml+'</div>';
   }
 
   /* ---------------- Sonuçlar ---------------- */
@@ -251,7 +264,7 @@
   /* ---------------- Aktiviteler ---------------- */
   function renderActivities(){
     var acts=[
-      ['check','Kariyer testini tamamladın','12 soru · genel uyum %94','Bugün','success'],
+      (window.TestRetry&&TestRetry.attempts('career').length)?['check','Kariyer testini tamamladın','Son deneme kaydedildi','Bugün','success']:['play','Kariyer testine başla','Henüz tamamlanmadı','—','warning'],
       ['sparkles','Meslek önerilerin güncellendi','6 yeni öneri eklendi','Bugün','accent'],
       ['eye','Yazılım Mühendisliği sayfasını ziyaret ettin','Meslek detayı · 3 dk','Dün','info'],
       ['heart','Front-End Geliştirici mesleğini favoriledin','Favorilerine eklendi','2 gün önce','warning'],
