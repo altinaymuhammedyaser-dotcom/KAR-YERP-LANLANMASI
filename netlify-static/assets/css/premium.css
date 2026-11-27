@@ -808,6 +808,60 @@ details.px-attempt[open] summary:after{transform:rotate(180deg)}
 
 [data-theme="dark"] .fv-stat,[data-theme="dark"] .ac-item,[data-theme="dark"] .ac-summary div{border-color:#2A3D57}
 @media(max-width:900px){.ac-wrap{grid-template-columns:1fr}}
+/* ---------------- Kişilik testi ---------------- */
+[data-dashboard="personality-test"]{--page-hue:#8B5CF6}
+[data-dashboard="interview-sim"]{--page-hue:#F0A43A}
+.pz-head{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}
+.pz-ring{width:76px;height:76px;flex:0 0 76px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--page-hue) calc(var(--p,0)*1%),var(--c-border) 0);box-shadow:0 12px 28px -14px var(--page-hue)}
+.pz-ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--c-bg-card,#fff)}
+.pz-ring span{position:relative;z-index:1;font-weight:800;color:var(--c-primary);font-size:1rem}
+.pz-head-copy{flex:1;min-width:200px}
+.pz-head-copy h3{margin:0;color:var(--c-primary);font-size:1.05rem}
+.pz-head-copy p{margin:4px 0 0;color:var(--c-muted);font-size:.78rem}
+.pz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.pz-q{position:relative;border:1px solid var(--c-border);border-radius:16px;padding:16px;background:var(--c-bg-card,#fff);transition:.2s}
+.pz-q:hover{border-color:var(--page-hue);box-shadow:0 14px 32px -20px var(--page-hue)}
+.pz-q.done{border-color:var(--c-success);background:linear-gradient(150deg,var(--c-success-soft),var(--c-bg-card,#fff) 60%)}
+.pz-q .qtop{display:flex;gap:9px;align-items:flex-start;margin-bottom:12px}
+.pz-q .qno{width:28px;height:28px;flex:0 0 28px;border-radius:9px;background:var(--c-accent-soft);color:var(--c-accent-dark);display:grid;place-items:center;font-size:.72rem;font-weight:800}
+.pz-q .qtxt{font-size:.83rem;color:var(--c-text);font-weight:650;line-height:1.45}
+.pz-q .tag{font-size:.62rem;color:var(--page-hue);font-weight:800;letter-spacing:.08em}
+.pz-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pz-scale button{border:1px solid var(--c-border-dark);border-radius:11px;background:var(--c-bg);color:var(--c-muted);padding:9px 3px;font-size:.78rem;font-weight:800;cursor:pointer;transition:.18s;font-family:inherit}
+.pz-scale button:hover{border-color:var(--page-hue);transform:translateY(-2px)}
+.pz-scale button.active{background:linear-gradient(135deg,var(--page-hue),var(--c-accent-dark));border-color:transparent;color:#fff;box-shadow:0 8px 18px -8px var(--page-hue)}
+.pz-foot{position:sticky;bottom:12px;margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border:1px solid var(--c-border);border-radius:16px;background:var(--c-bg-card,#fff);box-shadow:0 16px 40px -20px rgba(12,30,53,.45);z-index:3;flex-wrap:wrap}
+.pz-result-hero{text-align:center;padding:30px 20px}
+.pz-result-hero .big{display:inline-grid;place-items:center;width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--page-hue) calc(var(--p,0)*1%),var(--c-border) 0);position:relative}
+.pz-result-hero .big:before{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--c-bg-card,#fff)}
+.pz-result-hero .big b{position:relative;z-index:1;font-size:2rem;color:var(--c-primary)}
+.pz-dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:18px}
+.pz-dim{border:1px solid var(--c-border);border-radius:14px;padding:14px;background:var(--c-bg)}
+.pz-dim b{display:block;color:var(--c-primary);font-size:.85rem;margin-bottom:6px}
+.pz-dim .bar{height:9px;border-radius:99px;background:var(--c-border);overflow:hidden}
+.pz-dim .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--page-hue),#C4B5FD)}
+
+/* ---------------- Mülakat simülatörü ---------------- */
+.iv-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);gap:18px}
+.iv-qcard{position:relative;overflow:hidden;border:1px solid var(--c-border);border-radius:20px;padding:24px;background:var(--c-bg-card,#fff);box-shadow:var(--px-shadow)}
+.iv-qcard:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--page-hue),transparent)}
+.iv-qnum{display:inline-flex;align-items:center;gap:7px;border-radius:99px;padding:6px 12px;background:var(--c-warning-soft);color:var(--c-warning);font-size:.7rem;font-weight:800;letter-spacing:.08em}
+.iv-qtitle{font-size:1.25rem;color:var(--c-primary);font-weight:800;line-height:1.4;margin:16px 0 8px}
+.iv-qhint{color:var(--c-muted);font-size:.82rem;margin-bottom:16px}
+.iv-textarea{width:100%;min-height:170px;border:1px solid var(--c-border-dark);border-radius:16px;padding:15px;background:var(--c-bg);color:var(--c-text);font-family:inherit;font-size:.9rem;line-height:1.6;resize:vertical;transition:.2s}
+.iv-textarea:focus{outline:none;border-color:var(--page-hue);box-shadow:0 0 0 3px color-mix(in srgb,var(--page-hue) 18%,transparent)}
+.iv-star{display:flex;flex-direction:column;gap:10px}
+.iv-star div{display:flex;gap:11px;align-items:center;border:1px solid var(--c-border);border-radius:13px;padding:11px;background:var(--c-bg)}
+.iv-star .l{width:32px;height:32px;flex:0 0 32px;border-radius:10px;background:var(--c-warning-soft);color:var(--c-warning);display:grid;place-items:center;font-weight:900;font-size:.8rem}
+.iv-star b{display:block;color:var(--c-text);font-size:.8rem}
+.iv-star small{color:var(--c-muted);font-size:.7rem}
+.iv-feedback{border:1px solid var(--c-accent);border-radius:15px;padding:16px;margin-top:16px;background:linear-gradient(150deg,var(--c-accent-soft),var(--c-bg-card,#fff) 70%)}
+.iv-feedback .score{font-size:1.4rem;font-weight:800;color:var(--c-accent-dark)}
+.iv-feedback p{font-size:.84rem;color:var(--c-text);line-height:1.6;margin-top:8px}
+.iv-breakdown{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.iv-breakdown div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--c-border);border-radius:11px;font-size:.8rem;background:var(--c-bg)}
+[data-theme="dark"] .pz-q,[data-theme="dark"] .iv-qcard,[data-theme="dark"] .iv-star div{border-color:#2A3D57}
+@media(max-width:900px){.iv-layout{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
