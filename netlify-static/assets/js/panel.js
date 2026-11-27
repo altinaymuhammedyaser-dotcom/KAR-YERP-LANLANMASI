@@ -249,16 +249,21 @@
   /* ---------------- Favoriler ---------------- */
   function renderFavorites(){
     var list=careers.filter(function(c){return favs().indexOf(c.slug)!==-1;});
-    var html='<div class="px-feature-banner"><div>'+badge('KAYDEDİLENLER','accent')+'<h2>'+list.length+' meslek favorilerinde</h2>'+
-      '<p>Favorilerin tarayıcında saklanır; meslek sayfalarındaki kalp ikonuyla yeni eklemeler yapabilirsin.</p></div>'+icon('heart','width:74px;height:74px;opacity:.35')+'</div>';
+    var cats={};list.forEach(function(c){cats[c.category]=1;});
+    var hero='<div class="px-page-hero"><div>'+badge('FAVORİLERİM','accent')+'<h2>Kaydettiğin meslekler</h2><p>İlgini çeken meslekler burada birikiyor; dilediğin zaman tekrar incele.</p></div><span class="px-hero-icon">'+icon('heart')+'</span></div>';
+    var stats='<div class="fv-stats">'+
+      '<div class="fv-stat"><div class="v">'+list.length+'</div><div class="l">Favori meslek</div></div>'+
+      '<div class="fv-stat"><div class="v">'+Object.keys(cats).length+'</div><div class="l">Farklı kategori</div></div>'+
+      '<div class="fv-stat"><div class="v">'+careers.length+'</div><div class="l">Keşfedilecek meslek</div></div></div>';
+    var body;
     if(!list.length){
-      html+='<div class="panel-card"><div class="panel-empty"><div class="em-ic">'+icon('heart')+'</div><h2>Henüz favorin yok</h2><p class="muted">Meslek kartlarındaki kalp ikonuna dokunarak burada biriktir.</p>'+
-        '<div class="panel-actions" style="justify-content:center"><a class="primary" href="/careers">Meslekleri keşfet</a><a href="/dashboard/explore.html" data-nav="explore">Panelde keşfet</a></div></div></div>';
+      body='<div class="fv-empty"><div class="es-ico">'+icon('heart','',30)+'</div><h3>Henüz favorin yok</h3><p class="muted">Meslek kartlarındaki kalp ikonuna dokunarak burada biriktir.</p>'+
+        '<div class="panel-actions" style="justify-content:center;margin-top:16px"><a class="primary" href="/careers">Meslekleri keşfet</a><a href="/dashboard/explore.html" data-nav="explore">Panelde keşfet</a></div></div>';
     } else {
-      html+='<div class="panel-card" style="margin-top:18px">'+cardHead('Favori mesleklerin','Hızlıca tekrar incele.')+'<div class="panel-grid">'+list.map(function(c){return careerCard(c);}).join('')+'</div></div>';
+      body='<div class="panel-card">'+cardHead('Favori mesleklerin','Hızlıca tekrar incele; kaldırmak için kalp ikonuna bas.')+'<div class="fv-grid">'+list.map(function(c){return careerCard(c);}).join('')+'</div></div>';
     }
-    html+='<div class="panel-card" style="margin-top:18px">'+cardHead('Bunlar da ilgini çekebilir','Favorilerine benzer meslekler.')+'<div class="panel-grid">'+careers.slice(4,7).map(function(c){return careerCard(c);}).join('')+'</div></div>';
-    return html;
+    var suggest='<div class="panel-card" style="margin-top:18px">'+cardHead('Bunlar da ilgini çekebilir','Favorilerine benzer meslekler.')+'<div class="fv-grid">'+careers.slice(4,7).map(function(c){return careerCard(c);}).join('')+'</div></div>';
+    return hero+stats+body+suggest;
   }
 
   /* ---------------- Aktiviteler ---------------- */
@@ -271,10 +276,17 @@
       ['brain','Kişilik testine başladın','4 / 20 soruyanıtlandı','3 gün önce','accent'],
       ['user-plus','Hesabını oluşturdun','Hoş geldin!','1 hafta önce','muted']
     ];
-    return '<div class="px-two-col"><div class="panel-card">'+cardHead('Tüm hareketler','Zaman sırasına göre.',badge('6 kayıt'))+
-      '<div class="px-timeline">'+acts.map(function(a){return '<div class="px-timeline-item"><span class="px-timeline-ic '+a[4]+'">'+icon(a[0])+'</span><div><b>'+a[1]+'</b><small>'+a[2]+'</small></div><time>'+a[3]+'</time></div>';}).join('')+'</div></div>'+
-      '<div><div class="panel-card">'+cardHead('Bu hafta','Aktivite özeti.')+'<div class="px-mini-stats"><div><b>12</b><span>sayfa görüntüleme</span></div><div><b>3</b><span>test etkileşimi</span></div><div><b>1</b><span>yeni favori</span></div></div></div>'+
-      '<div class="panel-card" style="margin-top:18px">'+cardHead('Serin','Düzenli kal, önerilerin iyileşsin.')+'<div class="px-streak">🔥 <b>3 gün</b><span>Üst üste ziyaret</span></div></div></div></div>';
+    var groups=[['Bugün',acts.slice(0,2)],['Geçmiş günler',acts.slice(2)]];
+    var timeline=groups.map(function(g){
+      return '<div class="ac-day">'+g[0]+'</div>'+g[1].map(function(a){
+        return '<div class="ac-item"><span class="ic '+a[4]+'">'+icon(a[0])+'</span><span><b>'+a[1]+'</b><small>'+a[2]+'</small></span><time>'+a[3]+'</time></div>';
+      }).join('');
+    }).join('');
+    var hero='<div class="px-page-hero"><div>'+badge('AKTİVİTELERİM','accent')+'<h2>Kariyer yolculuğunun izleri</h2><p>Platformdaki adımlarını, testlerini ve keşiflerini zaman sırasıyla gör.</p></div><span class="px-hero-icon">'+icon('activity')+'</span></div>';
+    return hero+'<div class="ac-wrap"><div class="panel-card">'+cardHead('Tüm hareketler','Zaman sırasına göre.',badge(acts.length+' kayıt'))+timeline+'</div>'+
+      '<div><div class="panel-card">'+cardHead('Bu hafta','Aktivite özeti.')+'<div class="ac-summary"><div><b>12</b><span>görüntüleme</span></div><div><b>3</b><span>test</span></div><div><b>1</b><span>favori</span></div></div></div>'+
+      '<div class="panel-card" style="margin-top:18px">'+cardHead('Serin','Düzenli kal, önerilerin iyileşsin.')+'<div class="ac-streak"><div class="fire">🔥</div><b>3 gün</b><span>Üst üste ziyaret</span></div></div>'+
+      '<div class="panel-card" style="margin-top:18px">'+cardHead('İpucu','Her test ve keşif önerilerini güçlendirir.')+'<div class="ac-hint">Kariyer testini tamamladıkça meslek önerilerin daha isabetli hale gelir.</div></div></div></div>';
   }
 
   /* ---------------- Yol haritası ---------------- */
