@@ -22,6 +22,17 @@
     return n.replace(/\b\w/g, function (c) { return c.toLocaleUpperCase('tr-TR'); }) || 'Üye';
   }
 
+  function restrictDemoPages() {
+    var s = session();
+    var isDemo = !!(s && s.demo);
+    ['member-data', 'test-compare'].forEach(function (key) {
+      document.querySelectorAll('[data-nav="' + key + '"], a[href="/dashboard/' + key + '.html"]').forEach(function (a) {
+        if (isDemo) { a.style.removeProperty('display'); a.removeAttribute('data-demo-hidden'); }
+        else { a.setAttribute('data-demo-hidden', '1'); a.style.setProperty('display', 'none', 'important'); }
+      });
+    });
+  }
+
   function updateHeader() {
     var s = session();
     var actions = document.querySelector('.header-actions');
@@ -143,6 +154,7 @@
     initDemoLoginButton();
     initDashboard();
     initMemberOnly();
+    restrictDemoPages();
     if (window.lucide) window.lucide.createIcons();
   }
 

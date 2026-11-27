@@ -625,7 +625,13 @@
     return '<div class="panel-card">'+cardHead('Liderlik Tablosu','En yüksek test skorları.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Sıra</th><th>Kullanıcı</th><th>En İyi Skor</th></tr></thead><tbody>'+
       users.map(function(u,i){return '<tr><td><strong style="color:var(--c-primary)">'+(i+1)+'</strong></td><td>'+(u[0]==='Sen'?'<b style="color:var(--c-accent-dark)">Sen</b>':h(u[0]))+'</td><td><span class="badge badge-success">%'+u[1]+'</span></td></tr>';}).join('')+'</tbody></table></div></div>';
   }
+  function demoOnly(){
+    var s=(window.AKSession&&AKSession.get())||{};
+    if(s.demo)return null;
+    return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:48px 20px"><div class="es-ico">'+icon('lock-keyhole','',40)+'</div><h3>Bu sayfa sadece demo hesabına açıktır</h3><p class="muted">Üye verileri ve test karşılaştırmalarını yalnızca demo hesabı görüntüleyebilir.</p><a href="/dashboard/index.html" class="btn btn-accent">Panele dön</a></div></div>';
+  }
   function renderTestCompare(){
+    var denial=demoOnly();if(denial)return denial;
     var rows=['career','personality','interview'].map(function(k){
       var n=window.TestRetry?TestRetry.attempts(k).length:0;
       var label={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat Simülatörü'}[k];
@@ -637,6 +643,7 @@
 
   /* ---------------- Üye verileri (demo panel) ---------------- */
   function renderMemberData(){
+    var denial=demoOnly();if(denial)return denial;
     var list=(window.MemberData?MemberData.get():[]);
     if(!list.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><h3>Henüz üye verisi yok</h3></div></div>';
     var esc2=function(v){return h(v==null?'':v);};

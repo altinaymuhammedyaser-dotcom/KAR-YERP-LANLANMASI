@@ -88,6 +88,13 @@
 
   /** İki denemeyi soru soru karşılaştırır. */
   function compare(key, title) {
+    var sess = null;
+    try { sess = JSON.parse(localStorage.getItem('akk_session') || '{}'); } catch (e) {}
+    if (!sess || !sess.demo) {
+      var denied = modal('<h2 style="margin:0 0 8px;color:var(--c-primary)">Sadece demo hesabı</h2><p class="muted">Test karşılaştırma bölümünü yalnızca demo hesabı görüntüleyebilir.</p><div class="panel-actions" style="margin-top:16px"><button class="btn btn-accent" data-close>Kapat</button></div>');
+      denied.box.querySelector('[data-close]').addEventListener('click', denied.close);
+      return false;
+    }
     var list = attempts(key);
     if (list.length < 2) return false;
     var a = list[list.length - 2];
