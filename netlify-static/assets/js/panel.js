@@ -227,8 +227,9 @@
   }
   function renderRecommendations(){
     var cats=[];careers.forEach(function(c){if(cats.indexOf(c.category)<0)cats.push(c.category);});
-    return '<div class="px-page-hero"><div>'+badge('AKILLI EŞLEŞTİRME','accent')+'<h2>Profiline uygun meslekler</h2>'+
-      '<p>Uyum puanları; ilgi alanların, yetenek sonuçların ve meslek gereksinimleri birlikte değerlendirilerek hesaplanır.</p></div><span class="px-hero-icon">'+icon('sparkles')+'</span></div>'+
+    return '<div class="rc-intro"><div>'+badge('AKILLI EŞLEŞTİRME','accent')+'<h2>Profiline uygun meslekler</h2>'+
+      '<p>Uyum puanları; ilgi alanların, yetenek sonuçların ve meslek gereksinimleri birlikte değerlendirilerek hesaplanır. Her meslek, kendi işine özel görseliyle tanıtılıyor.</p>'+
+      '</div><img src="/assets/img/careers/isletme-hukuku-danismani.jpg" alt="Kariyer çalışma masası" loading="eager"></div>'+
       '<div class="rc-stats"><div class="rc-stat"><div class="v">8</div><div class="l">Eşleşen meslek</div></div>'+
       '<div class="rc-stat"><div class="v">10</div><div class="l">Kategori</div></div>'+
       '<div class="rc-stat"><div class="v">%96</div><div class="l">En yüksek uyum</div></div>'+

@@ -8,7 +8,7 @@
     "salary": "32.000 - 120.000 TL",
     "education": "universite",
     "work": "Bilim",
-    "photo": "/assets/img/careers/science-lab.jpg"
+    "photo": "/assets/img/careers/bilim-insani.jpg"
   },
   {
     "name": "Biyokimyager",
@@ -19,7 +19,7 @@
     "salary": "30.000 - 95.000 TL",
     "education": "universite",
     "work": "Bilim",
-    "photo": "/assets/img/careers/science-lab.jpg"
+    "photo": "/assets/img/careers/biyokimyager.jpg"
   },
   {
     "name": "Fizik Arastirmaci",
@@ -30,7 +30,7 @@
     "salary": "35.000 - 130.000 TL",
     "education": "universite",
     "work": "Bilim",
-    "photo": "/assets/img/careers/science-lab.jpg"
+    "photo": "/assets/img/careers/fizik-arastirmaci.jpg"
   },
   {
     "name": "Laboratuvar Teknisyeni",
@@ -52,7 +52,7 @@
     "salary": "28.000 - 85.000 TL",
     "education": "universite",
     "work": "Bilim",
-    "photo": "/assets/img/careers/science-lab.jpg"
+    "photo": "/assets/img/careers/meteoroloji-muhendisi.jpg"
   },
   {
     "name": "Matematik Ogretmeni",
@@ -151,7 +151,7 @@
     "salary": "25.000 - 80.000 TL",
     "education": "universite",
     "work": "Iletisim",
-    "photo": "/assets/img/careers/media-studio.jpg"
+    "photo": "/assets/img/careers/gazeteci.jpg"
   },
   {
     "name": "Halkla Iliskiler Uzmani",
@@ -162,7 +162,7 @@
     "salary": "28.000 - 85.000 TL",
     "education": "universite",
     "work": "Iletisim",
-    "photo": "/assets/img/careers/media-studio.jpg"
+    "photo": "/assets/img/careers/halkla-iliskiler-uzmani.jpg"
   },
   {
     "name": "Icerik Editoru",
@@ -173,7 +173,7 @@
     "salary": "25.000 - 78.000 TL",
     "education": "universite",
     "work": "Iletisim",
-    "photo": "/assets/img/careers/media-studio.jpg"
+    "photo": "/assets/img/careers/icerik-editoru.jpg"
   },
   {
     "name": "Kriz Iletisim Uzmani",
@@ -184,7 +184,7 @@
     "salary": "32.000 - 95.000 TL",
     "education": "universite",
     "work": "Iletisim",
-    "photo": "/assets/img/careers/media-studio.jpg"
+    "photo": "/assets/img/careers/kriz-iletisim-uzmani.jpg"
   },
   {
     "name": "Sosyal Medya Yoneticisi",
@@ -195,7 +195,7 @@
     "salary": "26.000 - 82.000 TL",
     "education": "universite",
     "work": "Iletisim",
-    "photo": "/assets/img/careers/media-studio.jpg"
+    "photo": "/assets/img/careers/sosyal-medya-yoneticisi.jpg"
   },
   {
     "name": "Finans Analisti",
@@ -272,7 +272,7 @@
     "salary": "30.000 - 82.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/cevre-muhendisi.jpg"
   },
   {
     "name": "Elektrik-Elektronik Muhendisi",
@@ -283,7 +283,7 @@
     "salary": "35.000 - 100.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/elektrik-elektronik-muhendisi.jpg"
   },
   {
     "name": "Gida Muhendisi",
@@ -294,7 +294,7 @@
     "salary": "30.000 - 80.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/gida-muhendisi.jpg"
   },
   {
     "name": "Havacilik Muhendisi",
@@ -305,7 +305,7 @@
     "salary": "38.000 - 110.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/havacilik-muhendisi.jpg"
   },
   {
     "name": "Insaat Muhendisi",
@@ -316,7 +316,7 @@
     "salary": "32.000 - 90.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/insaat-muhendisi.jpg"
   },
   {
     "name": "Makine Muhendisi",
@@ -327,7 +327,7 @@
     "salary": "35.000 - 95.000 TL",
     "education": "universite",
     "work": "Muhendislik",
-    "photo": "/assets/img/careers/yapay-zeka-muhendisi.jpg"
+    "photo": "/assets/img/careers/makine-muhendisi.jpg"
   },
   {
     "name": "Diyetisyen",
@@ -536,7 +536,7 @@
     "salary": "30.000 - 85.000 TL",
     "education": "lise",
     "work": "Teknoloji",
-    "photo": "/assets/img/careers/yazilim-muhendisi.jpg"
+    "photo": "/assets/img/careers/bilgisayar-programcisi.jpg"
   },
   {
     "name": "Front-End Gelistirici",
