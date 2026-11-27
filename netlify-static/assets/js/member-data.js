@@ -35,6 +35,27 @@
     if (!m) { m = { id: 'u' + Date.now(), name: name || email, email: email, demo: true, cv: {}, tests: {} }; list.push(m); set(list); }
     return m;
   }
+  /** Gerçek üye kaydı/girişi olduğunda üye listesine ekler. */
+  function ensure(email, name, meta) {
+    if (!email) return null;
+    var list = get(), m = list.filter(function (x) { return x.email === email; })[0];
+    if (!m) {
+      m = { id: 'u' + Date.now(), name: name || friendly(email), email: email,
+            demo: email.toLowerCase() === 'demo@akillikariyer.com',
+            registeredAt: meta && meta.registeredAt ? meta.registeredAt : new Date().toISOString(),
+            cv: {}, tests: {} };
+      list.push(m);
+      set(list);
+    } else {
+      if (name && !m.name) m.name = name;
+      if (meta && meta.registeredAt && !m.registeredAt) m.registeredAt = meta.registeredAt;
+      set(list);
+    }
+    return m;
+  }
+  function friendly(email) {
+    return String(email || '').split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, function (c) { return c.toLocaleUpperCase('tr-TR'); }) || 'Üye';
+  }
   function saveCV(cv) {
     var u = currentUser();
     if (!u.email) return;
@@ -59,5 +80,5 @@
     if (idx >= 0) list[idx] = m; else list.push(m);
     set(list);
   }
-  window.MemberData = { get: get, saveCV: saveCV, addTest: addTest, seed: seed, esc: esc };
+  window.MemberData = { get: get, ensure: ensure, saveCV: saveCV, addTest: addTest, seed: seed, esc: esc };
 })();

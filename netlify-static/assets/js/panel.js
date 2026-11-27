@@ -657,7 +657,8 @@
             return '<details style="border:1px solid var(--c-border);border-radius:12px;padding:10px;margin-bottom:8px"><summary style="cursor:pointer;font-weight:700;color:var(--c-primary);font-size:.8rem">Deneme '+(ai+1)+' · '+esc2(a.date||'')+(typeof a.score==='number'?' · %'+a.score:'')+'</summary><div style="margin-top:8px">'+rows+'</div></details>';
           }).join('')+'</div>';
       }).join('');
-      return '<div class="panel-card" style="margin-bottom:16px"><div class="px-card-head"><div><h3 style="margin:0;color:var(--c-primary)">'+esc2(m.name||m.email)+'</h3><p class="muted">'+esc2(m.email||'')+'</p></div>'+(m.demo?'<span class="px-badge accent">Demo</span>':'<span class="px-badge success">Üye</span>')+'</div>'+
+      return '<div class="panel-card" style="margin-bottom:16px"><div class="px-card-head"><div><h3 style="margin:0;color:var(--c-primary)">'+esc2(m.name||m.email)+'</h3><p class="muted">'+esc2(m.email||'')+'</p></div>'+(m.demo?'<span class="px-badge accent">Demo hesap</span>':'<span class="px-badge success">Gerçek üye</span>')+'</div>'+
+        (m.registeredAt?'<div class="muted" style="font-size:.72rem;margin:-4px 0 12px">Kayıt: '+esc2(m.registeredAt)+'</div>':'')+
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px"><div><h4 style="margin:0 0 6px;color:var(--c-primary);font-size:.85rem">CV Bilgileri</h4>'+(cvRows||'<span class="muted">CV girilmemiş</span>')+'</div><div>'+(testHtml||'<p class="muted">Test cevabı yok</p>')+'</div></div></div>';
     };
     return '<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları (demo görünümü).','<span class="px-badge accent">'+list.length+' üye</span>')+

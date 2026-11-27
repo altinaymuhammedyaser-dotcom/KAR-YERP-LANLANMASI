@@ -10,6 +10,9 @@
   }
   function setSession(data) {
     localStorage.setItem(KEY, JSON.stringify(data));
+    if (window.MemberData && data && data.email) {
+      MemberData.ensure(data.email, data.name, { registeredAt: data.registeredAt });
+    }
   }
   function clearSession() { localStorage.removeItem(KEY); }
 
@@ -62,11 +65,13 @@
       var email = (form.querySelector('input[name="email"]') || {}).value || '';
       var pw = (form.querySelector('input[name="password"]') || {}).value || '';
       var nameInput = form.querySelector('input[name="name"]');
+      var first = (form.querySelector('input[name="first_name"]') || {}).value || '';
+      var last = (form.querySelector('input[name="last_name"]') || {}).value || '';
       if (!/^\S+@\S+\.\S+$/.test(email)) { alert('Geçerli bir e-posta adresi girin.'); return; }
       if (!pw || pw.length < 6) { alert('Şifre en az 6 karakter olmalı.'); return; }
       setSession({
         email: email,
-        name: nameInput && nameInput.value ? nameInput.value : friendlyName(email),
+        name: (first + ' ' + last).trim() || (nameInput && nameInput.value ? nameInput.value : friendlyName(email)),
         registeredAt: new Date().toISOString(),
         demo: email.toLowerCase() === 'demo@akillikariyer.com'
       });
