@@ -665,15 +665,48 @@
     wrap.appendChild(box);document.body.appendChild(wrap);
     box.querySelector('[data-close]').addEventListener('click',function(){wrap.remove();});
   }
+  /** Üye adına tıklayınca testin tüm sorularını tam ekranda gösterir. */
+  function openMemberFullscreen(key, email){
+    var old=document.getElementById('acFullMember');if(old)old.remove();
+    var member=(window.MemberData?MemberData.get():[]).filter(function(m){return m.email===email;})[0];
+    if(!member||!member.tests||!member.tests[key])return;
+    var label=TEST_LABELS[key]||key;
+    var all=(member.tests[key]||[]).map(function(a,ai){
+      var rows=(a.answers||[]).map(function(q,i){
+        var mark=q.correct===true?'<span class="badge badge-success">Doğru</span>':q.correct===false?'<span class="badge badge-danger">Yanlış</span>':'<span class="badge badge-muted">Cevap</span>';
+        return '<div style="display:grid;grid-template-columns:34px 1fr 210px 90px;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--c-border)">'+
+          '<span style="font-weight:800;color:var(--c-muted)">'+(i+1)+'</span>'+
+          '<span style="color:var(--c-text);font-weight:650;line-height:1.5">'+h(q.q)+'</span>'+
+          '<span style="color:var(--c-accent-dark);font-weight:700">'+h(q.a)+'</span>'+mark+'</div>';
+      }).join('');
+      return '<section style="background:var(--c-bg-card,#fff);border:1px solid var(--c-border);border-radius:16px;margin-bottom:16px;overflow:hidden">'+
+        '<div style="padding:14px 16px;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">'+
+        '<div><b style="color:var(--c-primary)">Deneme '+(ai+1)+'</b><div class="muted" style="font-size:.75rem">'+h(a.date||'')+' · '+(a.answers||[]).length+' soru</div></div>'+
+        (typeof a.score==='number'?'<span class="px-badge accent">%'+a.score+'</span>':'')+'</div>'+rows+'</section>';
+    }).join('');
+    var wrap=document.createElement('div');wrap.id='acFullMember';
+    wrap.style.cssText='position:fixed;inset:0;z-index:7000;background:var(--c-bg);display:flex;flex-direction:column;overflow:hidden';
+    wrap.innerHTML='<header style="flex:0 0 auto;padding:18px 26px;background:linear-gradient(120deg,#142B4A,#1C466D 60%,#16B8B0);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">'+
+      '<div><span style="font-size:.7rem;letter-spacing:.12em;font-weight:800;color:#7EF0E6">TAM EKRAN CEVAP GÖRÜNTÜLEME</span>'+
+      '<h2 style="margin:6px 0 2px;font-size:1.35rem">'+h(member.name||member.email)+'</h2>'+
+      '<div style="font-size:.82rem;color:rgba(255,255,255,.8)">'+h(member.email||'')+' · '+h(label)+' · '+(member.tests[key]||[]).length+' deneme</div></div>'+
+      '<button type="button" data-close style="border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:10px 16px;font-weight:800;cursor:pointer">✕ Kapat</button></header>'+
+      '<main style="flex:1;overflow:auto;padding:24px 28px;max-width:1400px;width:100%;margin:0 auto">'+all+'</main>';
+    document.body.appendChild(wrap);
+    wrap.querySelector('[data-close]').addEventListener('click',function(){wrap.remove();});
+    document.addEventListener('keydown',function esc(e){if(e.key==='Escape'){wrap.remove();document.removeEventListener('keydown',esc);}});
+  }
   function renderTestCompare(){
     var denial=demoOnly();if(denial)return denial;
     var members=(window.MemberData?MemberData.get():[]);
     var rows=Object.keys(TEST_LABELS).map(function(k){
       var users=members.filter(function(m){return m.tests&&m.tests[k]&&m.tests[k].length;});
-      return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><b style="color:var(--c-primary)">'+TEST_LABELS[k]+'</b><div class="muted" style="font-size:.76rem">'+users.length+' üye tamamladı</div></div>'+
-        '<button class="btn btn-accent btn-sm" data-test-members="'+k+'">Cevapları gör</button></div>';
+      var chips=users.length?users.map(function(m){
+        return '<button type="button" class="px-chip" data-member-test="'+k+'" data-email="'+h(m.email||'')+'" title="Tam ekran cevapları gör">'+h(m.name||m.email)+' →</button>';
+      }).join(''):'<span class="muted" style="font-size:.76rem">Henüz tamamlayan üye yok</span>';
+      return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px"><b style="color:var(--c-primary)">'+TEST_LABELS[k]+'</b><span class="px-badge">'+users.length+' üye</span></div>'+chips+'</div>';
     }).join('');
-    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Hangi üye hangi testi yaptı ve hangi cevapları işaretledi?')+rows+'</div>';
+    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Üye adına tıklayınca tüm sorulara verdiği cevaplar tam ekranda açılır.')+rows+'</div>';
   }
 
   /* ---------------- Üye verileri (demo panel) ---------------- */
@@ -801,7 +834,7 @@
     document.querySelectorAll('[data-start-exam]').forEach(function(b){b.addEventListener('click',function(){startExam(+b.getAttribute('data-start-exam'));});});
     document.querySelectorAll('[data-note]').forEach(function(b){b.addEventListener('click',function(){var a=SLS.get('akk_notifications_v1',[]),i=+b.getAttribute('data-note');if(a[i]){a[i].is_read=true;SLS.set('akk_notifications_v1',a);render();}});});
     document.querySelectorAll('[data-cmp]').forEach(function(b){b.addEventListener('click',function(){if(window.TestRetry){var k=b.getAttribute('data-cmp');var t={career:'Kariyer Testi',personality:'Kişilik Testi',interview:'Mülakat'}[k];TestRetry.compare(k,t+' — Deneme Karşılaştırması');}});});
-    document.querySelectorAll('[data-test-members]').forEach(function(b){b.addEventListener('click',function(){openMemberTestModal(b.getAttribute('data-test-members'));});});
+    document.querySelectorAll('[data-member-test]').forEach(function(b){b.addEventListener('click',function(){openMemberFullscreen(b.getAttribute('data-member-test'),b.getAttribute('data-email'));});});
     document.querySelectorAll('[data-cert]').forEach(function(b){b.addEventListener('click',function(){
       var code=b.getAttribute('data-cert'),c=SLS.get('akk_certificates_v1',[]).filter(function(x){return x.code===code;})[0];if(!c)return;
       var u=window.URL||window.webkitURL,blob=new Blob(['<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sertifika</title></head><body><h1>Akıllı Kariyer — Başarı Sertifikası</h1><h2>'+c.exam+'</h2><p>Sertifika kodu: '+c.code+'</p><p>Tarih: '+c.date+'</p></body></html>'],{type:'text/html'});
