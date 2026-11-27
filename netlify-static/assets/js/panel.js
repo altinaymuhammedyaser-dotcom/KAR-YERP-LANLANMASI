@@ -565,7 +565,8 @@
   ];
   function renderExams(){
     var results=SLS.get('akk_exam_results_v1',[]);
-    return '<div class="px-two-col"><div class="panel-card">'+cardHead('Mevcut Sınavlar','Sınavı tamamla, sertifika kazan.')+
+    var hero='<div class="px-page-hero"><div>'+badge('SINAV MERKEZİ','accent')+'<h2>Bilgini sınavla pekiştir</h2><p>Kısa sınavları tamamla, başarılı olursan sertifikan anında oluşsun.</p></div><span class="px-hero-icon">'+icon('clipboard-check')+'</span></div>';
+    return hero+'<div class="px-two-col"><div class="panel-card">'+cardHead('Mevcut Sınavlar','Sınavı tamamla, sertifika kazan.')+
       EXAMS.map(function(e){
         var best=results.filter(function(r){return r.exam===e.id;}).sort(function(a,b){return b.score-a.score;})[0];
         return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px">'+
@@ -608,26 +609,29 @@
   }
   function renderCertificates(){
     var certs=SLS.get('akk_certificates_v1',[]);
-    if(!certs.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('award','',40)+'</div><h3>Henüz sertifikan yok</h3><p>Sınavlardan %70 ve üzeri alarak sertifika kazanabilirsin.</p><a href="/dashboard/exams.html" data-nav="exams" class="btn btn-accent">Sınavlara git</a></div></div>';
-    return '<div class="panel-card">'+cardHead('Sertifikalarım','Kazandığın sınav sertifikaları.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px">'+
-      certs.map(function(c){return '<div style="border:2px solid var(--c-accent);border-radius:16px;padding:18px;background:linear-gradient(145deg,var(--c-bg-card,#fff),var(--c-accent-soft))">'+
+    var hero='<div class="px-page-hero"><div>'+badge('SERTİFİKALARIM','accent')+'<h2>Başarılarını belgele</h2><p>Geçtiğin sınavların sertifikalarını görüntüle ve indir.</p></div><span class="px-hero-icon">'+icon('award')+'</span></div>';
+    if(!certs.length)return hero+'<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('award','',40)+'</div><h3>Henüz sertifikan yok</h3><p>Sınavlardan %70 ve üzeri alarak sertifika kazanabilirsin.</p><a href="/dashboard/exams.html" data-nav="exams" class="btn btn-accent">Sınavlara git</a></div></div>';
+    return hero+'<div class="panel-card">'+cardHead('Sertifikalarım','Kazandığın sınav sertifikaları.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px">'+
+      certs.map(function(c){return '<div class="px-cert-card">'+
         '<div style="display:flex;justify-content:space-between"><b style="color:var(--c-primary)">'+h(c.exam)+'</b><span class="px-badge success">Geçti</span></div>'+
-        '<div style="font-size:1.1rem;font-weight:800;color:var(--c-accent-dark);margin:10px 0">'+h(c.code)+'</div>'+
+        '<div class="px-cert-code">'+h(c.code)+'</div>'+
         '<div class="muted" style="font-size:.75rem">'+h(c.date)+'</div>'+
         '<div class="panel-actions"><button data-cert="'+h(c.code)+'">Görüntüle / indir</button></div></div>';}).join('')+'</div></div>';
   }
   function renderNotifications(){
     var notes=SLS.get('akk_notifications_v1',[]);
-    if(!notes.length)return '<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('bell','',40)+'</div><h3>Henüz bildirim yok</h3><p>Sınav sonuçları ve sertifikalar burada görünecek.</p></div></div>';
-    return '<div class="panel-card">'+cardHead('Bildirimler','Sınav ve sistem bildirimleri.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Bildirim</th><th>İçerik</th><th>Tarih</th><th>Durum</th><th></th></tr></thead><tbody>'+
+    var hero='<div class="px-page-hero"><div>'+badge('BİLDİRİMLER','accent')+'<h2>Gelişmeleri kaçırma</h2><p>Sınav sonuçların, sertifikaların ve sistem duyuruların tek yerde.</p></div><span class="px-hero-icon">'+icon('bell')+'</span></div>';
+    if(!notes.length)return hero+'<div class="panel-card"><div class="empty-state" style="text-align:center;padding:40px"><div class="es-ico">'+icon('bell','',40)+'</div><h3>Henüz bildirim yok</h3><p>Sınav sonuçları ve sertifikalar burada görünecek.</p></div></div>';
+    return hero+'<div class="panel-card">'+cardHead('Bildirimler','Sınav ve sistem bildirimleri.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Bildirim</th><th>İçerik</th><th>Tarih</th><th>Durum</th><th></th></tr></thead><tbody>'+
       notes.map(function(n,i){return '<tr><td><strong>'+h(n.title)+'</strong></td><td>'+h(n.message)+'</td><td class="td-nowrap"><span class="badge badge-muted">'+h(n.date)+'</span></td><td>'+(n.is_read?'<span class="badge badge-success">Okundu</span>':'<span class="badge badge-accent">Yeni</span>')+'</td><td>'+(n.is_read?'': '<button class="btn btn-outline btn-sm" data-note="'+i+'">Okundu</button>')+'</td></tr>';}).join('')+
       '</tbody></table></div></div>';
   }
   function renderSkills(){
     var attempts=window.TestRetry?TestRetry.attempts('career').length:0;
     var skills=[['Problem çözme',78],['Analitik düşünme',84],['İletişim',71],['Yaratıcılık',66],['Teknik beceri',58],['Zaman yönetimi',64]];
-    return '<div class="panel-card">'+cardHead('Beceri Takibi','Güçlü yönlerin ve geliştirme alanların.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px">'+
-      skills.map(function(s){return '<div class="panel-card"><div style="display:flex;justify-content:space-between"><b style="color:var(--c-primary)">'+s[0]+'</b><span class="px-badge">'+s[1]+'</span></div><div class="px-task-bar" style="margin-top:8px"><i style="width:'+s[1]+'%"></i></div></div>';}).join('')+'</div>'+
+    var hero='<div class="px-page-hero"><div>'+badge('BECERİ TAKİBİ','accent')+'<h2>Güçlü yönlerini gör</h2><p>Hangi becerilerde öne çıktığını ve nerede gelişebileceğini keşfet.</p></div><span class="px-hero-icon">'+icon('layers')+'</span></div>';
+    return hero+'<div class="panel-card">'+cardHead('Beceri Takibi','Güçlü yönlerin ve geliştirme alanların.')+'<div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px">'+
+      skills.map(function(s){return '<div class="px-mini-card"><div style="display:flex;justify-content:space-between"><b>'+s[0]+'</b><span class="px-badge">'+s[1]+'</span></div><div class="px-task-bar" style="margin-top:10px"><i style="width:'+s[1]+'%"></i></div></div>';}).join('')+'</div>'+
       '<div class="muted" style="font-size:.78rem;margin-top:14px">Tamamlanan kariyer testi denemesi: <strong>'+attempts+'</strong></div></div>';
   }
   function renderLeaderboard(){
@@ -635,7 +639,8 @@
     if(window.TestRetry){['career','personality','interview'].forEach(function(k){TestRetry.attempts(k).forEach(function(a){best=Math.max(best,a.score||a.average||0);});});}
     var users=[['Elif Kaya',93],['Mert Yılmaz',88],['Sen',best],['Zeynep A.',76],['Can D.',71]];
     users.sort(function(a,b){return b[1]-a[1];});
-    return '<div class="panel-card">'+cardHead('Liderlik Tablosu','En yüksek test skorları.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Sıra</th><th>Kullanıcı</th><th>En İyi Skor</th></tr></thead><tbody>'+
+    var hero='<div class="px-page-hero"><div>'+badge('LİDERLİK','accent')+'<h2>En iyi skorlar</h2><p>Diğer üyelerle kariyer testi başarılarını karşılaştır.</p></div><span class="px-hero-icon">'+icon('trophy')+'</span></div>';
+    return hero+'<div class="panel-card">'+cardHead('Liderlik Tablosu','En yüksek test skorları.')+'<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Sıra</th><th>Kullanıcı</th><th>En İyi Skor</th></tr></thead><tbody>'+
       users.map(function(u,i){return '<tr><td><strong style="color:var(--c-primary)">'+(i+1)+'</strong></td><td>'+(u[0]==='Sen'?'<b style="color:var(--c-accent-dark)">Sen</b>':h(u[0]))+'</td><td><span class="badge badge-success">%'+u[1]+'</span></td></tr>';}).join('')+'</tbody></table></div></div>';
   }
   function demoOnly(){
@@ -702,11 +707,12 @@
     var rows=Object.keys(TEST_LABELS).map(function(k){
       var users=members.filter(function(m){return m.tests&&m.tests[k]&&m.tests[k].length;});
       var chips=users.length?users.map(function(m){
-        return '<button type="button" class="px-chip" data-member-test="'+k+'" data-email="'+h(m.email||'')+'" title="Tam ekran cevapları gör">'+h(m.name||m.email)+' →</button>';
+        return '<button type="button" class="px-user-chip" data-member-test="'+k+'" data-email="'+h(m.email||'')+'" title="Tam ekran cevapları gör">'+h(m.name||m.email)+'</button>';
       }).join(''):'<span class="muted" style="font-size:.76rem">Henüz tamamlayan üye yok</span>';
       return '<div style="border:1px solid var(--c-border);border-radius:14px;padding:15px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px"><b style="color:var(--c-primary)">'+TEST_LABELS[k]+'</b><span class="px-badge">'+users.length+' üye</span></div>'+chips+'</div>';
     }).join('');
-    return '<div class="panel-card">'+cardHead('Test Karşılaştırma','Üye adına tıklayınca tüm sorulara verdiği cevaplar tam ekranda açılır.')+rows+'</div>';
+    var hero='<div class="px-page-hero"><div>'+badge('DEMO · TEST KARŞILAŞTIRMA','accent')+'<h2>Üyelerin test cevapları</h2><p>Bir üyenin adına tıkla; o testin bütün sorularına verdiği cevaplar tam ekranda açılsın.</p></div><span class="px-hero-icon">'+icon('git-compare')+'</span></div>';
+    return hero+'<div class="panel-card">'+cardHead('Test Karşılaştırma','Üye adına tıklayınca tüm sorulara verdiği cevaplar tam ekranda açılır.')+rows+'</div>';
   }
 
   /* ---------------- Üye verileri (demo panel) ---------------- */
@@ -729,10 +735,10 @@
               var mark=q.correct===true?'<span class="badge badge-success">Doğru</span>':q.correct===false?'<span class="badge badge-danger">Yanlış</span>':'<span class="badge badge-muted">Cevap</span>';
               return '<div style="padding:8px 0;border-bottom:1px solid var(--c-border)"><div style="font-size:.78rem;color:var(--c-text);font-weight:650">'+(qi+1)+'. '+esc2(q.q)+'</div><div style="display:flex;gap:8px;align-items:center;margin-top:4px"><span style="font-size:.78rem;color:var(--c-accent-dark)">'+esc2(q.a)+'</span>'+mark+'</div></div>';
             }).join('');
-            return '<details style="border:1px solid var(--c-border);border-radius:12px;padding:10px;margin-bottom:8px"><summary style="cursor:pointer;font-weight:700;color:var(--c-primary);font-size:.8rem">Deneme '+(ai+1)+' · '+esc2(a.date||'')+(typeof a.score==='number'?' · %'+a.score:'')+'</summary><div style="margin-top:8px">'+rows+'</div></details>';
+            return '<details class="px-attempt"><summary>Deneme '+(ai+1)+' · '+esc2(a.date||'')+(typeof a.score==='number'?' · %'+a.score:'')+'</summary><div style="margin-top:8px">'+rows+'</div></details>';
           }).join('')+'</div>';
       }).join('');
-      return '<div class="panel-card" style="margin-bottom:16px"><div class="px-card-head"><div><h3 style="margin:0;color:var(--c-primary)">'+esc2(m.name||m.email)+'</h3><p class="muted">'+esc2(m.email||'')+'</p></div>'+(m.demo?'<span class="px-badge accent">Demo hesap</span>':'<span class="px-badge success">Gerçek üye</span>')+'</div>'+
+      return '<div class="px-member-card"><div class="px-member-head"><span class="px-member-avatar">'+esc2((m.name||m.email||'Ü').slice(0,1).toLocaleUpperCase('tr-TR'))+'</span><div><h3>'+esc2(m.name||m.email)+'</h3><p class="muted">'+esc2(m.email||'')+'</p></div>'+(m.demo?'<span class="px-badge accent">Demo hesap</span>':'<span class="px-badge success">Gerçek üye</span>')+'</div>'+
         (m.registeredAt?'<div class="muted" style="font-size:.72rem;margin:-4px 0 12px">Kayıt: '+esc2(m.registeredAt)+'</div>':'')+
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px"><div><h4 style="margin:0 0 6px;color:var(--c-primary);font-size:.85rem">CV Bilgileri</h4>'+(cvRows||'<span class="muted">CV girilmemiş</span>')+'</div><div>'+(testHtml||'<p class="muted">Test cevabı yok</p>')+'</div></div></div>';
     };
@@ -745,7 +751,8 @@
         }
       });
     }
-    return '<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları · canlı güncellenir.','<span class="px-badge accent">'+list.length+' üye</span>')+
+    var hero='<div class="px-page-hero"><div>'+badge('DEMO · ÜYE VERİLERİ','accent')+'<h2>Kariyer yolculukları tek ekranda</h2><p>Üyelerin CV bilgileri ve test cevapları canlı olarak güncellenir.</p></div><span class="px-hero-icon">'+icon('users')+'</span></div>';
+    return hero+'<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları · canlı güncellenir.','<span class="px-badge accent">'+list.length+' üye</span>')+
       list.map(card).join('')+'</div>';
   }
 
