@@ -668,7 +668,16 @@
         (m.registeredAt?'<div class="muted" style="font-size:.72rem;margin:-4px 0 12px">Kayıt: '+esc2(m.registeredAt)+'</div>':'')+
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px"><div><h4 style="margin:0 0 6px;color:var(--c-primary);font-size:.85rem">CV Bilgileri</h4>'+(cvRows||'<span class="muted">CV girilmemiş</span>')+'</div><div>'+(testHtml||'<p class="muted">Test cevabı yok</p>')+'</div></div></div>';
     };
-    return '<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları (demo görünümü).','<span class="px-badge accent">'+list.length+' üye</span>')+
+    if(!window.__memberDataLiveBound){
+      window.__memberDataLiveBound=true;
+      window.addEventListener('storage',function(e){
+        if(page!=='member-data')return;
+        if(e.key==='akk_members_v1'||e.key==='akk_test_attempts_v1'||e.key==='akk_session'){
+          render();
+        }
+      });
+    }
+    return '<div class="panel-card">'+cardHead('Üye Verileri','Müşterilerin CV bilgileri ve test cevapları · canlı güncellenir.','<span class="px-badge accent">'+list.length+' üye</span>')+
       list.map(card).join('')+'</div>';
   }
 
